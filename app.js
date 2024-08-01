@@ -1,38 +1,38 @@
 const sideMenu = document.querySelector('#sideMenu');
 const navBar = document.querySelector('nav');
 const navLinks = document.querySelectorAll('nav ul');
-    const slides = document.querySelectorAll('.carousel-slide');
-    const prevButton = document.querySelector('.carousel-prev');
-    const nextButton = document.querySelector('.carousel-next');
-    const carouselWrapper = document.querySelector('.carousel-wrapper');
+const slides = document.querySelectorAll('.carousel-slide');
+const prevButton = document.querySelector('.carousel-prev');
+const nextButton = document.querySelector('.carousel-next');
+const carouselWrapper = document.querySelector('.carousel-wrapper');
 
-    let currentIndex = 0;
-    const totalSlides = slides.length;
-    const slideWidth = slides[0].offsetWidth;
+let currentIndex = 0;
+const totalSlides = slides.length;
+const slideWidth = slides[0].offsetWidth;
 
-    function goToSlide(index) {
+function goToSlide(index) {
     carouselWrapper.style.transform = `translateX(-${index * slideWidth}px)`;
     currentIndex = index;
 }
 
-    function nextSlide() {
+function nextSlide() {
     const nextIndex = (currentIndex + 1) % totalSlides;
     goToSlide(nextIndex);
 }
 
-    function prevSlide() {
+function prevSlide() {
     const prevIndex = (currentIndex - 1 + totalSlides) % totalSlides;
     goToSlide(prevIndex);
 }
 
-    nextButton.addEventListener('click', nextSlide);
-    prevButton.addEventListener('click', prevSlide);
+nextButton.addEventListener('click', nextSlide);
+prevButton.addEventListener('click', prevSlide);
 
-    // Automatic sliding
-    setInterval(nextSlide, 2000); // Slide every 5 seconds
+// Automatic sliding
+// setInterval(nextSlide, 2000); // Slide every 5 seconds
 
-    // Adjust slide width on window resize
-    window.addEventListener('resize', () => {
+// Adjust slide width on window resize
+window.addEventListener('resize', () => {
     goToSlide(currentIndex);
 });
 

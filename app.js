@@ -1,41 +1,26 @@
 const sideMenu = document.querySelector('#sideMenu');
 const navBar = document.querySelector('nav');
 const navLinks = document.querySelectorAll('nav ul');
-const slides = document.querySelectorAll('.carousel-slide');
-const prevButton = document.querySelector('.carousel-prev');
-const nextButton = document.querySelector('.carousel-next');
-const carouselWrapper = document.querySelector('.carousel-wrapper');
 
-let currentIndex = 0;
-const totalSlides = slides.length;
-const slideWidth = slides[0].offsetWidth;
 
-function goToSlide(index) {
-    carouselWrapper.style.transform = `translateX(-${index * slideWidth}px)`;
-    currentIndex = index;
-}
 
-function nextSlide() {
-    const nextIndex = (currentIndex + 1) % totalSlides;
-    goToSlide(nextIndex);
-}
 
-function prevSlide() {
-    const prevIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-    goToSlide(prevIndex);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.getElementById('toggle-button');
+    const workItems = document.querySelectorAll('.work-item.hide');
 
-nextButton.addEventListener('click', nextSlide);
-prevButton.addEventListener('click', prevSlide);
-
-// Automatic sliding
-// setInterval(nextSlide, 2000); // Slide every 5 seconds
-
-// Adjust slide width on window resize
-window.addEventListener('resize', () => {
-    goToSlide(currentIndex);
+    toggleButton.addEventListener('click', () => {
+        workItems.forEach(item => {
+            if (item.style.display === 'none') {
+                item.style.display = 'block';
+                toggleButton.textContent = 'Show Less'; // Change text to 'Show Less'
+            } else {
+                item.style.display = 'none';
+                toggleButton.textContent = 'Show More'; // Change text to 'Show More'
+            }
+        });
+    });
 });
-
 
 
 function toggleMenu() {

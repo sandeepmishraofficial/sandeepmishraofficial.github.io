@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="./tailwind.config.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,47 +15,26 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <style>
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            height: 100px;
+        /* Add this CSS to your existing stylesheet */
+        .work-item.hide {
+            display: none;
         }
 
-        .carousel-wrapper {
-            display: flex;
-            transition: transform 0.9s ease ;
+        .work-item.show {
+            display: block;
         }
 
-        .carousel-slide {
-            min-width:100%;
-
-            box-sizing: border-box;
-            height: 400px;
+        button.show-more {
+            background-color: #f8f8f8; /* Light background for the button */
+            border: 1px solid #ddd; /* Light border for the button */
+            color: #333; /* Dark text color */
         }
 
-        .carousel-prev, .carousel-next {
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            background: rgba(0,0,0,0.5);
-            border: none;
-            color: white;
-            font-size: 24px;
-            padding: 10px;
-            z-index: 10;
-        }
-
-        .carousel-prev {
-            left: 10px;
-        }
-
-        .carousel-next {
-            right: 10px;
+        button.show-more:hover {
+            background-color: #e0e0e0; /* Darker background on hover */
         }
 
     </style>
-
 </head>
 
 <body class="overflow-x-hidden font-outfit dark:bg-darkTheme dark:text-white">
@@ -62,7 +42,7 @@
     <img src="./images/header-bg-color.png" alt="" class="w-full">
 </div>
 
-<nav class="w-full fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50">
+<nav class="w-full  fixed px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50">
     <a href="#top" class="w-22 h-5 cursor-pointer mr-10  dark:hidden">Sandeep Mishra</a>
     <a href="#top" class="w-22 h-5 cursor-pointer mr-10  hidden dark:block">Sandeep Mishra</a>
 
@@ -236,83 +216,92 @@
 
 <!-----------My project------------------------->
 
+<div id="portfolio" class="py-12">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-semibold mb-10 text-center">My Project</h1>
+        <div id="work-items" class="grid gap-10 mt-12 md:grid-cols-2 lg:grid-cols-3">
+            <!-- Work Item -->
+            <div class="relative overflow-hidden rounded-lg group work-item show">
+                <img src="./images/work-1.png" alt="" class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
+                    <h3 class="text-xl font-medium mb-5">Social media app</h3>
+                    <p class="text-sm mb-5">ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                    <a href="#" class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
 
-<div id="project" class="w-full px-[12%] py-10 scroll-mt-20">
-    <h4 class="text-center mb-2 text-lg">my portfolio</h4>
-    <h2 class="text-center text-5xl"> My Project</h2>
-    <p class="text-center max-w-2xl mx-auto mt-5 mb-12"> Most recent work. </p>
+            <div class="relative overflow-hidden rounded-lg group work-item show">
+                <img src="./images/work-2.png" alt="" class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
+                    <h3 class="text-xl font-medium mb-5">Social media app</h3>
+                    <p class="text-sm mb-5">Sandeep mishra official ba]dcj</p>
+                    <a href="#" class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+            </div>
 
-    <!-- Carousel Container -->
-    <div class="carousel-container relative overflow-hidden h-1/2">
-        <!-- Carousel Wrapper -->
-        <div class="carousel-wrapper flex w-full">
-            <!-- Slide 1 -->
-            <a href="https://github.com/sandeepmishraofficial" class="carousel-slide aspect-square bg-[url('./images/portfolio.png')] bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group" target="_blank" rel="noopener noreferrer">
-                <div class="overlay absolute inset-0 bg-black bg-opacity-50 transform translate-y-full group-hover:translate-y-0 transition-transform duration-1000"></div>
-                <div class="bg-white w-10/12 rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7">
-                    <div>
-                        <h2 class="font-semibold text-sm text-gray-700">Portfolio</h2>
-                        <p class="text-sm text-gray-700">Web Design</p>
-                    </div>
-                    <div class="border rounded-full border-black w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition">
-                        <img src="./images/send-icon.png" alt="" class="w-5">
-                    </div>
+            <div class="relative overflow-hidden rounded-lg group work-item show">
+                <img src="./images/work-3.png" alt="" class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-red-700 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
+                    <h3 class="text-xl font-medium mb-5">Social media app</h3>
+                    <p class="text-sm mb-5">ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p>
+                    <a href="#" class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
                 </div>
-            </a>
-            <!-- Slide 2 -->
-            <a href="https://github.com/sandeepmishraofficial" class="carousel-slide aspect-square bg-[url('./images/work-2.png')] bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group" target="_blank" rel="noopener noreferrer">
-                <div class="overlay absolute inset-0 bg-black bg-opacity-50 transform translate-y-full group-hover:translate-y-0 transition-transform duration-1000"></div>
-                <div class="bg-white w-10/12 rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7">
-                    <div>
-                        <h2 class="font-semibold text-sm text-gray-700">Fronted Project</h2>
-                        <p class="text-sm text-gray-700">Web Design</p>
-                    </div>
-                    <div class="border rounded-full border-black w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition">
-                        <img src="./images/send-icon.png" alt="" class="w-5">
-                    </div>
+            </div>
+
+            <!-- Hidden Work Items -->
+            <div class="relative overflow-hidden rounded-lg group work-item hide">
+                <img src="./images/work-2.png" alt="" class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
+                    <h3 class="text-xl font-medium mb-5">Additional Project</h3>
+                    <p class="text-sm mb-5">Description of additional project</p>
+                    <a href="#" class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
                 </div>
-            </a>
-            <!-- Slide 3 -->
-            <a href="https://github.com/sandeepmishraofficial" class="carousel-slide aspect-square bg-[url('./images/work-3.png')] bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group" target="_blank" rel="noopener noreferrer">
-                <div class="overlay absolute inset-0 bg-black bg-opacity-50 transform translate-y-full group-hover:translate-y-0 transition-transform duration-1000"></div>
-                <div class="bg-white w-10/12 rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7">
-                    <div>
-                        <h2 class="font-semibold text-sm text-gray-700">Fronted Project</h2>
-                        <p class="text-sm text-gray-700">Web Design</p>
-                    </div>
-                    <div class="border rounded-full border-black w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition">
-                        <img src="./images/send-icon.png" alt="" class="w-5">
-                    </div>
+            </div>
+
+            <div class="relative overflow-hidden rounded-lg group work-item hide">
+                <img src="./images/work-1.png" alt="" class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
+                    <h3 class="text-xl font-medium mb-5">Additional Project</h3>
+                    <p class="text-sm mb-5">Description of additional project</p>
+                    <a href="#" class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
                 </div>
-            </a>
-            <!-- Slide 4 -->
-            <a href="https://github.com/sandeepmishraofficial" class="carousel-slide aspect-square bg-[url('./images/work-4.png')] bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group" target="_blank" rel="noopener noreferrer">
-                <div class="overlay absolute inset-0 bg-black bg-opacity-50 transform translate-y-full group-hover:translate-y-0 transition-transform duration-1000"></div>
-                <div class="bg-white w-10/12 rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7">
-                    <div>
-                        <h2 class="font-semibold text-sm text-gray-700">Fronted Project</h2>
-                        <p class="text-sm text-gray-700">Web Design</p>
-                    </div>
-                    <div class="border rounded-full border-black w-9 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition">
-                        <img src="./images/send-icon.png" alt="" class="w-5">
-                    </div>
+            </div>
+
+            <div class="relative overflow-hidden rounded-lg group work-item hide">
+                <img src="./images/work-4.png" alt="" class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
+                    <h3 class="text-xl font-medium mb-5">Additional Project</h3>
+                    <p class="text-sm mb-5">Description of additional project</p>
+                    <a href="#" class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
                 </div>
-            </a>
+            </div>
         </div>
-        <!-- Navigation Arrows -->
-        <button class="carousel-prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">
-            &#10094;
-        </button>
-        <button class="carousel-next absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full">
-            &#10095;
-        </button>
+        <div class="flex justify-center my-20">
+            <button id="toggle-button" class="w-52 flex items-center justify-center gap-2 text-gray-700 border border-gray-500 rounded-full py-3 hover:bg-gray-200 transition duration-500 ease-in-out dark:text-white dark:border-white dark:hover:bg-gray-700">
+                Show More
+                <img src="./images/right-arrow-bold.png" alt="" class="w-4 dark:hidden">
+                <img src="./images/right-arrow-bold-dark.png" alt="" class="w-4 hidden dark:block">
+            </button>
+        </div>
     </div>
-
-    <a href="https://github.com/sandeepmishraofficial" class="w-max flex items-center justify-center gap-2 text-gray-700 border-[0.5px] border-gray-700 rounded-full py-3 px-10 mx-auto my-20 hover:bg-lightHover duration-500 dark:text-white dark:border-white dark:hover:bg-darkHover" target="_blank" rel="noopener noreferrer">Show More
-        <img src="./images/right-arrow-bold.png" alt="" class="w-4 dark:hidden">
-        <img src="./images/right-arrow-bold-dark.png" alt="" class="w-4 hidden dark:block">
-    </a>
 </div>
+
+
+
+
+
 
 
 

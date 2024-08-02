@@ -9,9 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleButton = document.getElementById('toggle-button');
     const workItems = document.querySelectorAll('.work-item.hide');
 
+    let isShowingMore = false; // Track whether items are shown or hidden
+
     toggleButton.addEventListener('click', () => {
+        isShowingMore = !isShowingMore; // Toggle the state
+
         workItems.forEach(item => {
-            if (item.style.display === 'none') {
+            if (isShowingMore) {
                 item.style.display = 'block';
                 toggleButton.textContent = 'Show Less'; // Change text to 'Show Less'
             } else {
@@ -21,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
 
 
 function toggleMenu() {

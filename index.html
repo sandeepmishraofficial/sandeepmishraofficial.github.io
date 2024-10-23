@@ -22,24 +22,37 @@
       href="https://unpkg.com/swiper/swiper-bundle.min.css"
     />
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
     <style>
-      /* Add this CSS to your existing stylesheet */
-      .work-item.hide {
-        display: none;
+      @media (max-width: 768px) {
+        /* Stack items vertically on smaller screens */
+        .relative {
+          margin-bottom: 20px;
+        }
+
+        div[style*="text-align: right"] {
+          text-align: left !important;
+        }
       }
 
-      .work-item.show {
-        display: block;
-      }
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.5rem !important;
+        }
 
-      button.show-more {
-        background-color: #f8f8f8; /* Light background for the button */
-        border: 1px solid #ddd; /* Light border for the button */
-        color: #333; /* Dark text color */
-      }
+        p {
+          font-size: 0.875rem !important;
+        }
 
-      button.show-more:hover {
-        background-color: #e0e0e0; /* Darker background on hover */
+        a {
+          padding: 8px 12px !important;
+          font-size: 0.875rem !important;
+        }
+
+        .relative {
+          height: auto !important;
+          margin-bottom: 30px;
+        }
       }
     </style>
   </head>
@@ -389,7 +402,7 @@
               class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 border border-gray-400 rounded-lg cursor-pointer hover:translate-y-1 transition-transform duration-500"
             >
               <img
-                src="./images/webstorm%20(2).png"
+                src="./images/pycharm.svg"
                 alt="WebStorm"
                 class="w-8 h-8 sm:w-10 sm:h-10"
               />
@@ -403,65 +416,49 @@
 
     <div id="project" class="py-12">
       <div class="container mx-auto">
-        <h1 class="text-3xl font-semibold mb-10 text-center">Project</h1>
-        <div
-          id="work-items"
-          class="grid gap-10 mt-12 md:grid-cols-2 lg:grid-cols-3"
-        >
-          <!-- Work Item -->
-          <div class="relative overflow-hidden rounded-lg group work-item show">
-            <img
-              src="./images/music.png"
-              alt=""
-              class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110"
-              style="height: 485px"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0"
-            >
-              <h1
-                class="text-4xl font-bold mb-5 hover:bg-green-600 transition duration-300 ease-in-out"
-              >
-                Music-Player
-              </h1>
-              <p
-                class="text-sm mb-5 hover:bg-green-700 transition duration-300 ease-in-out"
-              >
+        <h1 class="text-5xl font-semibold mb-10 text-center">Project</h1>
+        <!-- Music Player Project -->
+        <div style="padding: 20px">
+          <!-- Music Player Project (Left Image, Right Description) -->
+          <div class="project-item">
+            <!-- Project Image -->
+            <div class="project-image">
+              <img
+                src="./images/harigurus.webp"
+                alt="Laptop Frame"
+                class="laptop-image"
+              />
+              <div class="overlay">
+                <img src="./images/music.png" alt="Music Player" />
+              </div>
+            </div>
+
+            <!-- Project Description -->
+            <div class="project-description">
+              <h1>Music-Player</h1>
+              <p>
                 The Music Player Web App lets users play and manage songs with
                 an easy-to-use interface. Built with HTML, CSS, and JavaScript,
                 it offers basic controls like play and pause. The backend uses
                 Django with SQLite for storing playlists and songs.
               </p>
-
               <a
                 href="https://github.com/sandeepmishraofficial/music-player"
-                class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110"
+                class="project-btn"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                View on GitHub
               </a>
             </div>
           </div>
 
-          <div class="relative overflow-hidden rounded-lg group work-item show">
-            <img
-              src="./images\QR.png"
-              alt=""
-              class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110"
-              style="height: 485px"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0"
-            >
-              <h3
-                class="text-4xl font-medium mb-5 hover:bg-green-600 transition duration-300 ease-in-out"
-              >
-                Python-QR-Gentrator
-              </h3>
-              <p
-                class="text-sm mb-5 hover:bg-green-600 transition duration-300 ease-in-out"
-              >
+          <!-- QR Code Generator Project (Right Image, Left Description) -->
+          <div class="project-item">
+            <!-- Project Description -->
+            <div class="project-description">
+              <h1>Python-QR-Generator</h1>
+              <p>
                 The QR Code Generator is a web application built with Django for
                 the backend and HTML, CSS, and Bootstrap for the frontend. It
                 allows users to create, customize, download, and manage QR codes
@@ -470,113 +467,108 @@
               </p>
               <a
                 href="https://github.com/sandeepmishraofficial/Python-QR-Gentrator"
-                class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110"
+                class="project-btn"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                View on GitHub
               </a>
             </div>
-          </div>
 
-          <div class="relative overflow-hidden rounded-lg group work-item show">
-            <img
-              src="./images/work-3.png"
-              alt=""
-              class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-red-700 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0"
-            >
-              <h3 class="text-xl font-medium mb-5">Social media app</h3>
-              <p class="text-sm mb-5">
-                ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
-              </p>
-              <a
-                href="#"
-                class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </a>
-            </div>
-          </div>
-
-          <!-- Hidden Work Items -->
-          <div class="relative overflow-hidden rounded-lg group work-item hide">
-            <img
-              src="./images/work-2.png"
-              alt=""
-              class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0"
-            >
-              <h3 class="text-xl font-medium mb-5">Additional Project</h3>
-              <p class="text-sm mb-5">Description of additional project</p>
-              <a
-                href="#"
-                class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </a>
-            </div>
-          </div>
-
-          <div class="relative overflow-hidden rounded-lg group work-item hide">
-            <img
-              src="./images/work-1.png"
-              alt=""
-              class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0"
-            >
-              <h3 class="text-xl font-medium mb-5">Additional Project</h3>
-              <p class="text-sm mb-5">Description of additional project</p>
-              <a
-                href="#"
-                class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </a>
-            </div>
-          </div>
-
-          <div class="relative overflow-hidden rounded-lg group work-item hide">
-            <img
-              src="./images/work-4.png"
-              alt=""
-              class="w-full rounded-lg transition-transform duration-500 ease-in-out group-hover:scale-110"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-red-500 to-black-500 flex flex-col items-center justify-center p-10 text-center text-white opacity-0 translate-y-full transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:translate-y-0"
-            >
-              <h3 class="text-xl font-medium mb-5">Additional Project</h3>
-              <p class="text-sm mb-5">Description of additional project</p>
-              <a
-                href="#"
-                class="text-red-500 text-xl bg-white w-14 h-14 flex items-center justify-center rounded-full transition-transform duration-300 ease-in-out hover:scale-110"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </a>
+            <!-- Project Image -->
+            <div class="project-image">
+              <img
+                src="./images/harigurus.webp"
+                alt="Laptop Frame"
+                class="laptop-image"
+              />
+              <div class="overlay">
+                <img src="./images/QR.png" alt="QR Code Generator" />
+              </div>
             </div>
           </div>
         </div>
-        <div class="flex justify-center my-20">
-          <button
-            id="toggle-button"
-            class="w-52 flex items-center justify-center gap-2 text-gray-700 border border-gray-500 rounded-full py-3 hover:bg-gray-200 transition duration-500 ease-in-out dark:text-white dark:border-white dark:hover:bg-gray-700"
+
+        <!-- Hidden Projects -->
+        <div id="hiddenProjects" class="hidden">
+          <!-- Music Player Project (Left Image, Right Description) -->
+          <div class="project-item">
+            <!-- Project Image -->
+            <div class="project-image">
+              <img
+                src="./images/harigurus.webp"
+                alt="Laptop Frame"
+                class="laptop-image"
+              />
+              <div class="overlay">
+                <img src="./images/music.png" alt="Music Player" />
+              </div>
+            </div>
+
+            <!-- Project Description -->
+            <div class="project-description">
+              <h1>Demo</h1>
+              <p>
+                The Music Player Web App lets users play and manage songs with
+                an easy-to-use interface. Built with HTML, CSS, and JavaScript,
+                it offers basic controls like play and pause. The backend uses
+                Django with SQLite for storing playlists and songs.
+              </p>
+              <a
+                href="https://github.com/sandeepmishraofficial/"
+                class="project-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View on GitHub
+              </a>
+            </div>
+          </div>
+
+          <!-- QR Code Generator Project (Right Image, Left Description) -->
+          <div class="project-item">
+            <!-- Project Description -->
+            <div class="project-description">
+              <h1>Demo</h1>
+              <p>
+                The QR Code Generator is a web application built with Django for
+                the backend and HTML, CSS, and Bootstrap for the frontend. It
+                allows users to create, customize, download, and manage QR codes
+                for various data types through a responsive and user-friendly
+                interface.
+              </p>
+              <a
+                href="https://github.com/sandeepmishraofficial/"
+                class="project-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View on GitHub
+              </a>
+            </div>
+
+            <!-- Project Image -->
+            <div class="project-image">
+              <img
+                src="./images/harigurus.webp"
+                alt="Laptop Frame"
+                class="laptop-image"
+              />
+              <div class="overlay">
+                <img src="./images/QR.png" alt="QR Code Generator" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Show More Button -->
+        <div style="display: flex; justify-content: center">
+          <a
+            id="showMoreButton"
+            class="show-more-button project-btn"
+            onclick="toggleProjects()"
+            >Show More</a
           >
-            Show More
-          </button>
         </div>
       </div>
     </div>
@@ -709,6 +701,19 @@
         loop: true,
       };
       var typed = new Typed("#typed-text", options);
+
+      function toggleProjects() {
+        const hiddenProjects = document.getElementById("hiddenProjects");
+        const showMoreButton = document.getElementById("showMoreButton");
+
+        if (hiddenProjects.classList.contains("hidden")) {
+          hiddenProjects.classList.remove("hidden");
+          showMoreButton.textContent = "Show Less";
+        } else {
+          hiddenProjects.classList.add("hidden");
+          showMoreButton.textContent = "Show More";
+        }
+      }
     </script>
     <script src="app.js"></script>
   </body>

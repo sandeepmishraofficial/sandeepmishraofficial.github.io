@@ -1,0 +1,91 @@
+.project-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  gap: 20px;
+}
+
+.project-image {
+  flex: 1;
+  min-width: 300px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out; /* Transition for scaling */
+}
+
+.project-image:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+}
+
+.project-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out; /* Transition for inner image */
+}
+
+.overlay {
+  position: absolute;
+  top: 14%;
+  left: 17%;
+  width: 65%;
+  height: 70%;
+  transition: transform 0.3s ease-in-out; /* Transition for overlay */
+}
+
+.project-image:hover .overlay {
+  transform: scale(1.1); /* Scale effect for overlay on hover */
+}
+
+.project-description {
+  flex: 1;
+  min-width: 300px;
+  text-align: left;
+}
+
+.project-description h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.project-description p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.project-btn {
+  display: inline-block;
+  border: 2px solid red;
+
+  text-decoration: none;
+  color: #f00;
+  background-color: #fff;
+  padding: 10px 15px;
+  border-radius: 15px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transition for button hover */
+}
+
+.project-btn:hover {
+  background-color: #f00; /* Change background on hover */
+  color: #fff; /* Change text color on hover */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .project-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .project-description {
+    text-align: center;
+  }
+
+  .project-image {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

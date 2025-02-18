@@ -413,70 +413,68 @@
 
     <!-- Skills Section -->
      
-    <section id="skills-section" class="bg-white dark:bg-darkTheme dark:text-white rounded-lg p-10 mt-10">
-      <!-- <h2 class="text-center text-5xl lg:text-4xl font-semibold mb-8">Technical Skills</h2> -->
-
-      <!-- Tab Buttons -->
+    <section id="skills-section" class="bg-white dark:bg-darkTheme dark:text-white rounded-lg p-10 mt-10 transition-colors duration-300">
+      <!-- Title -->
       <div class="flex justify-center space-x-6 mb-8">
-          <h1 id="technical-skills-button" class="tab-button active px-8 py-3 rounded-md text-black text-lg lg:text-5xl">
-             Technical Skills
+          <h1 id="technical-skills-button" class="tab-button active px-8 py-3 rounded-md text-black dark:text-white text-lg lg:text-5xl">
+              Technical Skills
           </h1>
       </div>
-
+  
       <!-- Technical Skills -->
       <section id="technical-skills" class="py-10 px-4">
-        <!-- Tabs for Switching -->
-        <div class="flex flex-wrap justify-center text-center text-black gap-4 mb-6">
-            <button data-category="frontend" class="category-button active px-6 py-3 rounded bg-blue-500 text-black text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Frontend
-            </button>
-            <button data-category="backend" class="category-button px-6 py-3 rounded bg-gray-300 text-black text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Backend
-            </button>
-            <button data-category="tools" class="category-button px-6 py-3 rounded bg-gray-300 text-black text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Tools
-            </button>
-            <button data-category="concepts" class="category-button px-6 py-3 rounded bg-gray-300 text-black text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Concepts
-            </button>
-        </div>
-    
-        <!-- Skills Section -->
-        <div class="skills-container flex flex-wrap justify-center gap-4 p-4 sm:p-6 lg:p-8 mx-auto max-w-4xl">
-            <!-- Frontend Skills -->
-            <div class="skill-list frontend flex flex-wrap justify-center sm:justify-start gap-3">
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">HTML</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">CSS</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">JavaScript</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">React</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">Bootstrap</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">Tailwind CSS</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">Responsive Design</span>
-            </div>
-    
-            <!-- Backend Skills -->
-            <div class="skill-list backend hidden flex flex-wrap justify-center sm:justify-start gap-3">
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">Spring Boot</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">Java</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">SQL/PostgreSQL</span>
-            </div>
-    
-            <!-- Tools -->
-            <div class="skill-list tools hidden flex flex-wrap justify-center sm:justify-start gap-3">
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">Git</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">GitHub</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">Docker</span>
-            </div>
-    
-            <!-- Concepts -->
-            <div class="skill-list concepts hidden flex flex-wrap justify-center sm:justify-start gap-3">
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">Data Structures</span>
-                <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 text-lg lg:text-xl">Algorithms</span>
-            </div>
-        </div>
-    </section>
-    
-    </section>
+          <!-- Tabs for Switching -->
+          <div class="flex flex-wrap justify-center text-center gap-4 mb-6">
+              <button data-category="frontend" class="category-button active  px-6 py-3 rounded bg-gray-300 dark:bg-gray-700 text-black dark:text-white text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-blue-300">
+                  Frontend
+              </button>
+              <button data-category="backend" class="category-button px-6 py-3 rounded bg-gray-300 dark:bg-gray-700 text-black dark:text-white text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-blue-300">
+                  Backend
+              </button>
+              <button data-category="tools" class="category-button px-6 py-3 rounded bg-gray-300 dark:bg-gray-700 text-black dark:text-white text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-blue-300">
+                  Tools
+              </button>
+              <button data-category="concepts" class="category-button px-6 py-3 rounded bg-gray-300 dark:bg-gray-700 text-black dark:text-white text-lg lg:text-xl focus:outline-none focus:ring-2 focus:ring-blue-300">
+                  Concepts
+              </button>
+          </div>
+  
+          <!-- Skills Section -->
+          <div class="skills-container flex flex-wrap justify-center gap-4 p-4 sm:p-6 lg:p-8 mx-auto max-w-4xl">
+              <!-- Frontend Skills -->
+              <div class="skill-list frontend flex flex-wrap justify-center sm:justify-start gap-3">
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">HTML</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">CSS</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">JavaScript</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">React</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">Bootstrap</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">Tailwind CSS</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">Responsive Design</span>
+              </div>
+  
+              <!-- Backend Skills -->
+              <div class="skill-list backend hidden flex flex-wrap justify-center sm:justify-start gap-3">
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">Spring Boot</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">Java</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">SQL/PostgreSQL</span>
+              </div>
+  
+              <!-- Tools -->
+              <div class="skill-list tools hidden flex flex-wrap justify-center sm:justify-start gap-3">
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">Git</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">GitHub</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">Docker</span>
+              </div>
+  
+              <!-- Concepts -->
+              <div class="skill-list concepts hidden flex flex-wrap justify-center sm:justify-start gap-3">
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">Data Structures</span>
+                  <span class="skill-tag px-6 py-3 rounded-full bg-gray-200 dark:bg-gray-800 text-lg lg:text-xl">Algorithms</span>
+              </div>
+          </div>
+      </section>
+  </section>
+  
     <!-----------My project------------------------->
 
     <div id="project" class="py-12">

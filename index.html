@@ -435,67 +435,70 @@
   </section>
 
   <!-- Experience Section -->
-  <section id="experience" class="py-16 scroll-mt-20">
-    <div class="max-w-4xl mx-auto px-5">
-      <div class="text-center mb-10">
+  <section id="experience" class="py-20 scroll-mt-20">
+    <div class="max-w-6xl mx-auto px-5">
+      <div class="text-center mb-14">
         <h2 class="text-3xl md:text-4xl font-bold text-white">Work <span class="text-blue-500">Experience</span></h2>
-        <p class="text-gray-400 mt-2 text-sm">My professional journey so far</p>
+        <p class="text-gray-400 mt-3 text-base">My professional journey so far</p>
       </div>
 
-      <!-- Single card — no complex timeline on mobile -->
-      <div
-        class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 sm:p-8 hover:border-blue-500/50 transition-colors duration-300">
+      <div class="relative">
+        <!-- Timeline vertical line -->
+        <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gray-800 transform md:-translate-x-px"></div>
 
-        <!-- Header -->
-        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">
-          <div>
-            <h3 class="text-white font-bold text-xl">GIS Trainee</h3>
-            <div class="flex flex-wrap items-center gap-2 mt-1.5 text-sm">
-              <i class="fas fa-building text-blue-500 text-xs"></i>
-              <span class="text-blue-400 font-medium">MapmyIndia</span>
-              <span class="text-gray-600">•</span>
-              <i class="fas fa-map-marker-alt text-gray-500 text-xs"></i>
-              <span class="text-gray-400">New Delhi</span>
+        <!-- Experience Card -->
+        <div class="relative flex flex-col md:flex-row gap-6 md:gap-8 mb-8 pl-10 md:pl-0">
+
+          <!-- Date badge (hidden on mobile, shown on md+) -->
+          <div class="hidden md:flex md:w-1/2 md:pr-12 md:justify-end">
+            <div class="bg-blue-600/10 border border-blue-500/30 rounded-lg px-4 py-2 inline-flex items-center gap-2 h-fit mt-6">
+              <i class="fas fa-calendar-alt text-blue-400 text-xs"></i>
+              <span class="text-blue-400 text-sm font-medium">May 2025 – Present</span>
             </div>
           </div>
-          <div class="flex items-center gap-2 flex-shrink-0">
-            <span
-              class="px-3 py-1 bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-semibold rounded-full">Current</span>
-            <span class="px-3 py-1 bg-blue-600/10 border border-blue-500/30 text-blue-400 text-xs rounded-full">
-              <i class="fas fa-calendar-alt mr-1"></i>May 2025 – Present
-            </span>
+
+          <!-- Dot on timeline -->
+          <div class="absolute left-1 md:left-1/2 top-6 w-4 h-4 bg-blue-500 rounded-full border-4 border-[#0d1117] transform md:-translate-x-1/2 shadow-[0_0_12px_rgba(59,130,246,0.6)]"></div>
+
+          <!-- Card -->
+          <div class="md:w-1/2 md:pl-12">
+            <div class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                <div>
+                  <h3 class="text-white font-bold text-lg">GIS Trainee</h3>
+                  <div class="flex flex-wrap items-center gap-2 mt-1 text-sm">
+                    <i class="fas fa-building text-blue-500 text-xs"></i>
+                    <span class="text-blue-400 font-medium">MapmyIndia</span>
+                    <span class="text-gray-600">•</span>
+                    <i class="fas fa-map-marker-alt text-gray-500 text-xs"></i>
+                    <span class="text-gray-400">New Delhi</span>
+                  </div>
+                  <!-- Date visible only on mobile -->
+                  <div class="flex items-center gap-1.5 mt-2 md:hidden">
+                    <i class="fas fa-calendar-alt text-blue-400 text-xs"></i>
+                    <span class="text-blue-400 text-xs">May 2025 – Present</span>
+                  </div>
+                </div>
+                <span class="px-3 py-1 bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-semibold rounded-full self-start">Current</span>
+              </div>
+
+              <ul class="space-y-2.5 text-gray-400 text-sm">
+                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Analyzed and updated geospatial data to improve map accuracy and location intelligence</li>
+                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Performed data cleaning, validation, and quality checks on large location-based datasets</li>
+                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Worked with GeoJSON and Shapefiles for data processing and structured data handling</li>
+                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Identified data inconsistencies and improved data quality using analytical approach</li>
+                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Collaborated with team to manage and enhance geospatial datasets for better insights</li>
+              </ul>
+
+              <div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-gray-800">
+                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">GeoJSON</span>
+                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data Analysis</span>
+                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data Cleaning</span>
+                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">GIS</span>
+                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data Validation</span>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <!-- Bullets -->
-        <ul class="space-y-2.5 text-gray-400 text-sm mb-5">
-          <li class="flex items-start gap-2.5"><span
-              class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Analyzed and updated geospatial data
-            to improve map accuracy and location intelligence</li>
-          <li class="flex items-start gap-2.5"><span
-              class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Performed data cleaning, validation,
-            and quality checks on large location-based datasets</li>
-          <li class="flex items-start gap-2.5"><span
-              class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Worked with GeoJSON and Shapefiles for
-            data processing and structured data handling</li>
-          <li class="flex items-start gap-2.5"><span
-              class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Identified data inconsistencies and
-            improved data quality using analytical approach</li>
-          <li class="flex items-start gap-2.5"><span
-              class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Collaborated with team to manage and
-            enhance geospatial datasets for better insights</li>
-        </ul>
-
-        <!-- Tags -->
-        <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-800">
-          <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">GeoJSON</span>
-          <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data
-            Analysis</span>
-          <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data
-            Cleaning</span>
-          <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">GIS</span>
-          <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data
-            Validation</span>
         </div>
       </div>
     </div>

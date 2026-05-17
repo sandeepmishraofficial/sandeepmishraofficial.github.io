@@ -31,7 +31,7 @@
   </style>
 </head>
 
-<body class="overflow-x-hidden font-outfit bg-grid text-gray-200 selection:bg-blue-500/30">
+<body class="overflow-x-hidden font-outfit bg-grid text-gray-200 selection:bg-blue-500/30 no-copy">
 
   <nav id="main-nav"
     class="w-full fixed top-0 px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between z-50 transition-all duration-300 bg-transparent">
@@ -190,246 +190,34 @@
 
   <!--About me-->
   <div id="About" class="w-full px-5 sm:px-8 md:px-[10%] py-16 scroll-mt-20">
-    <h2 class="text-center text-3xl md:text-4xl font-bold text-white mb-2">About <span class="text-blue-500">me</span>
-    </h2>
-    <h4 class="text-center text-base text-gray-400 mb-10">Introduction</h4>
-
-    <div class="flex w-full flex-col lg:flex-row items-center gap-12 my-8">
-      <div class="max-w-max mx-auto relative group">
-        <img src="./images/photo.png" alt="Sandeep Mishra"
-          class="w-52 sm:w-64 rounded-full max-w-none border-4 border-blue-500/40 shadow-[0_0_40px_rgba(59,130,246,0.25)] transition-transform duration-500 group-hover:scale-105" />
-
-        <div
-          class="bg-[#161b22] border border-gray-700 w-1/2 aspect-square absolute right-0 bottom-0 rounded-full translate-x-1/4 translate-y-1/3 shadow-2xl flex items-center justify-center">
-          <img src="https://img.icons8.com/ios/50/ffffff/settings--v1.png" alt="Settings"
-            class="w-1/2 animate-spin_slow opacity-50" />
-        </div>
-      </div>
-      <div class="flex-1">
-        <p class="mb-8 text-gray-400 text-sm sm:text-base leading-relaxed">
-          A detail-oriented Data Analyst passionate about uncovering patterns and delivering actionable insights.
-          Proficient in <strong class="text-white">Python</strong>, <strong class="text-white">SQL</strong>, and data
-          visualization tools like <strong class="text-white">Power BI</strong>. I specialize in data cleaning,
-          exploratory data analysis (EDA), and building interactive dashboards that drive data-informed decisions.
-          Equipped with a strong analytical mindset and problem-solving skills to tackle complex business challenges.
-        </p>
-
-        <ul class="grid grid-cols-1 gap-6 max-w-md mb-10">
-          <li
-            class="bg-[#1a1625] border border-[#2d283e] rounded-xl p-6 hover:border-blue-500 transition-colors duration-300">
-            <div class="flex items-center gap-4 mb-3">
-              <div class="bg-white rounded-md p-1 shrink-0">
-                <img src="./images/Maharishi_University_of_Information_Technology_Logo_Ritesh_Bhanu.png"
-                  alt="College Logo" class="w-10 h-10 object-contain" />
-              </div>
-              <h3 class="font-bold text-white leading-tight">
-                Maharishi University of Information Technology
-              </h3>
-            </div>
-            <p class="text-gray-400 text-sm">
-              Bachelor of Computer Applications [2022-2025]
-            </p>
-          </li>
-        </ul>
-
-        <h3 class="my-4 text-white text-xl font-bold">Tools in Use</h3>
-
-        <ul class="flex flex-wrap gap-4">
-          <li
-            class="flex items-center justify-center w-14 h-14 bg-[#1a1625] border border-[#2d283e] rounded-xl hover:border-blue-500 hover:text-blue-500 transition-colors duration-300 group"
-            title="Python">
-            <i class="fab fa-python text-gray-400 text-2xl group-hover:text-blue-500 transition"></i>
-          </li>
-          <li
-            class="flex items-center justify-center w-14 h-14 bg-[#1a1625] border border-[#2d283e] rounded-xl hover:border-blue-500 hover:text-blue-500 transition-colors duration-300 group"
-            title="SQL / Database">
-            <i class="fas fa-database text-gray-400 text-2xl group-hover:text-blue-500 transition"></i>
-          </li>
-          <li
-            class="flex items-center justify-center w-14 h-14 bg-[#1a1625] border border-[#2d283e] rounded-xl hover:border-blue-500 hover:text-blue-500 transition-colors duration-300 group"
-            title="Microsoft Excel">
-            <i class="fas fa-file-excel text-gray-400 text-2xl group-hover:text-blue-500 transition"></i>
-          </li>
-          <li
-            class="flex items-center justify-center w-14 h-14 bg-[#1a1625] border border-[#2d283e] rounded-xl hover:border-blue-500 hover:text-blue-500 transition-colors duration-300 group"
-            title="Power BI">
-            <i class="fas fa-chart-bar text-gray-400 text-2xl group-hover:text-blue-500 transition"></i>
-          </li>
-          <li
-            class="flex items-center justify-center w-14 h-14 bg-[#1a1625] border border-[#2d283e] rounded-xl hover:border-blue-500 hover:text-blue-500 transition-colors duration-300 group"
-            title="Git">
-            <i class="fab fa-git-alt text-gray-400 text-2xl group-hover:text-blue-500 transition"></i>
-          </li>
-          <li
-            class="flex items-center justify-center w-14 h-14 bg-[#1a1625] border border-[#2d283e] rounded-xl hover:border-blue-500 hover:text-blue-500 transition-colors duration-300 group"
-            title="GitHub">
-            <i class="fab fa-github text-gray-400 text-2xl group-hover:text-blue-500 transition"></i>
-          </li>
-          <li
-            class="flex items-center justify-center w-14 h-14 bg-[#1a1625] border border-[#2d283e] rounded-xl hover:border-blue-500 hover:text-blue-500 transition-colors duration-300 group"
-            title="VS Code">
-            <i class="fas fa-code text-gray-400 text-2xl group-hover:text-blue-500 transition"></i>
-          </li>
-        </ul>
-      </div>
+    <div class="flex flex-col items-center justify-center mb-10 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">About <span class="text-blue-500">me</span></h2>
+      <h4 class="text-base text-gray-400 mb-5">Introduction</h4>
+      <button onclick="openAboutEditor()" class="admin-only px-5 py-2 bg-[#161b22] border border-gray-700 hover:border-blue-500 text-gray-300 hover:text-white rounded-lg text-sm transition-colors items-center gap-2 shadow-lg">
+        <i class="fas fa-edit text-blue-500"></i> Edit About
+      </button>
+    </div>
+    
+    <!-- About Container (Dynamically Rendered via app.js) -->
+    <div id="about-container" class="flex w-full flex-col lg:flex-row items-center gap-12 my-8">
     </div>
   </div>
-
-
 
   <!-- Skills Section -->
   <section id="skills-section" class="py-16 bg-transparent scroll-mt-20">
     <div class="max-w-6xl mx-auto px-5">
       <!-- Title -->
-      <div class="text-center mb-10">
+      <div class="flex flex-col items-center justify-center mb-10 text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-white">Technical <span class="text-blue-500">Skills</span></h2>
-        <p class="text-gray-400 mt-3 text-sm">Tools and technologies I work with</p>
+        <p class="text-gray-400 mt-3 mb-5 text-sm">Tools and technologies I work with</p>
+        <button onclick="openSkillEditor()"
+          class="admin-only px-5 py-2 bg-[#161b22] border border-gray-700 hover:border-blue-500 text-gray-300 hover:text-white rounded-lg text-sm transition-colors items-center gap-2 shadow-lg">
+          <i class="fas fa-edit text-blue-500"></i> Edit Skills
+        </button>
       </div>
 
-      <!-- Skills Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <!-- Programming Languages -->
-        <div
-          class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center">
-              <i class="fas fa-code text-blue-400"></i>
-            </div>
-            <h3 class="text-white font-semibold text-base">Programming Languages</h3>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Python</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">SQL</span>
-          </div>
-        </div>
-
-        <!-- Libraries -->
-        <div
-          class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
-              <i class="fas fa-cubes text-purple-400"></i>
-            </div>
-            <h3 class="text-white font-semibold text-base">Libraries</h3>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">NumPy</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Pandas</span>
-            <span
-              class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Matplotlib</span>
-          </div>
-        </div>
-
-        <!-- Database -->
-        <div
-          class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 bg-green-600/20 rounded-lg flex items-center justify-center">
-              <i class="fas fa-database text-green-400"></i>
-            </div>
-            <h3 class="text-white font-semibold text-base">Database</h3>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">MySQL</span>
-          </div>
-        </div>
-
-        <!-- Data & Visualization Tools -->
-        <div
-          class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 bg-yellow-600/20 rounded-lg flex items-center justify-center">
-              <i class="fas fa-chart-bar text-yellow-400"></i>
-            </div>
-            <h3 class="text-white font-semibold text-base">Data & Visualization Tools</h3>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Power
-              BI</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Microsoft
-              Excel</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Pivot
-              Tables</span>
-            <span
-              class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">VLOOKUP</span>
-            <span
-              class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Dashboards</span>
-          </div>
-        </div>
-
-        <!-- Tools & Platforms -->
-        <div
-          class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 bg-orange-600/20 rounded-lg flex items-center justify-center">
-              <i class="fas fa-tools text-orange-400"></i>
-            </div>
-            <h3 class="text-white font-semibold text-base">Tools & Platforms</h3>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Git</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">GitHub</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Jupyter
-              Notebook</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">VS
-              Code</span>
-          </div>
-        </div>
-
-        <!-- Core Skills -->
-        <div
-          class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 bg-pink-600/20 rounded-lg flex items-center justify-center">
-              <i class="fas fa-brain text-pink-400"></i>
-            </div>
-            <h3 class="text-white font-semibold text-base">Core Skills</h3>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Data
-              Cleaning</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Data
-              Preprocessing</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">EDA</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Data
-              Visualization</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Dashboard
-              Development</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Statistical
-              Analysis</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Problem
-              Solving</span>
-          </div>
-        </div>
-
-        <!-- GIS Skills -->
-        <div
-          class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="w-10 h-10 bg-teal-600/20 rounded-lg flex items-center justify-center">
-              <i class="fas fa-map-marked-alt text-teal-400"></i>
-            </div>
-            <h3 class="text-white font-semibold text-base">GIS Skills</h3>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span
-              class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">GeoJSON</span>
-            <span
-              class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Shapefiles</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Geospatial
-              Data</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Location
-              Intelligence</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">spatial
-              analysis</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">Data
-              Validation</span>
-            <span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">
-              QGIS | ArcGIS</span>
-          </div>
-        </div>
-
+      <!-- Skills Grid (Dynamically Rendered via app.js) -->
+      <div id="skills-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       </div>
     </div>
   </section>
@@ -451,18 +239,22 @@
 
           <!-- Date badge (hidden on mobile, shown on md+) -->
           <div class="hidden md:flex md:w-1/2 md:pr-12 md:justify-end">
-            <div class="bg-blue-600/10 border border-blue-500/30 rounded-lg px-4 py-2 inline-flex items-center gap-2 h-fit mt-6">
+            <div
+              class="bg-blue-600/10 border border-blue-500/30 rounded-lg px-4 py-2 inline-flex items-center gap-2 h-fit mt-6">
               <i class="fas fa-calendar-alt text-blue-400 text-xs"></i>
               <span class="text-blue-400 text-sm font-medium">May 2025 – Present</span>
             </div>
           </div>
 
           <!-- Dot on timeline -->
-          <div class="absolute left-1 md:left-1/2 top-6 w-4 h-4 bg-blue-500 rounded-full border-4 border-[#0d1117] transform md:-translate-x-1/2 shadow-[0_0_12px_rgba(59,130,246,0.6)]"></div>
+          <div
+            class="absolute left-1 md:left-1/2 top-6 w-4 h-4 bg-blue-500 rounded-full border-4 border-[#0d1117] transform md:-translate-x-1/2 shadow-[0_0_12px_rgba(59,130,246,0.6)]">
+          </div>
 
           <!-- Card -->
           <div class="md:w-1/2 md:pl-12">
-            <div class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
+            <div
+              class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
               <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
                 <div>
                   <h3 class="text-white font-bold text-lg">GIS Trainee</h3>
@@ -479,23 +271,38 @@
                     <span class="text-blue-400 text-xs">May 2025 – Present</span>
                   </div>
                 </div>
-                <span class="px-3 py-1 bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-semibold rounded-full self-start">Current</span>
+                <span
+                  class="px-3 py-1 bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-semibold rounded-full self-start">Current</span>
               </div>
 
               <ul class="space-y-2.5 text-gray-400 text-sm">
-                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Analyzed and updated geospatial data to improve map accuracy and location intelligence</li>
-                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Performed data cleaning, validation, and quality checks on large location-based datasets</li>
-                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Worked with GeoJSON and Shapefiles for data processing and structured data handling</li>
-                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Identified data inconsistencies and improved data quality using analytical approach</li>
-                <li class="flex items-start gap-2.5"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Collaborated with team to manage and enhance geospatial datasets for better insights</li>
+                <li class="flex items-start gap-2.5"><span
+                    class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Analyzed and updated geospatial
+                  data to improve map accuracy and location intelligence</li>
+                <li class="flex items-start gap-2.5"><span
+                    class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Performed data cleaning,
+                  validation, and quality checks on large location-based datasets</li>
+                <li class="flex items-start gap-2.5"><span
+                    class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Worked with GeoJSON and
+                  Shapefiles for data processing and structured data handling</li>
+                <li class="flex items-start gap-2.5"><span
+                    class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Identified data inconsistencies
+                  and improved data quality using analytical approach</li>
+                <li class="flex items-start gap-2.5"><span
+                    class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Collaborated with team to manage
+                  and enhance geospatial datasets for better insights</li>
               </ul>
 
               <div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-gray-800">
-                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">GeoJSON</span>
-                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data Analysis</span>
-                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data Cleaning</span>
+                <span
+                  class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">GeoJSON</span>
+                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data
+                  Analysis</span>
+                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data
+                  Cleaning</span>
                 <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">GIS</span>
-                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data Validation</span>
+                <span class="px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs rounded">Data
+                  Validation</span>
               </div>
             </div>
           </div>
@@ -506,123 +313,18 @@
 
   <!-- Projects Section -->
   <div id="project" class="py-16 bg-[#0d1117] relative scroll-mt-20">
-    <div class="absolute inset-0 bg-gradient-to-b from-[#0d1117] via-transparent to-[#0d1117] pointer-events-none">
-    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0d1117] via-transparent to-[#0d1117] pointer-events-none"></div>
     <div class="max-w-6xl mx-auto px-5 relative z-10">
-      <h2 class="text-3xl md:text-4xl font-bold mb-10 text-center text-white">Featured <span
-          class="text-blue-500">Projects</span></h2>
+      
+      <div class="flex flex-col items-center justify-center mb-10 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Featured <span class="text-blue-500">Projects</span></h2>
+        <button onclick="openProjectEditor()" class="admin-only px-5 py-2 bg-[#161b22] border border-gray-700 hover:border-blue-500 text-gray-300 hover:text-white rounded-lg text-sm transition-colors items-center gap-2 shadow-lg">
+          <i class="fas fa-edit text-blue-500"></i> Edit Projects
+        </button>
+      </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-        <!-- Project 1: Sales Data Analysis -->
-        <div
-          class="bg-[#161b22] border border-gray-800 rounded-2xl overflow-hidden hover:border-blue-500/40 transition duration-300 flex flex-col group shadow-lg">
-          <!-- Project Header Banner -->
-          <div class="relative h-48 bg-gradient-to-br from-[#1a2744] to-[#0d1117] flex items-center justify-center p-6">
-            <div class="text-center">
-              <div class="w-16 h-16 bg-yellow-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-chart-line text-yellow-400 text-3xl"></i>
-              </div>
-              <div class="flex flex-wrap justify-center gap-2">
-                <span
-                  class="text-xs px-2.5 py-1 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded-full">Excel</span>
-                <span
-                  class="text-xs px-2.5 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full">Power
-                  BI</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-7 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-white mb-2">Sales Data Analysis & Dashboard</h3>
-            <ul class="text-gray-400 text-sm space-y-2 mb-6 flex-1">
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Cleaned and transformed raw sales
-                data using Excel (removed duplicates, handled missing values)</li>
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Performed analysis using Pivot
-                Tables and advanced Excel functions (VLOOKUP, IF)</li>
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Built interactive Excel dashboard
-                to track KPIs: revenue, profit, and sales growth</li>
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Developed Power BI dashboard with
-                filters and slicers for dynamic visualization</li>
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>Identified top-performing products
-                and region-wise sales performance</li>
-            </ul>
-            <div class="flex flex-wrap gap-2 mb-5 pt-4 border-t border-gray-800">
-              <span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">Pivot
-                Tables</span>
-              <span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">VLOOKUP</span>
-              <span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">Power
-                BI</span>
-              <span
-                class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">Dashboard</span>
-            </div>
-            <a href="https://github.com/sandeepmishraofficial" target="_blank" rel="noopener noreferrer"
-              class="w-max px-5 py-2 rounded border border-gray-700 text-blue-400 font-medium hover:text-white hover:border-blue-500 hover:bg-blue-600/20 transition-all flex items-center gap-2">
-              View on GitHub <i class="fas fa-external-link-alt text-xs"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- Project 2: Netflix Data Analysis -->
-        <div
-          class="bg-[#161b22] border border-gray-800 rounded-2xl overflow-hidden hover:border-blue-500/40 transition duration-300 flex flex-col group shadow-lg">
-          <!-- Project Header Banner -->
-          <div class="relative h-48 bg-gradient-to-br from-[#2a0d0d] to-[#0d1117] flex items-center justify-center p-6">
-            <div class="text-center">
-              <div class="w-16 h-16 bg-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                <i class="fas fa-film text-red-400 text-3xl"></i>
-              </div>
-              <div class="flex flex-wrap justify-center gap-2">
-                <span
-                  class="text-xs px-2.5 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full">Python</span>
-                <span
-                  class="text-xs px-2.5 py-1 bg-green-500/10 border border-green-500/30 text-green-400 rounded-full">SQL</span>
-                <span
-                  class="text-xs px-2.5 py-1 bg-purple-500/10 border border-purple-500/30 text-purple-400 rounded-full">Power
-                  BI</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-7 flex flex-col flex-1">
-            <h3 class="text-xl font-bold text-white mb-2">Netflix Data Analysis</h3>
-            <ul class="text-gray-400 text-sm space-y-2 mb-6 flex-1">
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5 shrink-0"></span>Cleaned and preprocessed dataset
-                using Python (Pandas, NumPy)</li>
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5 shrink-0"></span>Performed data extraction and
-                analysis using SQL queries (JOIN, GROUP BY, Aggregations)</li>
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5 shrink-0"></span>Conducted EDA to identify trends in
-                movies and TV shows</li>
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5 shrink-0"></span>Analyzed genre popularity, release
-                year trends, and country-wise content distribution</li>
-              <li class="flex items-start gap-2"><span
-                  class="w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5 shrink-0"></span>Created interactive Power BI
-                reports to present insights clearly</li>
-            </ul>
-            <div class="flex flex-wrap gap-2 mb-5 pt-4 border-t border-gray-800">
-              <span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">Python</span>
-              <span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">SQL</span>
-              <span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">Pandas</span>
-              <span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">Power
-                BI</span>
-              <span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">EDA</span>
-            </div>
-            <a href="https://github.com/sandeepmishraofficial" target="_blank" rel="noopener noreferrer"
-              class="w-max px-5 py-2 rounded border border-gray-700 text-blue-400 font-medium hover:text-white hover:border-blue-500 hover:bg-blue-600/20 transition-all flex items-center gap-2">
-              View on GitHub <i class="fas fa-external-link-alt text-xs"></i>
-            </a>
-          </div>
-        </div>
-
+      <!-- Projects Container (Dynamically Rendered via app.js) -->
+      <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
       </div>
     </div>
   </div>
@@ -636,9 +338,10 @@
       Want to connect? My inbox is always open!
     </p>
 
-    <form method="post" action="https://api.web3forms.com/submit"
+    <form id="contact-form" method="post" action="https://api.web3forms.com/submit"
       class="max-w-2xl mx-auto bg-[#161b22] border border-gray-800 p-8 rounded-2xl shadow-xl">
       <input type="hidden" name="access_key" value="12405dd4-9897-4530-afa1-57671998845b" />
+      <div id="form-feedback" class="hidden mb-4 text-sm text-center py-2 px-4 rounded-md"></div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <input type="text" placeholder="Enter your name"
@@ -652,9 +355,9 @@
       <textarea rows="6" placeholder="Enter your message"
         class="w-full p-4 outline-none border border-gray-700 rounded-lg bg-[#0d1117] text-white mb-8 focus:border-blue-500 transition-colors"
         required name="message"></textarea>
-      <button
-        class="py-3 px-8 w-max flex items-center justify-between gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded transition mx-auto">
-        Submit now <i class="fas fa-paper-plane text-sm ml-2"></i>
+      <button type="submit" id="submit-button"
+        class="py-3 px-8 w-max flex items-center justify-between gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded transition mx-auto disabled:opacity-50 disabled:cursor-not-allowed">
+        <span id="submit-text">Submit now</span> <i id="submit-icon" class="fas fa-paper-plane text-sm ml-2"></i>
       </button>
     </form>
   </div>
@@ -673,7 +376,7 @@
     </div>
 
     <div class="text-center sm:flex items-center justify-between mx-[10%] pt-8 border-t border-gray-800">
-      <p class="text-gray-500 text-sm">
+      <p id="secret-mobile-trigger" class="text-gray-500 text-sm cursor-default select-none">
         © 2025 Sandeep Mishra. All rights reserved.
       </p>
       <ul class="flex items-center justify-center mt-4 sm:mt-0 gap-6">
@@ -702,6 +405,78 @@
     </div>
   </div>
 
+
+  <!-- About Editor Modal -->
+  <div id="about-editor-modal" class="fixed inset-0 bg-[#0d1117]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-5 opacity-0 transition-opacity duration-300">
+    <div class="bg-[#161b22] border border-gray-800 rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl transform scale-95 transition-transform duration-300" id="about-editor-content">
+      <div class="flex items-center justify-between p-6 border-b border-gray-800">
+        <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fas fa-edit text-blue-500"></i> Edit About Me</h3>
+        <button onclick="closeAboutEditor()" class="text-gray-400 hover:text-white transition-colors">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto flex-1 space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Biography</label>
+          <textarea id="about-bio-input" rows="5" class="w-full bg-[#0d1117] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 outline-none"></textarea>
+        </div>
+      </div>
+      <div class="p-6 border-t border-gray-800 flex justify-end gap-4 bg-[#0d1117] rounded-b-2xl">
+        <button onclick="closeAboutEditor()" class="px-5 py-2 rounded-lg font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">Cancel</button>
+        <button onclick="saveAbout()" class="px-5 py-2 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-colors">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Editor Modal -->
+  <div id="project-editor-modal" class="fixed inset-0 bg-[#0d1117]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-5 opacity-0 transition-opacity duration-300">
+    <div class="bg-[#161b22] border border-gray-800 rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl transform scale-95 transition-transform duration-300" id="project-editor-content">
+      <div class="flex items-center justify-between p-6 border-b border-gray-800">
+        <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fas fa-edit text-blue-500"></i> Edit Projects (Titles)</h3>
+        <button onclick="closeProjectEditor()" class="text-gray-400 hover:text-white transition-colors">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+      <div id="project-editor-list" class="p-6 overflow-y-auto flex-1 space-y-6">
+        <!-- JS populates -->
+      </div>
+      <div class="p-6 border-t border-gray-800 flex justify-end gap-4 bg-[#0d1117] rounded-b-2xl">
+        <button onclick="closeProjectEditor()" class="px-5 py-2 rounded-lg font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">Cancel</button>
+        <button onclick="saveProjects()" class="px-5 py-2 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-colors">Save Changes</button>
+      </div>
+    </div>
+  </div>
+  <!-- Skill Editor Modal -->
+  <div id="skill-editor-modal"
+    class="fixed inset-0 bg-[#0d1117]/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-5 opacity-0 transition-opacity duration-300">
+    <div
+      class="bg-[#161b22] border border-gray-800 rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl transform scale-95 transition-transform duration-300"
+      id="skill-editor-content">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between p-6 border-b border-gray-800">
+        <h3 class="text-xl font-bold text-white flex items-center gap-2"><i class="fas fa-edit text-blue-500"></i> Edit
+          Your Skills</h3>
+        <button onclick="closeSkillEditor()" class="text-gray-400 hover:text-white transition-colors">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Dynamic Categories) -->
+      <div id="editor-categories" class="p-6 overflow-y-auto flex-1 space-y-6">
+        <!-- JS will populate this -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-6 border-t border-gray-800 flex justify-end gap-4 bg-[#0d1117] rounded-b-2xl">
+        <button onclick="closeSkillEditor()"
+          class="px-5 py-2 rounded-lg font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition-colors">Cancel</button>
+        <button onclick="saveSkills()"
+          class="px-5 py-2 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-colors">Save
+          Changes</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script>
     // Initialize Typed.js
@@ -714,6 +489,11 @@
     var typed = new Typed("#typed-text", options);
   </script>
   <script src="app.js"></script>
+
+  <!-- Admin Logout -->
+  <button onclick="logoutAdmin()" class="admin-only fixed bottom-5 left-5 z-[90] px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg items-center gap-2 font-medium">
+    <i class="fas fa-lock"></i> Lock Editor
+  </button>
 </body>
 
 </html>

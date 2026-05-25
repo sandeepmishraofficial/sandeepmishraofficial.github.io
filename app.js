@@ -1,3 +1,24 @@
+// --- Page Loader ---
+// Hide loader after 1s minimum OR when page is ready (whichever is later)
+(function () {
+    const MIN_TIME = 1000; // milliseconds
+    const startTime = Date.now();
+
+    function hideLoader() {
+        const loader = document.getElementById('page-loader');
+        if (!loader) return;
+        const elapsed = Date.now() - startTime;
+        const delay = Math.max(0, MIN_TIME - elapsed);
+        setTimeout(() => { loader.classList.add('hidden'); }, delay);
+    }
+
+    if (document.readyState === 'complete') {
+        hideLoader();
+    } else {
+        window.addEventListener('load', hideLoader);
+    }
+})();
+
 // --- Data Storage (Defaults) ---
 
 const defaultAboutData = {
@@ -454,13 +475,56 @@ function triggerAdminLogin() {
         alert('You are already in Admin Mode.');
         return;
     }
-    const password = prompt('Enter Admin Password:');
-    if (password === 'admin123') {
-        localStorage.setItem('isAdmin', 'true');
-        checkAdminMode();
-        alert('Admin Mode Activated! You can now edit the website.');
-    } else if (password !== null) {
-        alert('Incorrect Password!');
+    const pwdInput = document.getElementById('admin-password-input');
+    if (pwdInput) pwdInput.value = '';
+    const errText = document.getElementById('admin-login-err');
+    if (errText) errText.classList.add('hidden');
+
+    const modal = document.getElementById('admin-login-modal');
+    const content = document.getElementById('admin-login-content');
+    if (modal && content) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+            pwdInput.focus();
+        }, 10);
+    }
+}
+
+function closeAdminLogin() {
+    const modal = document.getElementById('admin-login-modal');
+    const content = document.getElementById('admin-login-content');
+    if (modal && content) {
+        modal.classList.add('opacity-0');
+        content.classList.remove('scale-100');
+        content.classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }, 300);
+    }
+}
+
+function submitAdminLogin() {
+    const pwdInput = document.getElementById('admin-password-input');
+    const errText = document.getElementById('admin-login-err');
+    if (pwdInput) {
+        const password = pwdInput.value;
+        if (password === 'admin123') {
+            localStorage.setItem('isAdmin', 'true');
+            checkAdminMode();
+            closeAdminLogin();
+            alert('Admin Mode Activated! You can now edit the website.');
+        } else {
+            if (errText) {
+                errText.classList.remove('hidden');
+            } else {
+                alert('Incorrect Password!');
+            }
+        }
     }
 }
 
@@ -499,3 +563,98 @@ function logoutAdmin() {
         alert('Editor locked successfully.');
     }
 }
+
+// =============================================
+// PORTFOLIO VISITOR TRACKING SYSTEM
+// =============================================
+(function () {
+    function pvGet(k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch { return d; } }
+    function pvSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+
+    // 1. Record visit timestamp
+    const visits = pvGet('pv_visits', []);
+    const now = new Date().toISOString();
+    visits.push(now);
+    if (visits.length > 500) visits.splice(0, visits.length - 500); // keep last 500
+    pvSet('pv_visits', visits);
+
+    // 2. Daily count
+    const today = now.slice(0, 10);
+    const daily = pvGet('pv_daily', {});
+    daily[today] = (daily[today] || 0) + 1;
+    pvSet('pv_daily', daily);
+
+    // 3. Device type
+    const devices = pvGet('pv_devices', {});
+    const ua = navigator.userAgent;
+    const dev = /Mobi|Android/i.test(ua) ? 'Mobile' : /Tablet|iPad/i.test(ua) ? 'Tablet' : 'Desktop';
+    devices[dev] = (devices[dev] || 0) + 1;
+    pvSet('pv_devices', devices);
+
+    // 4. Traffic source
+    const sources = pvGet('pv_sources', {});
+    const ref = document.referrer;
+    let src = 'Direct';
+    if (ref.includes('github')) src = 'GitHub';
+    else if (ref.includes('linkedin')) src = 'LinkedIn';
+    else if (ref.includes('google')) src = 'Google';
+    else if (ref.includes('twitter') || ref.includes('x.com')) src = 'Twitter/X';
+    else if (ref) src = 'Other';
+    sources[src] = (sources[src] || 0) + 1;
+    pvSet('pv_sources', sources);
+
+    // 5. Session log
+    const sessions = pvGet('pv_sessions', []);
+    sessions.push({ time: now, device: dev, source: src });
+    if (sessions.length > 100) sessions.splice(0, sessions.length - 100);
+    pvSet('pv_sessions', sessions);
+
+    // 6. Time on page (record on unload)
+    const pageStart = Date.now();
+    window.addEventListener('beforeunload', () => {
+        const elapsed = Math.round((Date.now() - pageStart) / 1000);
+        if (elapsed > 2 && elapsed < 3600) {
+            const times = pvGet('pv_times', []);
+            times.push(elapsed);
+            if (times.length > 200) times.splice(0, times.length - 200);
+            pvSet('pv_times', times);
+        }
+    });
+
+    // 7. Section engagement via IntersectionObserver
+    window.addEventListener('DOMContentLoaded', () => {
+        const sectionMap = {
+            'top': 'Home', 'About': 'About',
+            'skills-section': 'Skills', 'experience': 'Experience',
+            'project': 'Projects', 'Contact me': 'Contact'
+        };
+        const observed = new Set();
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !observed.has(entry.target.id)) {
+                    observed.add(entry.target.id);
+                    const label = sectionMap[entry.target.id];
+                    if (label) {
+                        const secs = pvGet('pv_sections', {});
+                        secs[label] = (secs[label] || 0) + 1;
+                        pvSet('pv_sections', secs);
+                    }
+                }
+            });
+        }, { threshold: 0.3 });
+
+        Object.keys(sectionMap).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+
+        // 8. Track contact form clicks
+        const contactLink = document.getElementById('contact-form');
+        if (contactLink) {
+            contactLink.addEventListener('submit', () => {
+                pvSet('pv_contacts', pvGet('pv_contacts', 0) + 1);
+            });
+        }
+    });
+})();
+

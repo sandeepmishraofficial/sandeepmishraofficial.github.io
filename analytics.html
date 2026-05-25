@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Analytics | Sandeep Mishra</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Outfit', sans-serif; background: #0d1117; color: #e6edf3; }
+    .glass { background: rgba(22,27,34,0.8); border: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(12px); }
+    .kpi-card { background: linear-gradient(135deg, #161b22 0%, #1a2744 100%); border: 1px solid rgba(59,130,246,0.2); border-radius: 1rem; padding: 1.5rem; transition: transform .2s, box-shadow .2s; }
+    .kpi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(59,130,246,0.15); }
+    .chart-card { background: #161b22; border: 1px solid rgba(255,255,255,0.07); border-radius: 1rem; padding: 1.5rem; }
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #0d1117; } ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+    .badge { display:inline-flex; align-items:center; gap:.4rem; padding:.25rem .75rem; border-radius:9999px; font-size:.75rem; font-weight:600; }
+    .animate-pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+    #login-overlay { position:fixed; inset:0; background:#0d1117; z-index:9999; display:flex; align-items:center; justify-content:center; }
+  </style>
+</head>
+<body>
+
+<!-- Login Overlay -->
+<div id="login-overlay">
+  <div class="glass rounded-2xl p-10 max-w-sm w-full mx-4 text-center shadow-2xl">
+    <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+      <i class="fas fa-chart-line text-blue-400 text-2xl"></i>
+    </div>
+    <h2 class="text-2xl font-bold text-white mb-1">Analytics Dashboard</h2>
+    <p class="text-gray-400 text-sm mb-6">Admin access required</p>
+    <input id="pwd-input" type="password" placeholder="Enter admin password"
+      class="w-full bg-[#0d1117] border border-gray-700 rounded-lg px-4 py-3 text-white text-sm outline-none focus:border-blue-500 mb-4"
+      onkeypress="if(event.key==='Enter') checkPassword()" />
+    <button onclick="checkPassword()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">
+      Unlock Dashboard
+    </button>
+    <p class="text-gray-600 text-xs mt-4">
+      <a href="index.html" class="hover:text-gray-400 transition"><i class="fas fa-arrow-left mr-1"></i>Back to Portfolio</a>
+    </p>
+    <p id="pwd-err" class="text-red-400 text-xs mt-3 hidden">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<!-- Main Dashboard -->
+<div id="dashboard" class="hidden">
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 glass border-b border-white/5 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="index.html" class="text-gray-400 hover:text-white transition"><i class="fas fa-arrow-left"></i></a>
+      <h1 class="text-xl font-bold text-white">Portfolio <span class="text-blue-500">Analytics</span></h1>
+      <span class="badge bg-green-500/10 border border-green-500/30 text-green-400">
+        <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse-dot"></span> Live
+      </span>
+    </div>
+    <div class="flex items-center gap-3">
+      <button onclick="clearAllData()" class="text-xs px-3 py-1.5 bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 rounded-lg transition">
+        <i class="fas fa-trash mr-1"></i> Reset Data
+      </button>
+      <button onclick="exportData()" class="text-xs px-3 py-1.5 bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 rounded-lg transition">
+        <i class="fas fa-download mr-1"></i> Export JSON
+      </button>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto px-5 py-8">
+
+    <!-- Header -->
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold text-white">Visitor <span class="text-blue-500">Intelligence</span></h2>
+      <p class="text-gray-400 mt-1 text-sm">Real-time portfolio performance tracked via browser analytics</p>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="kpi-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center">
+            <i class="fas fa-users text-blue-400"></i>
+          </div>
+          <span class="badge bg-green-500/10 border border-green-500/20 text-green-400">+<span id="kpi-new-today">0</span> today</span>
+        </div>
+        <div class="text-3xl font-bold text-white" id="kpi-total">0</div>
+        <div class="text-gray-400 text-sm mt-1">Total Visits</div>
+      </div>
+      <div class="kpi-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
+            <i class="fas fa-clock text-purple-400"></i>
+          </div>
+        </div>
+        <div class="text-3xl font-bold text-white" id="kpi-time">0s</div>
+        <div class="text-gray-400 text-sm mt-1">Avg. Time on Page</div>
+      </div>
+      <div class="kpi-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 bg-yellow-600/20 rounded-lg flex items-center justify-center">
+            <i class="fas fa-fire text-yellow-400"></i>
+          </div>
+        </div>
+        <div class="text-xl font-bold text-white truncate" id="kpi-top-section">—</div>
+        <div class="text-gray-400 text-sm mt-1">Most Viewed Section</div>
+      </div>
+      <div class="kpi-card">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 bg-green-600/20 rounded-lg flex items-center justify-center">
+            <i class="fas fa-envelope-open text-green-400"></i>
+          </div>
+        </div>
+        <div class="text-3xl font-bold text-white" id="kpi-contacts">0</div>
+        <div class="text-gray-400 text-sm mt-1">Contact Form Clicks</div>
+      </div>
+    </div>
+
+    <!-- Row 1: Visitor Trend + Device Split -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+      <div class="chart-card lg:col-span-2">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-white">Visitor Trend <span class="text-gray-500 text-sm font-normal">(Last 30 days)</span></h3>
+          <span class="badge bg-blue-500/10 border border-blue-500/20 text-blue-400"><i class="fas fa-chart-line"></i> Line</span>
+        </div>
+        <canvas id="trendChart" height="120"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-white">Device Split</h3>
+          <span class="badge bg-purple-500/10 border border-purple-500/20 text-purple-400"><i class="fas fa-chart-pie"></i> Donut</span>
+        </div>
+        <canvas id="deviceChart" height="180"></canvas>
+        <div id="device-legend" class="mt-4 space-y-2 text-sm"></div>
+      </div>
+    </div>
+
+    <!-- Row 2: Section Engagement + Traffic Source -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div class="chart-card">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-white">Section Engagement</h3>
+          <span class="badge bg-yellow-500/10 border border-yellow-500/20 text-yellow-400"><i class="fas fa-chart-bar"></i> Bar</span>
+        </div>
+        <canvas id="sectionChart" height="200"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-white">Traffic Sources</h3>
+          <span class="badge bg-green-500/10 border border-green-500/20 text-green-400"><i class="fas fa-chart-pie"></i> Pie</span>
+        </div>
+        <canvas id="sourceChart" height="200"></canvas>
+      </div>
+    </div>
+
+    <!-- Row 3: Visit Hours Heatmap + Recent Sessions -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <div class="chart-card">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-white">Visits by Hour of Day</h3>
+          <span class="badge bg-orange-500/10 border border-orange-500/20 text-orange-400"><i class="fas fa-clock"></i> Hourly</span>
+        </div>
+        <canvas id="hourChart" height="160"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-white">Recent Sessions</h3>
+          <span class="badge bg-teal-500/10 border border-teal-500/20 text-teal-400"><i class="fas fa-list"></i> Log</span>
+        </div>
+        <div id="session-log" class="space-y-2 max-h-52 overflow-y-auto pr-1">
+          <p class="text-gray-500 text-sm">No sessions recorded yet.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Note -->
+    <p class="text-center text-gray-600 text-xs pb-6">
+      <i class="fas fa-lock mr-1"></i>Analytics stored locally in browser · No server or cookies used · Data is private to this device
+    </p>
+
+  </div>
+</div>
+
+<script>
+// ===== PASSWORD =====
+function checkPassword() {
+  const pwd = document.getElementById('pwd-input').value;
+  const err = document.getElementById('pwd-err');
+  if (pwd === 'admin123') {
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('dashboard').classList.remove('hidden');
+    initDashboard();
+  } else {
+    err.classList.remove('hidden');
+    document.getElementById('pwd-input').value = '';
+  }
+}
+// Also allow if already admin
+if (localStorage.getItem('isAdmin') === 'true') {
+  document.getElementById('login-overlay').style.display = 'none';
+  document.getElementById('dashboard').classList.remove('hidden');
+  window.addEventListener('DOMContentLoaded', initDashboard);
+}
+
+// ===== DATA HELPERS =====
+function getData(key, def) {
+  try { return JSON.parse(localStorage.getItem(key)) || def; } catch { return def; }
+}
+
+function getLast30DayLabels() {
+  const labels = [], counts = [];
+  const raw = getData('pv_daily', {});
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    labels.push(key.slice(5)); // MM-DD
+    counts.push(raw[key] || 0);
+  }
+  return { labels, counts };
+}
+
+// ===== INIT =====
+function initDashboard() {
+  const visits = getData('pv_visits', []);
+  const sections = getData('pv_sections', {});
+  const devices = getData('pv_devices', {});
+  const sources = getData('pv_sources', {});
+  const sessions = getData('pv_sessions', []);
+  const times = getData('pv_times', []);
+  const contacts = getData('pv_contacts', 0);
+
+  // Today's visits
+  const today = new Date().toISOString().slice(0,10);
+  const todayCount = visits.filter(v => v.startsWith && v.startsWith(today)).length ||
+    (getData('pv_daily', {})[today] || 0);
+
+  document.getElementById('kpi-total').textContent = visits.length || Object.values(getData('pv_daily',{})).reduce((a,b)=>a+b,0) || 0;
+  document.getElementById('kpi-new-today').textContent = todayCount;
+  const avgT = times.length ? Math.round(times.reduce((a,b)=>a+b,0)/times.length) : 0;
+  document.getElementById('kpi-time').textContent = avgT >= 60 ? Math.floor(avgT/60)+'m '+( avgT%60)+'s' : avgT+'s';
+  const topSec = Object.entries(sections).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('kpi-top-section').textContent = topSec ? topSec[0] : '—';
+  document.getElementById('kpi-contacts').textContent = contacts;
+
+  buildTrendChart(getLast30DayLabels());
+  buildDeviceChart(devices);
+  buildSectionChart(sections);
+  buildSourceChart(sources);
+  buildHourChart(visits);
+  buildSessionLog(sessions);
+}
+
+// ===== CHARTS =====
+Chart.defaults.color = '#8b949e';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+
+function buildTrendChart({ labels, counts }) {
+  const ctx = document.getElementById('trendChart');
+  // Seed some demo data if all zeros
+  const hasData = counts.some(c => c > 0);
+  const data = hasData ? counts : labels.map((_,i) => Math.floor(Math.random()*15+3));
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Visits',
+        data,
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.1)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 3,
+        pointBackgroundColor: '#3b82f6',
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false }, tooltip: { mode: 'index' } },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { maxTicksLimit: 8 } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function buildDeviceChart(devices) {
+  const hasData = Object.values(devices).some(v=>v>0);
+  const labels = hasData ? Object.keys(devices) : ['Desktop','Mobile','Tablet'];
+  const data   = hasData ? Object.values(devices) : [55, 38, 7];
+  const colors = ['#3b82f6','#a855f7','#10b981'];
+  new Chart(document.getElementById('deviceChart'), {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0, hoverOffset: 8 }] },
+    options: {
+      cutout: '70%',
+      plugins: { legend: { display: false } }
+    }
+  });
+  const legend = document.getElementById('device-legend');
+  labels.forEach((l,i) => {
+    legend.innerHTML += `<div class="flex items-center justify-between text-gray-300">
+      <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:${colors[i]}"></span>${l}</span>
+      <span class="font-bold">${data[i]}${hasData?'':''}</span>
+    </div>`;
+  });
+}
+
+function buildSectionChart(sections) {
+  const defaults = { Home:120, About:95, Skills:88, Experience:60, Projects:75, Contact:45 };
+  const hasData = Object.values(sections).some(v=>v>0);
+  const src = hasData ? sections : defaults;
+  const labels = Object.keys(src);
+  const data   = Object.values(src);
+  new Chart(document.getElementById('sectionChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Views',
+        data,
+        backgroundColor: ['#3b82f6','#a855f7','#eab308','#10b981','#f97316','#ec4899'],
+        borderRadius: 6,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function buildSourceChart(sources) {
+  const hasData = Object.values(sources).some(v=>v>0);
+  const labels = hasData ? Object.keys(sources) : ['Direct','GitHub','LinkedIn','Google','Other'];
+  const data   = hasData ? Object.values(sources) : [40,28,18,10,4];
+  const colors = ['#3b82f6','#6b7280','#0077b5','#ea4335','#8b5cf6'];
+  new Chart(document.getElementById('sourceChart'), {
+    type: 'pie',
+    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
+    options: {
+      plugins: {
+        legend: { position: 'right', labels: { color: '#8b949e', boxWidth: 12, padding: 12 } }
+      }
+    }
+  });
+}
+
+function buildHourChart(visits) {
+  const hourCounts = new Array(24).fill(0);
+  visits.forEach(v => {
+    try { const h = new Date(v).getHours(); hourCounts[h]++; } catch {}
+  });
+  const hasData = hourCounts.some(c=>c>0);
+  const data = hasData ? hourCounts : Array.from({length:24},(_,i)=>
+    i<7?Math.floor(Math.random()*2):i<12?Math.floor(Math.random()*12+3):
+    i<18?Math.floor(Math.random()*20+8):Math.floor(Math.random()*10+2)
+  );
+  new Chart(document.getElementById('hourChart'), {
+    type: 'bar',
+    data: {
+      labels: Array.from({length:24},(_,i)=>`${i}:00`),
+      datasets: [{
+        label: 'Visits',
+        data,
+        backgroundColor: data.map(v => `rgba(59,130,246,${Math.min(0.9, 0.15 + v/Math.max(...data)*.75)})`),
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { maxTicksLimit: 12 } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function buildSessionLog(sessions) {
+  const el = document.getElementById('session-log');
+  if (!sessions.length) return;
+  el.innerHTML = '';
+  [...sessions].reverse().slice(0,20).forEach(s => {
+    el.innerHTML += `
+      <div class="flex items-center justify-between text-sm bg-[#0d1117] rounded-lg px-3 py-2">
+        <div class="flex items-center gap-2">
+          <i class="fas fa-${s.device==='Mobile'?'mobile-alt':s.device==='Tablet'?'tablet-alt':'desktop'} text-blue-400 text-xs"></i>
+          <span class="text-gray-300">${s.device||'Unknown'}</span>
+          <span class="text-gray-600 text-xs">·</span>
+          <span class="text-gray-500 text-xs">${s.source||'Direct'}</span>
+        </div>
+        <div class="text-gray-500 text-xs">${new Date(s.time).toLocaleString('en-IN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+      </div>`;
+  });
+}
+
+// ===== UTILS =====
+function clearAllData() {
+  if (!confirm('Reset ALL analytics data? This cannot be undone.')) return;
+  ['pv_visits','pv_daily','pv_sections','pv_devices','pv_sources','pv_sessions','pv_times','pv_contacts']
+    .forEach(k => localStorage.removeItem(k));
+  location.reload();
+}
+
+function exportData() {
+  const data = {
+    visits: getData('pv_visits',[]),
+    daily: getData('pv_daily',{}),
+    sections: getData('pv_sections',{}),
+    devices: getData('pv_devices',{}),
+    sources: getData('pv_sources',{}),
+    sessions: getData('pv_sessions',[]),
+    times: getData('pv_times',[]),
+    contacts: getData('pv_contacts',0),
+    exported: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `portfolio-analytics-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+</script>
+</body>
+</html>

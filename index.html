@@ -539,6 +539,35 @@
     </div>
   </div>
 
+  <!-- Image Preview Modal -->
+  <div id="image-preview-modal" class="fixed inset-0 bg-[#0d1117]/90 backdrop-blur-md z-[100] hidden items-center justify-center p-3 sm:p-6 opacity-0 transition-opacity duration-300">
+    <div class="relative max-w-5xl w-full max-h-[92vh] flex flex-col items-center justify-center transform scale-95 transition-transform duration-300" id="image-preview-content">
+      <!-- Image Viewer Wrapper -->
+      <div class="bg-[#161b22] border border-gray-800 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] w-full flex flex-col">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b border-gray-800/80 bg-[#11151d]">
+          <h3 class="text-sm sm:text-base font-bold text-white tracking-wide" id="image-preview-title">
+            Project Preview
+          </h3>
+          <button onclick="closeImagePreview()" class="text-gray-400 hover:text-white transition-colors bg-[#1d2430] border border-gray-700/60 rounded-full w-8 h-8 flex items-center justify-center shadow-sm cursor-pointer">
+            <i class="fas fa-times text-sm"></i>
+          </button>
+        </div>
+        
+        <!-- Modal Body -->
+        <div class="p-4 flex flex-col items-center overflow-y-auto flex-1">
+          <!-- Season Selector Buttons (Populated dynamically, hidden if not a season project) -->
+          <div id="image-preview-seasons" class="flex flex-nowrap sm:flex-wrap justify-start sm:justify-center gap-1.5 w-full mb-4 overflow-x-auto sm:overflow-x-visible pb-2.5 sm:pb-0 border-b border-gray-800/60 scrollbar-none hidden">
+          </div>
+          <!-- Image Container -->
+          <div class="w-full flex items-center justify-center flex-1 overflow-hidden">
+            <img id="image-preview-img" src="" alt="Preview" class="max-w-full max-h-[50vh] sm:max-h-[60vh] object-contain rounded-lg shadow-inner transition-opacity duration-200" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts deferred for faster page paint -->
   <script defer src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
   <script defer src="app.js"></script>

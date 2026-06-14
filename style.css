@@ -95,4 +95,19 @@ body.admin-mode .admin-only {
   box-shadow: 0 0 15px rgba(16, 185, 129, 0.5) !important;
   border-color: #10b981 !important;
   color: #10b981 !important;
+}
+
+/* Scrollbar styles for horizontal seasons container on mobile */
+#image-preview-seasons::-webkit-scrollbar {
+  height: 4px;
+}
+#image-preview-seasons::-webkit-scrollbar-track {
+  background: transparent;
+}
+#image-preview-seasons::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+#image-preview-seasons::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5);
 }

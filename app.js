@@ -87,7 +87,11 @@ const defaultProjectsData = [
         ],
         bottomTags: ["Power BI", "DAX", "SQL", "Data Cleaning", "Sports Analytics"],
         githubLink: "https://github.com/sandeepmishraofficial",
-        liveLink: "https://app.powerbi.com/groups/me/reports/402e3dac-cd73-4b5b-ba16-a3503b3f24a8/d2a1f8cd092a905ddbe0?experience=power-bi"
+        liveLink: "./images/IPL.pbix",
+        previewImage: "./images/ipl-dashboard.png",
+        seasonFolder: "./images/ipl all season image",
+        seasonStart: 2008,
+        seasonEnd: 2025
     }
 ];
 
@@ -119,13 +123,21 @@ function loadAndRenderAll() {
         projectsUpdated = true;
     }
 
-    // Migration/Update check: Ensure IPL Analysis project is present and has the correct liveLink
+    // Migration/Update check: Ensure IPL Analysis project is present and has the correct liveLink, previewImage, and season data
     let hasIPL = false;
     currentProjects.forEach(proj => {
         if (proj.title && proj.title.toLowerCase().includes('ipl')) {
             hasIPL = true;
-            if (proj.liveLink !== "https://app.powerbi.com/groups/me/reports/402e3dac-cd73-4b5b-ba16-a3503b3f24a8/d2a1f8cd092a905ddbe0?experience=power-bi") {
-                proj.liveLink = "https://app.powerbi.com/groups/me/reports/402e3dac-cd73-4b5b-ba16-a3503b3f24a8/d2a1f8cd092a905ddbe0?experience=power-bi";
+            if (proj.liveLink !== "./images/IPL.pbix" || 
+                proj.previewImage !== "./images/ipl-dashboard.png" ||
+                proj.seasonFolder !== "./images/ipl all season image" ||
+                proj.seasonStart !== 2008 ||
+                proj.seasonEnd !== 2025) {
+                proj.liveLink = "./images/IPL.pbix";
+                proj.previewImage = "./images/ipl-dashboard.png";
+                proj.seasonFolder = "./images/ipl all season image";
+                proj.seasonStart = 2008;
+                proj.seasonEnd = 2025;
                 projectsUpdated = true;
             }
         }
@@ -270,13 +282,23 @@ function renderProjects() {
     if (!container) return;
 
     container.innerHTML = '';
-    currentProjects.forEach(proj => {
+    currentProjects.forEach((proj, idx) => {
         const topTags = proj.topTags.map(t => `<span class="text-xs px-2.5 py-1 ${t.style} rounded-full border">${t.name}</span>`).join('');
         const bullets = proj.bulletPoints.map(b => `<li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>${b}</li>`).join('');
         const btmTags = proj.bottomTags.map(t => `<span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">${t}</span>`).join('');
 
+        const previewBtn = (proj.previewImage || proj.seasonFolder) ? `
+            <button onclick="openImagePreview(${idx})" class="flex-1 sm:flex-none justify-center relative group/btn overflow-hidden px-3 sm:px-4 py-2.5 rounded-lg border border-gray-700 text-gray-300 font-medium hover:text-white hover:border-gray-500 hover:bg-gray-800/85 transition-all duration-300 flex items-center gap-2 text-xs shadow-[0_0_10px_rgba(255,255,255,0.02)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover-float cursor-pointer">
+                <!-- Shimmer reflection effect -->
+                <span class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg] group-hover/btn:animate-shimmer"></span>
+                <i class="fas fa-eye text-xs group-hover/btn:scale-110 transition-transform duration-300"></i>
+                <span>Preview</span>
+                <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-0.5 transition-transform duration-300"></i>
+            </button>
+        ` : '';
+
         const githubBtn = proj.githubLink ? `
-            <a href="${proj.githubLink}" target="_blank" rel="noopener noreferrer" class="relative group/btn overflow-hidden px-4 py-2.5 rounded-lg border border-gray-700 text-gray-300 font-medium hover:text-white hover:border-gray-500 hover:bg-gray-800/85 transition-all duration-300 flex items-center gap-2 text-xs shadow-[0_0_10px_rgba(255,255,255,0.02)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover-float">
+            <a href="${proj.githubLink}" target="_blank" rel="noopener noreferrer" class="flex-1 sm:flex-none justify-center relative group/btn overflow-hidden px-3 sm:px-4 py-2.5 rounded-lg border border-gray-700 text-gray-300 font-medium hover:text-white hover:border-gray-500 hover:bg-gray-800/85 transition-all duration-300 flex items-center gap-2 text-xs shadow-[0_0_10px_rgba(255,255,255,0.02)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover-float">
                 <!-- Shimmer reflection effect -->
                 <span class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg] group-hover/btn:animate-shimmer"></span>
                 <i class="fab fa-github text-sm group-hover/btn:scale-110 transition-transform duration-300"></i>
@@ -285,18 +307,29 @@ function renderProjects() {
             </a>
         ` : '';
 
+        let liveBtnLabel = "Live Dashboard";
+        let liveBtnIcon = "fas fa-chart-line";
+        let liveBtnDownload = "";
+
+        if (proj.liveLink && proj.liveLink.toLowerCase().endsWith('.pbix')) {
+            liveBtnLabel = "Download Dashboard";
+            liveBtnIcon = "fas fa-file-download";
+            liveBtnDownload = `download="${proj.liveLink.split('/').pop()}"`;
+        }
+
         const liveBtn = proj.liveLink ? `
-            <a href="${proj.liveLink}" target="_blank" rel="noopener noreferrer" class="relative group/btn overflow-hidden px-4 py-2.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all duration-300 flex items-center gap-2 text-xs shadow-[0_0_12px_rgba(59,130,246,0.35)] hover:shadow-[0_0_20px_rgba(59,130,246,0.55)] live-pulse-btn hover-float">
+            <a href="${proj.liveLink}" ${liveBtnDownload} target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto justify-center relative group/btn overflow-hidden px-3 sm:px-4 py-2.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all duration-300 flex items-center gap-2 text-xs shadow-[0_0_12px_rgba(59,130,246,0.35)] hover:shadow-[0_0_20px_rgba(59,130,246,0.55)] live-pulse-btn hover-float">
                 <!-- Shimmer reflection effect -->
                 <span class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-[-25deg] group-hover/btn:animate-shimmer"></span>
-                <i class="fas fa-chart-line text-xs group-hover/btn:scale-110 transition-transform duration-300"></i>
-                <span>Live Dashboard</span>
+                <i class="${liveBtnIcon} text-xs group-hover/btn:scale-110 transition-transform duration-300"></i>
+                <span>${liveBtnLabel}</span>
                 <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-0.5 transition-transform duration-300"></i>
             </a>
         ` : '';
 
-        const linksHtml = (githubBtn || liveBtn) ? `
+        const linksHtml = (githubBtn || liveBtn || previewBtn) ? `
             <div class="flex flex-wrap items-center gap-3 mt-auto pt-4 border-t border-gray-800">
+                ${previewBtn}
                 ${githubBtn}
                 ${liveBtn}
             </div>
@@ -321,6 +354,104 @@ function renderProjects() {
             </div>
         `;
     });
+}
+
+// --- Image Preview Modal ---
+function openImagePreview(idx) {
+    const proj = currentProjects[idx];
+    if (!proj) return;
+
+    const modal = document.getElementById('image-preview-modal');
+    const content = document.getElementById('image-preview-content');
+    const img = document.getElementById('image-preview-img');
+    const titleEl = document.getElementById('image-preview-title');
+    const seasonsContainer = document.getElementById('image-preview-seasons');
+
+    if (!modal || !img) return;
+
+    // Reset transition states
+    img.classList.remove('opacity-0');
+
+    if (titleEl) titleEl.textContent = `${proj.title} — Dashboard Preview`;
+
+    if (proj.seasonFolder && proj.seasonStart && proj.seasonEnd) {
+        if (seasonsContainer) {
+            seasonsContainer.classList.remove('hidden');
+            seasonsContainer.classList.add('flex');
+
+            let buttonsHtml = '';
+            for (let year = proj.seasonEnd; year >= proj.seasonStart; year--) {
+                const imgPath = `${proj.seasonFolder}/Season_${year}.png`;
+                const isActive = (year === proj.seasonEnd);
+                const btnClass = isActive 
+                    ? "px-3 py-1.5 rounded-lg border border-blue-500 bg-blue-600/20 text-blue-400 text-xs font-semibold transition duration-200 cursor-pointer shadow-[0_0_10px_rgba(59,130,246,0.3)] shrink-0"
+                    : "px-3 py-1.5 rounded-lg border border-gray-700 bg-transparent text-gray-400 hover:text-white hover:border-gray-500 text-xs font-semibold transition duration-200 cursor-pointer shrink-0";
+                buttonsHtml += `<button onclick="selectSeason(this, '${imgPath}')" class="${btnClass}">${year}</button>`;
+            }
+            seasonsContainer.innerHTML = buttonsHtml;
+        }
+        img.src = `${proj.seasonFolder}/Season_${proj.seasonEnd}.png`;
+    } else {
+        if (seasonsContainer) {
+            seasonsContainer.classList.add('hidden');
+            seasonsContainer.classList.remove('flex');
+            seasonsContainer.innerHTML = '';
+        }
+        img.src = proj.previewImage || '';
+    }
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+    }, 10);
+}
+
+function selectSeason(btn, imgPath) {
+    const seasonsContainer = document.getElementById('image-preview-seasons');
+    if (!seasonsContainer) return;
+
+    // Reset all buttons to inactive state
+    const buttons = seasonsContainer.querySelectorAll('button');
+    buttons.forEach(b => {
+        b.className = "px-3 py-1.5 rounded-lg border border-gray-700 bg-transparent text-gray-400 hover:text-white hover:border-gray-500 text-xs font-semibold transition duration-200 cursor-pointer shrink-0";
+    });
+
+    // Make the clicked button active
+    btn.className = "px-3 py-1.5 rounded-lg border border-blue-500 bg-blue-600/20 text-blue-400 text-xs font-semibold transition duration-200 cursor-pointer shadow-[0_0_10px_rgba(59,130,246,0.3)] shrink-0";
+
+    const img = document.getElementById('image-preview-img');
+    if (!img) return;
+
+    // Smooth transition: fade out, change src, and fade in
+    img.classList.add('opacity-0');
+    setTimeout(() => {
+        img.onload = function() {
+            img.classList.remove('opacity-0');
+            img.onload = null; // Clean up handler
+        };
+        img.src = imgPath;
+    }, 200);
+}
+
+function closeImagePreview() {
+    const modal = document.getElementById('image-preview-modal');
+    const content = document.getElementById('image-preview-content');
+    if (!modal) return;
+
+    modal.classList.add('opacity-0');
+    content.classList.remove('scale-100');
+    content.classList.add('scale-95');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        
+        // Clean up elements to avoid quick flash next time it opens
+        const img = document.getElementById('image-preview-img');
+        if (img) img.src = '';
+    }, 300);
 }
 
 // --- Editor Functions ---
@@ -534,6 +665,16 @@ document.addEventListener('DOMContentLoaded', () => {
         skillViewerModal.addEventListener('click', (e) => {
             if (e.target === skillViewerModal) {
                 closeSkillPopup();
+            }
+        });
+    }
+
+    // Close image preview modal on backdrop click
+    const imagePreviewModal = document.getElementById('image-preview-modal');
+    if (imagePreviewModal) {
+        imagePreviewModal.addEventListener('click', (e) => {
+            if (e.target === imagePreviewModal) {
+                closeImagePreview();
             }
         });
     }

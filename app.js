@@ -87,7 +87,7 @@ const defaultProjectsData = [
         ],
         bottomTags: ["Power BI", "DAX", "SQL", "Data Cleaning", "Sports Analytics"],
         githubLink: "https://github.com/sandeepmishraofficial",
-        liveLink: "https://drive.google.com/file/d/130iMlLivHOFJgUW_lEFh2WSAczqfczJq/view?usp=sharing",
+        liveLink: "https://drive.google.com/drive/u/1/folders/12qIf4xDM2DAOtzPKmLjoIQAoWXpEsvmL",
         previewImage: "./images/ipl-dashboard.png",
         seasonFolder: "./images/ipl all season image",
         seasonStart: 2008,
@@ -128,12 +128,12 @@ function loadAndRenderAll() {
     currentProjects.forEach(proj => {
         if (proj.title && proj.title.toLowerCase().includes('ipl')) {
             hasIPL = true;
-            if (proj.liveLink !== "https://drive.google.com/file/d/130iMlLivHOFJgUW_lEFh2WSAczqfczJq/view?usp=sharing" || 
+            if (proj.liveLink !== "https://drive.google.com/drive/u/1/folders/12qIf4xDM2DAOtzPKmLjoIQAoWXpEsvmL" || 
                 proj.previewImage !== "./images/ipl-dashboard.png" ||
                 proj.seasonFolder !== "./images/ipl all season image" ||
                 proj.seasonStart !== 2008 ||
                 proj.seasonEnd !== 2025) {
-                proj.liveLink = "https://drive.google.com/file/d/130iMlLivHOFJgUW_lEFh2WSAczqfczJq/view?usp=sharing";
+                proj.liveLink = "https://drive.google.com/drive/u/1/folders/12qIf4xDM2DAOtzPKmLjoIQAoWXpEsvmL";
                 proj.previewImage = "./images/ipl-dashboard.png";
                 proj.seasonFolder = "./images/ipl all season image";
                 proj.seasonStart = 2008;

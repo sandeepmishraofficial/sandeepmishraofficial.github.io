@@ -48,25 +48,6 @@ const defaultSkills = [
 
 const defaultProjectsData = [
     {
-        title: "Sales Data Analysis & Dashboard",
-        gradient: "from-[#1a2744] to-[#0d1117]",
-        mainIconBg: "bg-yellow-500/20",
-        mainIcon: "fas fa-chart-line text-yellow-400",
-        topTags: [
-            { name: "Excel", style: "bg-yellow-500/10 border-yellow-500/30 text-yellow-400" },
-            { name: "Power BI", style: "bg-blue-500/10 border-blue-500/30 text-blue-400" }
-        ],
-        bulletPoints: [
-            "Cleaned and transformed raw sales data using Excel (removed duplicates, handled missing values)",
-            "Performed analysis using Pivot Tables and advanced Excel functions (VLOOKUP, IF)",
-            "Built interactive Excel dashboard to track KPIs: revenue, profit, and sales growth",
-            "Developed Power BI dashboard with filters and slicers for dynamic visualization",
-            "Identified top-performing products and region-wise sales performance"
-        ],
-        bottomTags: ["Pivot Tables", "VLOOKUP", "Power BI", "Dashboard"],
-        githubLink: "https://github.com/sandeepmishraofficial"
-    },
-    {
         title: "Netflix Data Analysis",
         gradient: "from-[#2a0d0d] to-[#0d1117]",
         mainIconBg: "bg-red-500/20",
@@ -84,7 +65,29 @@ const defaultProjectsData = [
             "Identified top genres and leading content-producing countries"
         ],
         bottomTags: ["Python", "Pandas", "SQL", "Data Cleaning", "Data Visualization"],
-        githubLink: "https://github.com/sandeepmishraofficial"
+        githubLink: "https://github.com/sandeepmishraofficial",
+        liveLink: ""
+    },
+    {
+        title: "IPL Analysis & Dashboard",
+        gradient: "from-[#1e3a8a] via-[#1e40af] to-[#0d1117]",
+        mainIconBg: "bg-blue-500/20",
+        mainIcon: "fas fa-trophy text-blue-400",
+        topTags: [
+            { name: "Power BI", style: "bg-yellow-500/10 border-yellow-500/30 text-yellow-400" },
+            { name: "SQL", style: "bg-green-500/10 border-green-500/30 text-green-400" },
+            { name: "Python", style: "bg-blue-500/10 border-blue-500/30 text-blue-400" }
+        ],
+        bulletPoints: [
+            "Built an interactive Power BI dashboard to analyze IPL player and team performance across multiple seasons",
+            "Processed and structured match datasets to extract key insights on venue records and toss decisions",
+            "Formulated advanced DAX measures to calculate strike rate, economy, boundary percentage, and player stats",
+            "Designed dynamic visualizations showing batting/bowling statistics, top performance metrics, and match outcomes",
+            "Provided actionable insights to help identify winning trends and team strategies based on historical data"
+        ],
+        bottomTags: ["Power BI", "DAX", "SQL", "Data Cleaning", "Sports Analytics"],
+        githubLink: "https://github.com/sandeepmishraofficial",
+        liveLink: "https://app.powerbi.com/groups/me/reports/402e3dac-cd73-4b5b-ba16-a3503b3f24a8/d2a1f8cd092a905ddbe0?experience=power-bi"
     }
 ];
 
@@ -106,6 +109,39 @@ function loadAndRenderAll() {
     currentAbout = sAbout ? JSON.parse(sAbout) : JSON.parse(JSON.stringify(defaultAboutData));
     currentSkills = sSkills ? JSON.parse(sSkills) : JSON.parse(JSON.stringify(defaultSkills));
     currentProjects = sProj ? JSON.parse(sProj) : JSON.parse(JSON.stringify(defaultProjectsData));
+
+    let projectsUpdated = false;
+
+    // Migration/Update: Filter out the Sales Data Analysis project if it is present
+    const hasSales = currentProjects.some(proj => proj.title && proj.title.toLowerCase().includes('sales data'));
+    if (hasSales) {
+        currentProjects = currentProjects.filter(proj => !proj.title.toLowerCase().includes('sales data'));
+        projectsUpdated = true;
+    }
+
+    // Migration/Update check: Ensure IPL Analysis project is present and has the correct liveLink
+    let hasIPL = false;
+    currentProjects.forEach(proj => {
+        if (proj.title && proj.title.toLowerCase().includes('ipl')) {
+            hasIPL = true;
+            if (proj.liveLink !== "https://app.powerbi.com/groups/me/reports/402e3dac-cd73-4b5b-ba16-a3503b3f24a8/d2a1f8cd092a905ddbe0?experience=power-bi") {
+                proj.liveLink = "https://app.powerbi.com/groups/me/reports/402e3dac-cd73-4b5b-ba16-a3503b3f24a8/d2a1f8cd092a905ddbe0?experience=power-bi";
+                projectsUpdated = true;
+            }
+        }
+    });
+
+    if (!hasIPL) {
+        const iplProj = defaultProjectsData.find(proj => proj.title.toLowerCase().includes('ipl'));
+        if (iplProj) {
+            currentProjects.push(JSON.parse(JSON.stringify(iplProj)));
+            projectsUpdated = true;
+        }
+    }
+
+    if (projectsUpdated) {
+        localStorage.setItem('userProjects', JSON.stringify(currentProjects));
+    }
 
     renderAbout();
     renderSkills();
@@ -157,21 +193,76 @@ function renderSkills() {
     const container = document.getElementById('skills-container');
     if (!container) return;
     
+    container.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-5xl mx-auto";
     container.innerHTML = '';
-    currentSkills.forEach(category => {
-        const skillSpans = category.skills.map(skill => `<span class="px-3 py-1.5 bg-[#0d1117] border border-gray-700 text-gray-300 text-sm rounded-lg">${skill}</span>`).join('');
+    
+    currentSkills.forEach((category, idx) => {
+        const count = category.skills.length;
         container.innerHTML += `
-            <div class="bg-[#161b22] border border-gray-800 rounded-2xl p-6 hover:border-blue-500/50 transition-colors duration-300">
-                <div class="flex items-center gap-3 mb-5">
-                    <div class="w-10 h-10 ${category.iconBgClass} rounded-lg flex items-center justify-center">
-                        <i class="${category.iconClass} ${category.iconColorClass}"></i>
+            <button onclick="openSkillPopup(${idx})" class="relative group overflow-hidden bg-[#161b22] border border-gray-800 rounded-xl p-4 sm:p-5 text-left hover:border-blue-500/50 hover:bg-[#1a212c] transition-all duration-300 flex items-center justify-between shadow-lg hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] hover-float w-full">
+                <!-- Shimmer reflection on hover -->
+                <span class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-25deg] group-hover:animate-shimmer"></span>
+                
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 ${category.iconBgClass || 'bg-blue-600/10'} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shrink-0">
+                        <i class="${category.iconClass} ${category.iconColorClass || 'text-blue-400'} text-base sm:text-lg"></i>
                     </div>
-                    <h3 class="text-white font-semibold text-base">${category.title}</h3>
+                    <div>
+                        <h3 class="text-white font-bold text-sm sm:text-base tracking-wide group-hover:text-blue-400 transition-colors">${category.title}</h3>
+                        <p class="text-gray-400 text-[10px] sm:text-xs mt-0.5">${count} Skills</p>
+                    </div>
                 </div>
-                <div class="flex flex-wrap gap-2">${skillSpans}</div>
-            </div>
+                
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0d1117] border border-gray-800 flex items-center justify-center text-gray-500 group-hover:text-white group-hover:border-blue-500 transition-colors shrink-0">
+                    <i class="fas fa-chevron-right text-[10px] sm:text-xs group-hover:translate-x-0.5 transition-transform"></i>
+                </div>
+            </button>
         `;
     });
+}
+
+// --- Skill Viewer Popup ---
+function openSkillPopup(idx) {
+    const category = currentSkills[idx];
+    if (!category) return;
+
+    document.getElementById('skill-viewer-name').textContent = category.title;
+    
+    // Set category icon
+    const iconEl = document.getElementById('skill-viewer-icon');
+    iconEl.className = `${category.iconClass} ${category.iconColorClass || 'text-blue-400'}`;
+
+    // Populate skills tags
+    const listEl = document.getElementById('skill-viewer-list');
+    listEl.innerHTML = category.skills.map(skill => `
+        <span class="px-3 py-1.5 sm:px-4 sm:py-2 bg-[#0d1117] border border-gray-700 text-gray-300 text-xs sm:text-sm font-medium rounded-xl hover:border-blue-500 hover:text-white hover:bg-blue-600/5 transition-all duration-300 cursor-default flex items-center gap-1.5 shadow-sm hover-float">
+            <span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
+            ${skill}
+        </span>
+    `).join('');
+
+    // Open Modal with animations
+    const modal = document.getElementById('skill-viewer-modal');
+    const content = document.getElementById('skill-viewer-content');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+    }, 10);
+}
+
+function closeSkillPopup() {
+    const modal = document.getElementById('skill-viewer-modal');
+    const content = document.getElementById('skill-viewer-content');
+    modal.classList.add('opacity-0');
+    content.classList.remove('scale-100');
+    content.classList.add('scale-95');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 300);
 }
 
 function renderProjects() {
@@ -183,6 +274,33 @@ function renderProjects() {
         const topTags = proj.topTags.map(t => `<span class="text-xs px-2.5 py-1 ${t.style} rounded-full border">${t.name}</span>`).join('');
         const bullets = proj.bulletPoints.map(b => `<li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5 shrink-0"></span>${b}</li>`).join('');
         const btmTags = proj.bottomTags.map(t => `<span class="text-xs px-2.5 py-1 bg-[#0d1117] border border-gray-700 text-gray-300 rounded">${t}</span>`).join('');
+
+        const githubBtn = proj.githubLink ? `
+            <a href="${proj.githubLink}" target="_blank" rel="noopener noreferrer" class="relative group/btn overflow-hidden px-4 py-2.5 rounded-lg border border-gray-700 text-gray-300 font-medium hover:text-white hover:border-gray-500 hover:bg-gray-800/85 transition-all duration-300 flex items-center gap-2 text-xs shadow-[0_0_10px_rgba(255,255,255,0.02)] hover:shadow-[0_0_15px_rgba(255,255,255,0.1)] hover-float">
+                <!-- Shimmer reflection effect -->
+                <span class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-[-25deg] group-hover/btn:animate-shimmer"></span>
+                <i class="fab fa-github text-sm group-hover/btn:scale-110 transition-transform duration-300"></i>
+                <span>GitHub</span>
+                <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-0.5 transition-transform duration-300"></i>
+            </a>
+        ` : '';
+
+        const liveBtn = proj.liveLink ? `
+            <a href="${proj.liveLink}" target="_blank" rel="noopener noreferrer" class="relative group/btn overflow-hidden px-4 py-2.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all duration-300 flex items-center gap-2 text-xs shadow-[0_0_12px_rgba(59,130,246,0.35)] hover:shadow-[0_0_20px_rgba(59,130,246,0.55)] live-pulse-btn hover-float">
+                <!-- Shimmer reflection effect -->
+                <span class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/25 to-transparent skew-x-[-25deg] group-hover/btn:animate-shimmer"></span>
+                <i class="fas fa-chart-line text-xs group-hover/btn:scale-110 transition-transform duration-300"></i>
+                <span>Live Dashboard</span>
+                <i class="fas fa-arrow-right text-[10px] group-hover/btn:translate-x-0.5 transition-transform duration-300"></i>
+            </a>
+        ` : '';
+
+        const linksHtml = (githubBtn || liveBtn) ? `
+            <div class="flex flex-wrap items-center gap-3 mt-auto pt-4 border-t border-gray-800">
+                ${githubBtn}
+                ${liveBtn}
+            </div>
+        ` : '';
 
         container.innerHTML += `
             <div class="bg-[#161b22] border border-gray-800 rounded-2xl overflow-hidden hover:border-blue-500/40 transition duration-300 flex flex-col group shadow-lg">
@@ -198,9 +316,7 @@ function renderProjects() {
                     <h3 class="text-xl font-bold text-white mb-2">${proj.title}</h3>
                     <ul class="text-gray-400 text-sm space-y-2 mb-6 flex-1">${bullets}</ul>
                     <div class="flex flex-wrap gap-2 mb-5 pt-4 border-t border-gray-800">${btmTags}</div>
-                    <a href="${proj.githubLink}" target="_blank" rel="noopener noreferrer" class="w-max px-5 py-2 rounded border border-gray-700 text-blue-400 font-medium hover:text-white hover:border-blue-500 hover:bg-blue-600/20 transition-all flex items-center gap-2">
-                        View on GitHub <i class="fas fa-external-link-alt text-xs"></i>
-                    </a>
+                    ${linksHtml}
                 </div>
             </div>
         `;
@@ -334,6 +450,16 @@ function renderProjectEditorList() {
                     </div>
                     <button onclick="removeEditorProject(${idx})" class="mt-6 px-3 py-2 bg-red-500/20 text-red-400 hover:bg-red-500/40 rounded-lg transition-colors" title="Delete Project"><i class="fas fa-trash"></i></button>
                 </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">GitHub Link</label>
+                        <input type="text" id="proj-github-${idx}" value="${proj.githubLink || ''}" class="w-full bg-[#0d1117] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 outline-none" onchange="editableProjects[${idx}].githubLink = this.value">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">Live Link (Optional)</label>
+                        <input type="text" id="proj-live-${idx}" value="${proj.liveLink || ''}" class="w-full bg-[#0d1117] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 outline-none" onchange="editableProjects[${idx}].liveLink = this.value">
+                    </div>
+                </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-300 mb-1">Bullet Points (One per line)</label>
                     <textarea id="proj-bullets-${idx}" rows="4" class="w-full bg-[#0d1117] border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:border-blue-500 outline-none" onchange="updateProjectBullets(${idx}, this.value)">${bulletsText}</textarea>
@@ -347,6 +473,22 @@ function updateProjectBullets(idx, value) {
 }
 function removeEditorProject(idx) {
     editableProjects.splice(idx, 1);
+    renderProjectEditorList();
+}
+function addNewProject() {
+    editableProjects.push({
+        title: "New Project",
+        gradient: "from-[#1a2744] to-[#0d1117]",
+        mainIconBg: "bg-blue-500/20",
+        mainIcon: "fas fa-folder text-blue-400",
+        topTags: [
+            { name: "Power BI", style: "bg-blue-500/10 border-blue-500/30 text-blue-400" }
+        ],
+        bulletPoints: ["Project detail 1", "Project detail 2"],
+        bottomTags: ["Data Analysis"],
+        githubLink: "",
+        liveLink: ""
+    });
     renderProjectEditorList();
 }
 function saveProjects() {
@@ -385,6 +527,16 @@ document.addEventListener('DOMContentLoaded', () => {
             menu.classList.remove('right-0');
         }
     });
+
+    // Close skill viewer modal on backdrop click
+    const skillViewerModal = document.getElementById('skill-viewer-modal');
+    if (skillViewerModal) {
+        skillViewerModal.addEventListener('click', (e) => {
+            if (e.target === skillViewerModal) {
+                closeSkillPopup();
+            }
+        });
+    }
 
     // Form Handling
     const contactForm = document.getElementById('contact-form');

@@ -13,3 +13,86 @@
 body.admin-mode .admin-only {
   display: flex !important;
 }
+
+/* Shimmer reflection effect for premium buttons */
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Pulsing glow shadow effect */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(59, 130, 246, 0.75), 0 0 8px rgba(99, 102, 241, 0.45);
+  }
+}
+
+.live-pulse-btn {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Float hover transition */
+.hover-float {
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+}
+
+.hover-float:hover {
+  transform: translateY(-2px);
+}
+
+/* Social Icon Premium Hover Effects */
+.social-icon-btn {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.social-icon-btn:hover {
+  transform: translateY(-4px) scale(1.12) !important;
+}
+
+/* Glow effects matching brand colors */
+.hover-glow-linkedin:hover {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5) !important;
+  border-color: #3b82f6 !important;
+  color: #3b82f6 !important;
+}
+
+.hover-glow-github:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5) !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+.hover-glow-twitter:hover {
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.5) !important;
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
+}
+
+.hover-glow-instagram:hover {
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.5) !important;
+  border-color: #ec4899 !important;
+  color: #ec4899 !important;
+}
+
+.hover-glow-kaggle:hover {
+  box-shadow: 0 0 15px rgba(32, 190, 255, 0.5) !important;
+  border-color: #20beff !important;
+  color: #20beff !important;
+}
+
+.hover-glow-email:hover {
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5) !important;
+  border-color: #10b981 !important;
+  color: #10b981 !important;
+}

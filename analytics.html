@@ -1,187 +1,363 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio Analytics | Sandeep Mishra</title>
+  <title>Analytics Dashboard | Sandeep Mishra</title>
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  
+  <!-- Outfit Font & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
-    body { font-family: 'Outfit', sans-serif; background: #0d1117; color: #e6edf3; }
-    .glass { background: rgba(22,27,34,0.8); border: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(12px); }
-    .kpi-card { background: linear-gradient(135deg, #161b22 0%, #1a2744 100%); border: 1px solid rgba(59,130,246,0.2); border-radius: 1rem; padding: 1.5rem; transition: transform .2s, box-shadow .2s; }
-    .kpi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(59,130,246,0.15); }
-    .chart-card { background: #161b22; border: 1px solid rgba(255,255,255,0.07); border-radius: 1rem; padding: 1.5rem; }
-    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #0d1117; } ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
-    .badge { display:inline-flex; align-items:center; gap:.4rem; padding:.25rem .75rem; border-radius:9999px; font-size:.75rem; font-weight:600; }
-    .animate-pulse-dot { animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
-    #login-overlay { position:fixed; inset:0; background:#0d1117; z-index:9999; display:flex; align-items:center; justify-content:center; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #0b0f17;
+      color: #e2e8f0;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+        radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.03) 0px, transparent 50%);
+    }
+    .glass-card {
+      background: rgba(22, 27, 34, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    }
+    .kpi-card {
+      background: linear-gradient(135deg, rgba(22, 27, 34, 0.9) 0%, rgba(29, 38, 54, 0.9) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0f17;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #272d38;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+    #login-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0b0f17;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: 
+        radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 60%);
+    }
   </style>
 </head>
-<body>
+<body class="min-h-screen">
 
 <!-- Login Overlay -->
 <div id="login-overlay">
-  <div class="glass rounded-2xl p-10 max-w-sm w-full mx-4 text-center shadow-2xl">
-    <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-      <i class="fas fa-chart-line text-blue-400 text-2xl"></i>
+  <div class="glass-card rounded-2xl p-8 max-w-sm w-full mx-4 text-center border border-white/10 shadow-2xl relative overflow-hidden">
+    <!-- Glow element -->
+    <div class="absolute -top-10 -left-10 w-24 h-24 bg-blue-500/20 rounded-full blur-2xl"></div>
+    <div class="absolute -bottom-10 -right-10 w-24 h-24 bg-indigo-500/20 rounded-full blur-2xl"></div>
+
+    <div class="w-14 h-14 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-blue-500/35">
+      <i class="fas fa-chart-line text-white text-xl"></i>
     </div>
-    <h2 class="text-2xl font-bold text-white mb-1">Analytics Dashboard</h2>
-    <p class="text-gray-400 text-sm mb-6">Admin access required</p>
-    <input id="pwd-input" type="password" placeholder="Enter admin password"
-      class="w-full bg-[#0d1117] border border-gray-700 rounded-lg px-4 py-3 text-white text-sm outline-none focus:border-blue-500 mb-4"
-      onkeypress="if(event.key==='Enter') checkPassword()" />
-    <button onclick="checkPassword()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">
-      Unlock Dashboard
+    <h2 class="text-2xl font-bold text-white tracking-wide">Analytics Center</h2>
+    <p class="text-slate-400 text-xs mt-1 mb-6">Security verification required for administrator access</p>
+    
+    <div class="relative mb-4">
+      <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
+        <i class="fas fa-lock text-sm"></i>
+      </span>
+      <input id="pwd-input" type="password" placeholder="Enter admin password"
+        class="w-full bg-[#0d1117]/85 border border-slate-700 rounded-xl pl-10 pr-4 py-3 text-white text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 transition-all placeholder:text-slate-600"
+        onkeypress="if(event.key==='Enter') checkPassword()" />
+    </div>
+    
+    <button onclick="checkPassword()" class="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-blue-600/20 active:scale-[0.98] transition-all duration-150">
+      Verify Password
     </button>
-    <p class="text-gray-600 text-xs mt-4">
-      <a href="index.html" class="hover:text-gray-400 transition"><i class="fas fa-arrow-left mr-1"></i>Back to Portfolio</a>
-    </p>
-    <p id="pwd-err" class="text-red-400 text-xs mt-3 hidden">Incorrect password. Try again.</p>
+    
+    <div class="mt-6 flex flex-col gap-2">
+      <a href="index.html" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+        <i class="fas fa-arrow-left mr-1"></i> Back to Portfolio
+      </a>
+    </div>
+    <p id="pwd-err" class="text-red-400 text-xs mt-4 hidden animate-pulse font-medium"><i class="fas fa-exclamation-triangle mr-1"></i> Incorrect Password. Try again!</p>
   </div>
 </div>
 
-<!-- Main Dashboard -->
+<!-- Main Dashboard Container -->
 <div id="dashboard" class="hidden">
-
-  <!-- Navbar -->
-  <nav class="sticky top-0 z-50 glass border-b border-white/5 px-6 py-4 flex items-center justify-between">
+  
+  <!-- Top Navbar -->
+  <nav class="sticky top-0 z-50 glass-card border-b border-white/5 px-6 py-4 flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <a href="index.html" class="text-gray-400 hover:text-white transition"><i class="fas fa-arrow-left"></i></a>
-      <h1 class="text-xl font-bold text-white">Portfolio <span class="text-blue-500">Analytics</span></h1>
-      <span class="badge bg-green-500/10 border border-green-500/30 text-green-400">
-        <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse-dot"></span> Live
+      <a href="index.html" class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition-all shadow-sm" title="Back to Portfolio">
+        <i class="fas fa-arrow-left text-sm"></i>
+      </a>
+      <div>
+        <h1 class="text-lg font-bold text-white tracking-wide">Sandeep<span class="text-blue-500">.</span>Analytics</h1>
+        <p class="text-[10px] text-slate-500 font-medium">Real-Time Visitor Insights</p>
+      </div>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-green-500/10 border border-green-500/30 text-green-400 ml-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Active
       </span>
     </div>
+
+    <!-- Right Controls -->
     <div class="flex items-center gap-3">
-      <button onclick="clearAllData()" class="text-xs px-3 py-1.5 bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 rounded-lg transition">
-        <i class="fas fa-trash mr-1"></i> Reset Data
+      <button onclick="loadMockData()" class="text-xs px-3.5 py-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/20 rounded-xl transition duration-150 flex items-center gap-1.5 font-medium shadow-sm">
+        <i class="fas fa-database text-[10px]"></i> Load Demo Data
       </button>
-      <button onclick="exportData()" class="text-xs px-3 py-1.5 bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 rounded-lg transition">
-        <i class="fas fa-download mr-1"></i> Export JSON
+      <button onclick="clearAllData()" class="text-xs px-3.5 py-2 bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 rounded-xl transition duration-150 flex items-center gap-1.5 font-medium shadow-sm">
+        <i class="fas fa-trash-alt text-[10px]"></i> Reset
+      </button>
+      <button onclick="exportData()" class="text-xs px-3.5 py-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 rounded-xl transition duration-150 flex items-center gap-1.5 font-medium shadow-sm">
+        <i class="fas fa-file-export text-[10px]"></i> Export JSON
       </button>
     </div>
   </nav>
 
-  <div class="max-w-7xl mx-auto px-5 py-8">
+  <!-- Main Grid Area -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <!-- Header -->
-    <div class="mb-8">
-      <h2 class="text-3xl font-bold text-white">Visitor <span class="text-blue-500">Intelligence</span></h2>
-      <p class="text-gray-400 mt-1 text-sm">Real-time portfolio performance tracked via browser analytics</p>
-    </div>
-
-    <!-- KPI Cards -->
+    <!-- KPI Metric Cards Grid -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-      <div class="kpi-card">
-        <div class="flex items-center justify-between mb-3">
-          <div class="w-10 h-10 bg-blue-600/20 rounded-lg flex items-center justify-center">
-            <i class="fas fa-users text-blue-400"></i>
-          </div>
-          <span class="badge bg-green-500/10 border border-green-500/20 text-green-400">+<span id="kpi-new-today">0</span> today</span>
+      
+      <!-- KPI 1 -->
+      <div class="kpi-card p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden group hover:border-blue-500/30 transition-all duration-300">
+        <div class="absolute -right-2 -bottom-2 text-blue-500/5 text-6xl group-hover:scale-110 transition-transform duration-300"><i class="fas fa-users"></i></div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Visitors</span>
+          <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400"><i class="fas fa-users text-sm"></i></div>
         </div>
-        <div class="text-3xl font-bold text-white" id="kpi-total">0</div>
-        <div class="text-gray-400 text-sm mt-1">Total Visits</div>
-      </div>
-      <div class="kpi-card">
-        <div class="flex items-center justify-between mb-3">
-          <div class="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
-            <i class="fas fa-clock text-purple-400"></i>
-          </div>
+        <div>
+          <div class="text-3xl font-extrabold text-white" id="kpi-total-visits">0</div>
+          <p class="text-[10px] text-slate-500 mt-1 font-medium"><i class="fas fa-history mr-1"></i>Accumulated sessions</p>
         </div>
-        <div class="text-3xl font-bold text-white" id="kpi-time">0s</div>
-        <div class="text-gray-400 text-sm mt-1">Avg. Time on Page</div>
       </div>
-      <div class="kpi-card">
-        <div class="flex items-center justify-between mb-3">
-          <div class="w-10 h-10 bg-yellow-600/20 rounded-lg flex items-center justify-center">
-            <i class="fas fa-fire text-yellow-400"></i>
-          </div>
+
+      <!-- KPI 2 -->
+      <div class="kpi-card p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden group hover:border-indigo-500/30 transition-all duration-300">
+        <div class="absolute -right-2 -bottom-2 text-indigo-500/5 text-6xl group-hover:scale-110 transition-transform duration-300"><i class="fas fa-globe"></i></div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Locations</span>
+          <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400"><i class="fas fa-globe text-sm"></i></div>
         </div>
-        <div class="text-xl font-bold text-white truncate" id="kpi-top-section">—</div>
-        <div class="text-gray-400 text-sm mt-1">Most Viewed Section</div>
-      </div>
-      <div class="kpi-card">
-        <div class="flex items-center justify-between mb-3">
-          <div class="w-10 h-10 bg-green-600/20 rounded-lg flex items-center justify-center">
-            <i class="fas fa-envelope-open text-green-400"></i>
-          </div>
+        <div>
+          <div class="text-3xl font-extrabold text-white" id="kpi-locations">0</div>
+          <p class="text-[10px] text-slate-500 mt-1 font-medium"><i class="fas fa-map-marker-alt mr-1"></i>Cities & Countries</p>
         </div>
-        <div class="text-3xl font-bold text-white" id="kpi-contacts">0</div>
-        <div class="text-gray-400 text-sm mt-1">Contact Form Clicks</div>
       </div>
+
+      <!-- KPI 3 -->
+      <div class="kpi-card p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden group hover:border-emerald-500/30 transition-all duration-300">
+        <div class="absolute -right-2 -bottom-2 text-emerald-500/5 text-6xl group-hover:scale-110 transition-transform duration-300"><i class="fas fa-clock"></i></div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Avg. Time</span>
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400"><i class="fas fa-clock text-sm"></i></div>
+        </div>
+        <div>
+          <div class="text-3xl font-extrabold text-white" id="kpi-avg-duration">0s</div>
+          <p class="text-[10px] text-slate-500 mt-1 font-medium"><i class="fas fa-hourglass-half mr-1"></i>Active session time</p>
+        </div>
+      </div>
+
+      <!-- KPI 4 -->
+      <div class="kpi-card p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden group hover:border-violet-500/30 transition-all duration-300">
+        <div class="absolute -right-2 -bottom-2 text-violet-500/5 text-6xl group-hover:scale-110 transition-transform duration-300"><i class="fas fa-envelope-open-text"></i></div>
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Conversions</span>
+          <div class="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-400"><i class="fas fa-envelope-open-text text-sm"></i></div>
+        </div>
+        <div>
+          <div class="text-3xl font-extrabold text-white" id="kpi-conversions">0</div>
+          <p class="text-[10px] text-slate-500 mt-1 font-medium"><i class="fas fa-mouse-pointer mr-1"></i>Contact form submissions</p>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Row 1: Visitor Trend + Device Split -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-      <div class="chart-card lg:col-span-2">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-semibold text-white">Visitor Trend <span class="text-gray-500 text-sm font-normal">(Last 30 days)</span></h3>
-          <span class="badge bg-blue-500/10 border border-blue-500/20 text-blue-400"><i class="fas fa-chart-line"></i> Line</span>
+    <!-- Charts Layout Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      
+      <!-- Trend Chart (Left, 2 cols span) -->
+      <div class="glass-card p-6 rounded-2xl lg:col-span-2 flex flex-col justify-between border border-white/5">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="font-bold text-white tracking-wide">Visitor Traffic Trend</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Timeline representation of portfolio visits</p>
+          </div>
+          <span class="text-[10px] font-bold px-2 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-md">Daily Frequency</span>
         </div>
-        <canvas id="trendChart" height="120"></canvas>
-      </div>
-      <div class="chart-card">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-semibold text-white">Device Split</h3>
-          <span class="badge bg-purple-500/10 border border-purple-500/20 text-purple-400"><i class="fas fa-chart-pie"></i> Donut</span>
+        <div class="w-full relative h-[250px]">
+          <canvas id="trendChart"></canvas>
         </div>
-        <canvas id="deviceChart" height="180"></canvas>
-        <div id="device-legend" class="mt-4 space-y-2 text-sm"></div>
       </div>
+
+      <!-- Traffic Sources & Section Engagement (Right, 1 col) -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col justify-between border border-white/5">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="font-bold text-white tracking-wide">Traffic Referral Sources</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Where your visitors arrived from</p>
+          </div>
+        </div>
+        <div class="w-full relative h-[220px] flex items-center justify-center">
+          <canvas id="sourceChart"></canvas>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Row 2: Section Engagement + Traffic Source -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-      <div class="chart-card">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-semibold text-white">Section Engagement</h3>
-          <span class="badge bg-yellow-500/10 border border-yellow-500/20 text-yellow-400"><i class="fas fa-chart-bar"></i> Bar</span>
+    <!-- Bottom Dashboard Row: Location Breakdown + Device Metrics -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      
+      <!-- Location Breakdown -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col border border-white/5">
+        <h3 class="font-bold text-white tracking-wide mb-1">Geographical Demographics</h3>
+        <p class="text-xs text-slate-500 mb-5">Visitor locations resolved by IP Address</p>
+        
+        <!-- Toggle Tabs -->
+        <div class="flex border-b border-slate-800 mb-4 text-xs font-semibold">
+          <button id="tab-countries" onclick="toggleLocationTab('countries')" class="px-4 py-2 text-blue-400 border-b-2 border-blue-500 font-bold focus:outline-none">Countries</button>
+          <button id="tab-cities" onclick="toggleLocationTab('cities')" class="px-4 py-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition focus:outline-none">Cities</button>
         </div>
-        <canvas id="sectionChart" height="200"></canvas>
-      </div>
-      <div class="chart-card">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-semibold text-white">Traffic Sources</h3>
-          <span class="badge bg-green-500/10 border border-green-500/20 text-green-400"><i class="fas fa-chart-pie"></i> Pie</span>
+
+        <div id="location-list" class="space-y-4 max-h-[300px] overflow-y-auto pr-1">
+          <!-- Dynamically populated -->
         </div>
-        <canvas id="sourceChart" height="200"></canvas>
       </div>
+
+      <!-- Device & OS Breakdown -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col border border-white/5">
+        <h3 class="font-bold text-white tracking-wide mb-1">Platforms & Operating Systems</h3>
+        <p class="text-xs text-slate-500 mb-5">Visual breakdown of visitor environments</p>
+        <div class="w-full relative h-[210px] flex items-center justify-center mb-4">
+          <canvas id="osChart"></canvas>
+        </div>
+        <div id="os-legend" class="grid grid-cols-2 gap-2 text-xs text-slate-400">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Browser Breakdown -->
+      <div class="glass-card p-6 rounded-2xl flex flex-col border border-white/5">
+        <h3 class="font-bold text-white tracking-wide mb-1">Web Browsers</h3>
+        <p class="text-xs text-slate-500 mb-5">Web application browsers in use</p>
+        <div class="w-full relative h-[210px] flex items-center justify-center mb-4">
+          <canvas id="browserChart"></canvas>
+        </div>
+        <div id="browser-legend" class="grid grid-cols-2 gap-2 text-xs text-slate-400">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
     </div>
 
-    <!-- Row 3: Visit Hours Heatmap + Recent Sessions -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-      <div class="chart-card">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-semibold text-white">Visits by Hour of Day</h3>
-          <span class="badge bg-orange-500/10 border border-orange-500/20 text-orange-400"><i class="fas fa-clock"></i> Hourly</span>
+    <!-- Live & Recent Session Logs Section -->
+    <div class="glass-card rounded-2xl border border-white/5 overflow-hidden">
+      
+      <!-- Table Header & Controls -->
+      <div class="px-6 py-5 border-b border-slate-800 flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-[#11151c]/60">
+        <div>
+          <h3 class="font-bold text-white tracking-wide">Detailed Session Ledger</h3>
+          <p class="text-xs text-slate-500 mt-0.5">Real-time connection log history of your portfolio</p>
         </div>
-        <canvas id="hourChart" height="160"></canvas>
+        
+        <!-- Search & Filter Controls -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500"><i class="fas fa-search text-xs"></i></span>
+            <input type="text" id="log-search" oninput="applyFilters()" placeholder="Search Location / System / IP..." class="bg-[#0b0f17] border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-white outline-none focus:border-blue-500 transition w-60 placeholder:text-slate-600" />
+          </div>
+          <select id="filter-device" onchange="applyFilters()" class="bg-[#0b0f17] border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 outline-none focus:border-blue-500 transition cursor-pointer">
+            <option value="all">All Devices</option>
+            <option value="Desktop">Desktop</option>
+            <option value="Mobile">Mobile</option>
+            <option value="Tablet">Tablet</option>
+          </select>
+          <select id="filter-conversion" onchange="applyFilters()" class="bg-[#0b0f17] border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-300 outline-none focus:border-blue-500 transition cursor-pointer">
+            <option value="all">All Activity</option>
+            <option value="converted">Sent Message</option>
+            <option value="non-converted">No Message</option>
+          </select>
+        </div>
       </div>
-      <div class="chart-card">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-semibold text-white">Recent Sessions</h3>
-          <span class="badge bg-teal-500/10 border border-teal-500/20 text-teal-400"><i class="fas fa-list"></i> Log</span>
-        </div>
-        <div id="session-log" class="space-y-2 max-h-52 overflow-y-auto pr-1">
-          <p class="text-gray-500 text-sm">No sessions recorded yet.</p>
+
+      <!-- Table Content -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-xs font-bold text-slate-400 bg-[#161b22]/45">
+              <th class="px-6 py-4">Session Date & Time</th>
+              <th class="px-6 py-4">IP Address & Network</th>
+              <th class="px-6 py-4">Location (City, Country)</th>
+              <th class="px-6 py-4">Device & OS environment</th>
+              <th class="px-6 py-4">Sections Visited</th>
+              <th class="px-6 py-4 text-center">Duration</th>
+              <th class="px-6 py-4 text-center">Converted</th>
+            </tr>
+          </thead>
+          <tbody id="session-table-body" class="divide-y divide-slate-800/60 text-xs">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty State -->
+      <div id="table-empty-state" class="hidden text-center py-12">
+        <i class="fas fa-database text-slate-700 text-4xl mb-3"></i>
+        <p class="text-slate-400 font-medium">No session logs match your criteria</p>
+      </div>
+
+      <!-- Pagination Footer -->
+      <div class="px-6 py-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-500 bg-[#11151c]/30">
+        <div>Showing <span id="paginated-start" class="font-bold text-slate-300">0</span> - <span id="paginated-end" class="font-bold text-slate-300">0</span> of <span id="paginated-total" class="font-bold text-slate-300">0</span> entries</div>
+        <div class="flex items-center gap-2">
+          <button id="btn-prev-page" onclick="prevPage()" class="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg hover:text-white hover:border-slate-500 disabled:opacity-30 disabled:cursor-not-allowed transition">Prev</button>
+          <button id="btn-next-page" onclick="nextPage()" class="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg hover:text-white hover:border-slate-500 disabled:opacity-30 disabled:cursor-not-allowed transition">Next</button>
         </div>
       </div>
+
     </div>
 
-    <!-- Footer Note -->
-    <p class="text-center text-gray-600 text-xs pb-6">
-      <i class="fas fa-lock mr-1"></i>Analytics stored locally in browser · No server or cookies used · Data is private to this device
+    <!-- Bottom Disclaimer -->
+    <p class="text-center text-[10px] text-slate-600 mt-8 mb-6">
+      <i class="fas fa-shield-alt mr-1"></i> Administrator Analytics Console · Privacy Safe (No cookies or cross-tracking) · Data saved locally on this device
     </p>
 
   </div>
 </div>
 
 <script>
-// ===== PASSWORD =====
+// ===== Authentication check =====
 function checkPassword() {
   const pwd = document.getElementById('pwd-input').value;
   const err = document.getElementById('pwd-err');
@@ -194,237 +370,645 @@ function checkPassword() {
     document.getElementById('pwd-input').value = '';
   }
 }
-// Also allow if already admin
+
+// Auto unlock if browser is already in admin mode
 if (localStorage.getItem('isAdmin') === 'true') {
   document.getElementById('login-overlay').style.display = 'none';
   document.getElementById('dashboard').classList.remove('hidden');
   window.addEventListener('DOMContentLoaded', initDashboard);
 }
 
-// ===== DATA HELPERS =====
+// ===== Local Storage Data Helper =====
 function getData(key, def) {
-  try { return JSON.parse(localStorage.getItem(key)) || def; } catch { return def; }
-}
-
-function getLast30DayLabels() {
-  const labels = [], counts = [];
-  const raw = getData('pv_daily', {});
-  for (let i = 29; i >= 0; i--) {
-    const d = new Date(); d.setDate(d.getDate() - i);
-    const key = d.toISOString().slice(0,10);
-    labels.push(key.slice(5)); // MM-DD
-    counts.push(raw[key] || 0);
+  try {
+    return JSON.parse(localStorage.getItem(key)) || def;
+  } catch {
+    return def;
   }
-  return { labels, counts };
 }
 
-// ===== INIT =====
+function setData(key, val) {
+  try {
+    localStorage.setItem(key, JSON.stringify(val));
+  } catch {}
+}
+
+// ===== Global State =====
+let currentTab = 'countries';
+let allSessions = [];
+let filteredSessions = [];
+let currentPage = 1;
+const itemsPerPage = 8;
+
+let trendChartInst = null;
+let sourceChartInst = null;
+let osChartInst = null;
+let browserChartInst = null;
+
+// ===== Initialize Dashboard =====
 function initDashboard() {
-  const visits = getData('pv_visits', []);
-  const sections = getData('pv_sections', {});
-  const devices = getData('pv_devices', {});
-  const sources = getData('pv_sources', {});
-  const sessions = getData('pv_sessions', []);
-  const times = getData('pv_times', []);
-  const contacts = getData('pv_contacts', 0);
-
-  // Today's visits
-  const today = new Date().toISOString().slice(0,10);
-  const todayCount = visits.filter(v => v.startsWith && v.startsWith(today)).length ||
-    (getData('pv_daily', {})[today] || 0);
-
-  document.getElementById('kpi-total').textContent = visits.length || Object.values(getData('pv_daily',{})).reduce((a,b)=>a+b,0) || 0;
-  document.getElementById('kpi-new-today').textContent = todayCount;
-  const avgT = times.length ? Math.round(times.reduce((a,b)=>a+b,0)/times.length) : 0;
-  document.getElementById('kpi-time').textContent = avgT >= 60 ? Math.floor(avgT/60)+'m '+( avgT%60)+'s' : avgT+'s';
-  const topSec = Object.entries(sections).sort((a,b)=>b[1]-a[1])[0];
-  document.getElementById('kpi-top-section').textContent = topSec ? topSec[0] : '—';
-  document.getElementById('kpi-contacts').textContent = contacts;
-
-  buildTrendChart(getLast30DayLabels());
-  buildDeviceChart(devices);
-  buildSectionChart(sections);
-  buildSourceChart(sources);
-  buildHourChart(visits);
-  buildSessionLog(sessions);
+  allSessions = getData('pv_sessions', []);
+  
+  // Update KPI counters
+  updateKPIs();
+  
+  // Populate Charts
+  buildTrendChart();
+  buildSourceChart();
+  buildOSChart();
+  buildBrowserChart();
+  
+  // Populate location listings
+  renderLocations();
+  
+  // Populate session ledger
+  applyFilters();
 }
 
-// ===== CHARTS =====
-Chart.defaults.color = '#8b949e';
-Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+// Update KPI cards
+function updateKPIs() {
+  document.getElementById('kpi-total-visits').textContent = allSessions.length;
+  
+  // Locations calculation
+  const uniqueCities = new Set();
+  allSessions.forEach(s => {
+    if (s.location && s.location.city && s.location.city !== 'Retrieving...' && s.location.city !== 'Unknown') {
+      uniqueCities.add(s.location.city + ", " + (s.location.country || ''));
+    }
+  });
+  document.getElementById('kpi-locations').textContent = uniqueCities.size || (allSessions.length ? 1 : 0);
+  
+  // Average duration
+  let totalDur = 0;
+  let activeSessionsCount = 0;
+  allSessions.forEach(s => {
+    if (s.duration && s.duration > 0) {
+      totalDur += s.duration;
+      activeSessionsCount++;
+    }
+  });
+  const avgDur = activeSessionsCount ? Math.round(totalDur / activeSessionsCount) : 0;
+  document.getElementById('kpi-avg-duration').textContent = avgDur >= 60 
+    ? Math.floor(avgDur / 60) + 'm ' + (avgDur % 60) + 's' 
+    : avgDur + 's';
+    
+  // Conversions (Contact clicks)
+  let conversions = 0;
+  allSessions.forEach(s => {
+    if (s.contactsClicked && s.contactsClicked > 0) {
+      conversions++;
+    }
+  });
+  document.getElementById('kpi-conversions').textContent = conversions;
+}
 
-function buildTrendChart({ labels, counts }) {
+// ===== Location Demographic Tab Switching =====
+function toggleLocationTab(tab) {
+  currentTab = tab;
+  
+  const tabCountries = document.getElementById('tab-countries');
+  const tabCities = document.getElementById('tab-cities');
+  
+  if (tab === 'countries') {
+    tabCountries.className = "px-4 py-2 text-blue-400 border-b-2 border-blue-500 font-bold focus:outline-none";
+    tabCities.className = "px-4 py-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition focus:outline-none";
+  } else {
+    tabCities.className = "px-4 py-2 text-blue-400 border-b-2 border-blue-500 font-bold focus:outline-none";
+    tabCountries.className = "px-4 py-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition focus:outline-none";
+  }
+  
+  renderLocations();
+}
+
+function renderLocations() {
+  const container = document.getElementById('location-list');
+  container.innerHTML = '';
+  
+  const map = {};
+  let totalDataPoints = 0;
+
+  allSessions.forEach(s => {
+    if (s.location) {
+      let label = 'Unknown';
+      if (currentTab === 'countries') {
+        label = s.location.country;
+      } else {
+        label = s.location.city;
+      }
+      
+      if (label && label !== 'Retrieving...' && label !== 'Unknown') {
+        map[label] = (map[label] || 0) + 1;
+        totalDataPoints++;
+      }
+    }
+  });
+
+  // Default demo data if no locations found
+  if (totalDataPoints === 0) {
+    if (currentTab === 'countries') {
+      map['India'] = 8; map['United States'] = 4; map['Germany'] = 2;
+    } else {
+      map['New Delhi'] = 6; map['Mumbai'] = 2; map['New York'] = 3; map['Berlin'] = 2;
+    }
+    totalDataPoints = Object.values(map).reduce((a, b) => a + b, 0);
+  }
+
+  const sorted = Object.entries(map).sort((a, b) => b[1] - a[1]);
+
+  sorted.forEach(([name, val]) => {
+    const percentage = Math.round((val / totalDataPoints) * 100);
+    const colorClass = currentTab === 'countries' ? 'bg-blue-500' : 'bg-indigo-500';
+    container.innerHTML += `
+      <div>
+        <div class="flex items-center justify-between text-xs font-semibold mb-1">
+          <span class="text-slate-300 flex items-center gap-2">
+            <i class="fas ${currentTab === 'countries' ? 'fa-flag text-blue-400/80' : 'fa-building text-indigo-400/80'} text-[10px]"></i>
+            ${name}
+          </span>
+          <span class="text-slate-400">${val} <span class="text-[10px] text-slate-500">(${percentage}%)</span></span>
+        </div>
+        <div class="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden border border-white/5">
+          <div class="h-full ${colorClass} rounded-full" style="width: ${percentage}%"></div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// ===== Session Table Logic =====
+function applyFilters() {
+  const query = document.getElementById('log-search').value.toLowerCase();
+  const deviceFilter = document.getElementById('filter-device').value;
+  const conversionFilter = document.getElementById('filter-conversion').value;
+  
+  filteredSessions = allSessions.filter(s => {
+    // Search check
+    const city = (s.location?.city || '').toLowerCase();
+    const country = (s.location?.country || '').toLowerCase();
+    const ip = (s.location?.ip || '').toLowerCase();
+    const timezone = (s.location?.timezone || '').toLowerCase();
+    const os = (s.os || '').toLowerCase();
+    const browser = (s.browser || '').toLowerCase();
+    const searchMatch = !query || city.includes(query) || country.includes(query) || ip.includes(query) || timezone.includes(query) || os.includes(query) || browser.includes(query);
+    
+    // Device check
+    const deviceMatch = deviceFilter === 'all' || s.device === deviceFilter;
+    
+    // Conversion check
+    const conversionMatch = conversionFilter === 'all' || 
+      (conversionFilter === 'converted' && s.contactsClicked > 0) ||
+      (conversionFilter === 'non-converted' && (!s.contactsClicked || s.contactsClicked === 0));
+      
+    return searchMatch && deviceMatch && conversionMatch;
+  });
+  
+  // Sort by time descending
+  filteredSessions.sort((a, b) => new Date(b.time) - new Date(a.time));
+  
+  currentPage = 1;
+  renderSessionTable();
+}
+
+function renderSessionTable() {
+  const tbody = document.getElementById('session-table-body');
+  const emptyState = document.getElementById('table-empty-state');
+  
+  tbody.innerHTML = '';
+  
+  if (filteredSessions.length === 0) {
+    emptyState.classList.remove('hidden');
+    document.getElementById('paginated-start').textContent = 0;
+    document.getElementById('paginated-end').textContent = 0;
+    document.getElementById('paginated-total').textContent = 0;
+    return;
+  }
+  
+  emptyState.classList.add('hidden');
+  
+  const startIdx = (currentPage - 1) * itemsPerPage;
+  const endIdx = Math.min(startIdx + itemsPerPage, filteredSessions.length);
+  
+  const pageItems = filteredSessions.slice(startIdx, endIdx);
+  
+  pageItems.forEach(s => {
+    // Date formatting
+    const d = new Date(s.time);
+    const dateFormatted = d.toLocaleString('en-IN', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+    
+    // Location Formatting
+    let locationStr = 'Unknown';
+    if (s.location && s.location.city && s.location.city !== 'Retrieving...' && s.location.city !== 'Unknown') {
+      locationStr = `${s.location.city}, ${s.location.country || ''}`;
+    }
+    
+    // Pages pill list
+    const pagesList = (s.pagesViewed || []).map(p => `
+      <span class="px-2 py-0.5 bg-slate-800 text-slate-300 rounded-md border border-slate-700/60 text-[10px] font-medium">${p}</span>
+    `).join('');
+    
+    // Duration formatting
+    let durStr = '—';
+    if (s.duration) {
+      durStr = s.duration >= 60 
+        ? Math.floor(s.duration / 60) + 'm ' + (s.duration % 60) + 's'
+        : s.duration + 's';
+    }
+    
+    // Device Icon mapping
+    const deviceIcon = s.device === 'Mobile' ? 'fa-mobile-alt' : s.device === 'Tablet' ? 'fa-tablet-alt' : 'fa-desktop';
+    
+    // Conversion badge
+    const conversionBadge = s.contactsClicked > 0 
+      ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold"><i class="fas fa-check-circle text-[10px]"></i> Yes</span>`
+      : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800/80 border border-slate-700/50 text-slate-500">No</span>`;
+      
+    tbody.innerHTML += `
+      <tr class="hover:bg-[#161b22]/30 transition duration-150">
+        <td class="px-6 py-4 whitespace-nowrap text-slate-300 font-medium">${dateFormatted}</td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="font-mono text-slate-400">${s.location?.ip || '—'}</div>
+          <div class="text-[10px] text-slate-500">${s.location?.timezone || 'Local'}</div>
+        </td>
+        <td class="px-6 py-4 text-slate-300 font-semibold">${locationStr}</td>
+        <td class="px-6 py-4">
+          <div class="flex items-center gap-2 text-slate-300">
+            <i class="fas ${deviceIcon} text-blue-400/80 text-xs"></i>
+            <span>${s.browser || 'Unknown'} on ${s.os || 'Unknown'}</span>
+          </div>
+        </td>
+        <td class="px-6 py-4">
+          <div class="flex flex-wrap gap-1.5 max-w-[220px]">${pagesList}</div>
+        </td>
+        <td class="px-6 py-4 text-center font-mono text-slate-300 whitespace-nowrap">${durStr}</td>
+        <td class="px-6 py-4 text-center whitespace-nowrap">${conversionBadge}</td>
+      </tr>
+    `;
+  });
+  
+  // Pagination details
+  document.getElementById('paginated-start').textContent = startIdx + 1;
+  document.getElementById('paginated-end').textContent = endIdx;
+  document.getElementById('paginated-total').textContent = filteredSessions.length;
+  
+  document.getElementById('btn-prev-page').disabled = currentPage === 1;
+  document.getElementById('btn-next-page').disabled = endIdx >= filteredSessions.length;
+}
+
+function prevPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    renderSessionTable();
+  }
+}
+
+function nextPage() {
+  if ((currentPage * itemsPerPage) < filteredSessions.length) {
+    currentPage++;
+    renderSessionTable();
+  }
+}
+
+// ===== Visualizations & Charting =====
+function buildTrendChart() {
   const ctx = document.getElementById('trendChart');
-  // Seed some demo data if all zeros
-  const hasData = counts.some(c => c > 0);
-  const data = hasData ? counts : labels.map((_,i) => Math.floor(Math.random()*15+3));
-  new Chart(ctx, {
+  if (!ctx) return;
+
+  const datesMap = {};
+  // last 7 days
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    datesMap[d.toISOString().slice(0, 10)] = 0;
+  }
+  
+  allSessions.forEach(s => {
+    const dateStr = s.time.slice(0, 10);
+    if (datesMap[dateStr] !== undefined) {
+      datesMap[dateStr]++;
+    }
+  });
+
+  const labels = Object.keys(datesMap).map(d => {
+    const date = new Date(d);
+    return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  });
+  const data = Object.values(datesMap);
+
+  if (trendChartInst) trendChartInst.destroy();
+
+  // Gradient element for line fill
+  const canvasCtx = ctx.getContext('2d');
+  const gradient = canvasCtx.createLinearGradient(0, 0, 0, 250);
+  gradient.addColorStop(0, 'rgba(59, 130, 246, 0.25)');
+  gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+
+  trendChartInst = new Chart(ctx, {
     type: 'line',
     data: {
       labels,
       datasets: [{
-        label: 'Visits',
+        label: 'Sessions',
         data,
         borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59,130,246,0.1)',
+        borderWidth: 2.5,
+        backgroundColor: gradient,
         fill: true,
         tension: 0.4,
-        pointRadius: 3,
         pointBackgroundColor: '#3b82f6',
+        pointHoverBackgroundColor: '#ffffff',
+        pointHoverBorderWidth: 2.5,
+        pointHoverRadius: 6,
+        pointRadius: 4,
       }]
     },
     options: {
       responsive: true,
-      plugins: { legend: { display: false }, tooltip: { mode: 'index' } },
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#161b22',
+          titleColor: '#ffffff',
+          bodyColor: '#cbd5e1',
+          borderColor: 'rgba(255, 255, 255, 0.08)',
+          borderWidth: 1,
+          padding: 10,
+          cornerRadius: 8,
+          font: { family: 'Outfit' }
+        }
+      },
       scales: {
-        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { maxTicksLimit: 8 } },
-        y: { grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true }
+        x: {
+          grid: { display: false },
+          ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 } }
+        },
+        y: {
+          grid: { color: 'rgba(255, 255, 255, 0.04)' },
+          ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 }, stepSize: 1 },
+          beginAtZero: true
+        }
       }
     }
   });
 }
 
-function buildDeviceChart(devices) {
-  const hasData = Object.values(devices).some(v=>v>0);
-  const labels = hasData ? Object.keys(devices) : ['Desktop','Mobile','Tablet'];
-  const data   = hasData ? Object.values(devices) : [55, 38, 7];
-  const colors = ['#3b82f6','#a855f7','#10b981'];
-  new Chart(document.getElementById('deviceChart'), {
-    type: 'doughnut',
-    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0, hoverOffset: 8 }] },
-    options: {
-      cutout: '70%',
-      plugins: { legend: { display: false } }
-    }
-  });
-  const legend = document.getElementById('device-legend');
-  labels.forEach((l,i) => {
-    legend.innerHTML += `<div class="flex items-center justify-between text-gray-300">
-      <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:${colors[i]}"></span>${l}</span>
-      <span class="font-bold">${data[i]}${hasData?'':''}</span>
-    </div>`;
-  });
-}
+function buildSourceChart() {
+  const ctx = document.getElementById('sourceChart');
+  if (!ctx) return;
 
-function buildSectionChart(sections) {
-  const defaults = { Home:120, About:95, Skills:88, Experience:60, Projects:75, Contact:45 };
-  const hasData = Object.values(sections).some(v=>v>0);
-  const src = hasData ? sections : defaults;
-  const labels = Object.keys(src);
-  const data   = Object.values(src);
-  new Chart(document.getElementById('sectionChart'), {
-    type: 'bar',
+  const srcMap = {};
+  allSessions.forEach(s => {
+    const src = s.source || 'Direct';
+    srcMap[src] = (srcMap[src] || 0) + 1;
+  });
+
+  // Default values if empty
+  if (Object.keys(srcMap).length === 0) {
+    srcMap['Direct'] = 5;
+    srcMap['LinkedIn'] = 4;
+    srcMap['GitHub'] = 2;
+  }
+
+  const labels = Object.keys(srcMap);
+  const data = Object.values(srcMap);
+  const colors = ['#3b82f6', '#818cf8', '#34d399', '#f472b6', '#fb7185', '#a78bfa'];
+
+  if (sourceChartInst) sourceChartInst.destroy();
+
+  sourceChartInst = new Chart(ctx, {
+    type: 'doughnut',
     data: {
       labels,
       datasets: [{
-        label: 'Views',
         data,
-        backgroundColor: ['#3b82f6','#a855f7','#eab308','#10b981','#f97316','#ec4899'],
-        borderRadius: 6,
-        borderSkipped: false,
+        backgroundColor: colors,
+        borderWidth: 0,
+        hoverOffset: 6
       }]
     },
     options: {
       responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false } },
-        y: { grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true }
-      }
-    }
-  });
-}
-
-function buildSourceChart(sources) {
-  const hasData = Object.values(sources).some(v=>v>0);
-  const labels = hasData ? Object.keys(sources) : ['Direct','GitHub','LinkedIn','Google','Other'];
-  const data   = hasData ? Object.values(sources) : [40,28,18,10,4];
-  const colors = ['#3b82f6','#6b7280','#0077b5','#ea4335','#8b5cf6'];
-  new Chart(document.getElementById('sourceChart'), {
-    type: 'pie',
-    data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 0 }] },
-    options: {
+      maintainAspectRatio: false,
+      cutout: '72%',
       plugins: {
-        legend: { position: 'right', labels: { color: '#8b949e', boxWidth: 12, padding: 12 } }
+        legend: {
+          position: 'right',
+          labels: {
+            color: '#94a3b8',
+            font: { family: 'Outfit', size: 10 },
+            boxWidth: 10,
+            padding: 12
+          }
+        },
+        tooltip: {
+          backgroundColor: '#161b22',
+          borderWidth: 1,
+          borderColor: 'rgba(255,255,255,0.08)',
+          font: { family: 'Outfit' }
+        }
       }
     }
   });
 }
 
-function buildHourChart(visits) {
-  const hourCounts = new Array(24).fill(0);
-  visits.forEach(v => {
-    try { const h = new Date(v).getHours(); hourCounts[h]++; } catch {}
+function buildOSChart() {
+  const ctx = document.getElementById('osChart');
+  if (!ctx) return;
+
+  const map = {};
+  allSessions.forEach(s => {
+    const val = s.os || 'Unknown';
+    map[val] = (map[val] || 0) + 1;
   });
-  const hasData = hourCounts.some(c=>c>0);
-  const data = hasData ? hourCounts : Array.from({length:24},(_,i)=>
-    i<7?Math.floor(Math.random()*2):i<12?Math.floor(Math.random()*12+3):
-    i<18?Math.floor(Math.random()*20+8):Math.floor(Math.random()*10+2)
-  );
-  new Chart(document.getElementById('hourChart'), {
-    type: 'bar',
+
+  if (Object.keys(map).length === 0) {
+    map['Windows'] = 6; map['macOS'] = 3; map['iOS'] = 2;
+  }
+
+  const labels = Object.keys(map);
+  const data = Object.values(map);
+  const colors = ['#3b82f6', '#a78bfa', '#34d399', '#f472b6', '#f59e0b'];
+
+  if (osChartInst) osChartInst.destroy();
+
+  osChartInst = new Chart(ctx, {
+    type: 'pie',
     data: {
-      labels: Array.from({length:24},(_,i)=>`${i}:00`),
+      labels,
       datasets: [{
-        label: 'Visits',
         data,
-        backgroundColor: data.map(v => `rgba(59,130,246,${Math.min(0.9, 0.15 + v/Math.max(...data)*.75)})`),
-        borderRadius: 4,
+        backgroundColor: colors,
+        borderWidth: 0
       }]
     },
     options: {
       responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { maxTicksLimit: 12 } },
-        y: { grid: { color: 'rgba(255,255,255,0.04)' }, beginAtZero: true }
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
       }
     }
   });
-}
 
-function buildSessionLog(sessions) {
-  const el = document.getElementById('session-log');
-  if (!sessions.length) return;
-  el.innerHTML = '';
-  [...sessions].reverse().slice(0,20).forEach(s => {
-    el.innerHTML += `
-      <div class="flex items-center justify-between text-sm bg-[#0d1117] rounded-lg px-3 py-2">
-        <div class="flex items-center gap-2">
-          <i class="fas fa-${s.device==='Mobile'?'mobile-alt':s.device==='Tablet'?'tablet-alt':'desktop'} text-blue-400 text-xs"></i>
-          <span class="text-gray-300">${s.device||'Unknown'}</span>
-          <span class="text-gray-600 text-xs">·</span>
-          <span class="text-gray-500 text-xs">${s.source||'Direct'}</span>
-        </div>
-        <div class="text-gray-500 text-xs">${new Date(s.time).toLocaleString('en-IN',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
-      </div>`;
+  const legend = document.getElementById('os-legend');
+  legend.innerHTML = '';
+  labels.forEach((l, i) => {
+    legend.innerHTML += `
+      <div class="flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full" style="background-color: ${colors[i % colors.length]}"></span>
+        <span class="truncate">${l}: <span class="font-bold text-slate-300">${data[i]}</span></span>
+      </div>
+    `;
   });
 }
 
-// ===== UTILS =====
+function buildBrowserChart() {
+  const ctx = document.getElementById('browserChart');
+  if (!ctx) return;
+
+  const map = {};
+  allSessions.forEach(s => {
+    const val = s.browser || 'Unknown';
+    map[val] = (map[val] || 0) + 1;
+  });
+
+  if (Object.keys(map).length === 0) {
+    map['Chrome'] = 8; map['Safari'] = 3; map['Firefox'] = 1;
+  }
+
+  const labels = Object.keys(map);
+  const data = Object.values(map);
+  const colors = ['#38bdf8', '#fb7185', '#fb923c', '#a78bfa', '#4ade80'];
+
+  if (browserChartInst) browserChartInst.destroy();
+
+  browserChartInst = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: colors,
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '70%',
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+
+  const legend = document.getElementById('browser-legend');
+  legend.innerHTML = '';
+  labels.forEach((l, i) => {
+    legend.innerHTML += `
+      <div class="flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full" style="background-color: ${colors[i % colors.length]}"></span>
+        <span class="truncate">${l}: <span class="font-bold text-slate-300">${data[i]}</span></span>
+      </div>
+    `;
+  });
+}
+
+// ===== Admin Utility Operations =====
 function clearAllData() {
-  if (!confirm('Reset ALL analytics data? This cannot be undone.')) return;
-  ['pv_visits','pv_daily','pv_sections','pv_devices','pv_sources','pv_sessions','pv_times','pv_contacts']
-    .forEach(k => localStorage.removeItem(k));
+  if (!confirm('Are you absolutely sure you want to delete ALL analytics session logs? This cannot be undone.')) return;
+  localStorage.removeItem('pv_sessions');
+  sessionStorage.removeItem('pv_session_id');
   location.reload();
 }
 
 function exportData() {
   const data = {
-    visits: getData('pv_visits',[]),
-    daily: getData('pv_daily',{}),
-    sections: getData('pv_sections',{}),
-    devices: getData('pv_devices',{}),
-    sources: getData('pv_sources',{}),
-    sessions: getData('pv_sessions',[]),
-    times: getData('pv_times',[]),
-    contacts: getData('pv_contacts',0),
-    exported: new Date().toISOString()
+    analyticsLogs: allSessions,
+    exportedAt: new Date().toISOString()
   };
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-  a.download = `portfolio-analytics-${new Date().toISOString().slice(0,10)}.json`;
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `portfolio-analytics-export-${new Date().toISOString().slice(0, 10)}.json`;
   a.click();
+}
+
+// Generates and saves dummy professional mock dataset for local visualization testing
+function loadMockData() {
+  if (!confirm('Would you like to load demo session data to populate the dashboard stats?')) return;
+  
+  const mockD = [];
+  const browsers = ['Chrome', 'Safari', 'Firefox', 'Edge'];
+  const osList = ['Windows', 'macOS', 'iOS', 'Android', 'Linux'];
+  const sources = ['LinkedIn', 'GitHub', 'Google', 'Direct', 'Twitter/X'];
+  
+  const cities = [
+    { city: 'New Delhi', country: 'India', code: 'IN', tz: 'Asia/Kolkata' },
+    { city: 'Mumbai', country: 'India', code: 'IN', tz: 'Asia/Kolkata' },
+    { city: 'Bengaluru', country: 'India', code: 'IN', tz: 'Asia/Kolkata' },
+    { city: 'New York', country: 'United States', code: 'US', tz: 'America/New_York' },
+    { city: 'San Francisco', country: 'United States', code: 'US', tz: 'America/Los_Angeles' },
+    { city: 'London', country: 'United Kingdom', code: 'GB', tz: 'Europe/London' },
+    { city: 'Berlin', country: 'Germany', code: 'DE', tz: 'Europe/Berlin' },
+    { city: 'Sydney', country: 'Australia', code: 'AU', tz: 'Australia/Sydney' }
+  ];
+  
+  const sections = ['Home', 'About', 'Skills', 'Experience', 'Projects', 'Contact'];
+
+  const now = new Date();
+  
+  for (let i = 0; i < 45; i++) {
+    const loc = cities[Math.floor(Math.random() * cities.length)];
+    const date = new Date();
+    // distribute over the last 7 days
+    date.setDate(now.getDate() - Math.floor(Math.random() * 7));
+    date.setHours(Math.floor(Math.random() * 24), Math.floor(Math.random() * 60));
+    
+    const os = osList[Math.floor(Math.random() * osList.length)];
+    let dev = 'Desktop';
+    if (os === 'iOS' || os === 'Android') {
+      dev = Math.random() > 0.2 ? 'Mobile' : 'Tablet';
+    }
+    
+    // View sections selection
+    const pageCount = Math.floor(Math.random() * 4) + 1;
+    const viewed = [];
+    for (let p = 0; p < pageCount; p++) {
+      const s = sections[Math.floor(Math.random() * sections.length)];
+      if (!viewed.includes(s)) viewed.push(s);
+    }
+    
+    mockD.push({
+      id: 'mock_' + Math.random().toString(36).substr(2, 9),
+      time: date.toISOString(),
+      device: dev,
+      browser: browsers[Math.floor(Math.random() * browsers.length)],
+      os: os,
+      source: sources[Math.floor(Math.random() * sources.length)],
+      location: {
+        city: loc.city,
+        country: loc.country,
+        countryCode: loc.code,
+        timezone: loc.tz,
+        ip: `${Math.floor(Math.random()*150+50)}.${Math.floor(Math.random()*200)}.${Math.floor(Math.random()*200)}.${Math.floor(Math.random()*200)}`
+      },
+      duration: Math.floor(Math.random() * 180) + 12,
+      pagesViewed: viewed,
+      contactsClicked: Math.random() > 0.85 ? 1 : 0
+    });
+  }
+  
+  setData('pv_sessions', mockD);
+  alert('Demo data loaded successfully! Reloading...');
+  location.reload();
 }
 </script>
 </body>

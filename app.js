@@ -69,23 +69,24 @@ const defaultProjectsData = [
         liveLink: ""
     },
     {
-        title: "IPL Analysis & Dashboard",
+        title: "IPL Data Analysis Dashboard (2008–2025)",
         gradient: "from-[#1e3a8a] via-[#1e40af] to-[#0d1117]",
         mainIconBg: "bg-blue-500/20",
         mainIcon: "fas fa-trophy text-blue-400",
         topTags: [
             { name: "Power BI", style: "bg-yellow-500/10 border-yellow-500/30 text-yellow-400" },
-            { name: "SQL", style: "bg-green-500/10 border-green-500/30 text-green-400" },
-            { name: "Python", style: "bg-blue-500/10 border-blue-500/30 text-blue-400" }
+            { name: "Advance Excel", style: "bg-green-500/10 border-green-500/30 text-green-400" },
+            { name: "DAX", style: "bg-blue-500/10 border-blue-500/30 text-blue-400" }
         ],
         bulletPoints: [
-            "Built an interactive Power BI dashboard to analyze IPL player and team performance across multiple seasons",
-            "Processed and structured match datasets to extract key insights on venue records and toss decisions",
-            "Formulated advanced DAX measures to calculate strike rate, economy, boundary percentage, and player stats",
-            "Designed dynamic visualizations showing batting/bowling statistics, top performance metrics, and match outcomes",
-            "Provided actionable insights to help identify winning trends and team strategies based on historical data"
+            "Built an interactive IPL dashboard using Power BI, Excel, and DAX",
+            "Analyzed team performance and player statistics across IPL seasons (2008–2025)",
+            "Created custom KPIs including Season Winner, Runner-Up, Orange Cap, and Purple Cap",
+            "Developed insights for runs, wickets, boundaries, and season trends",
+            "Added interactive filters, team logos, and player visuals for better user experience",
+            "Performed data cleaning, data modeling, and dashboard design"
         ],
-        bottomTags: ["Power BI", "DAX", "SQL", "Data Cleaning", "Sports Analytics"],
+        bottomTags: ["Power BI", "DAX", "Advance Excel", "Data Cleaning", "Data Modeling"],
         githubLink: "https://github.com/sandeepmishraofficial",
         liveLink: "https://drive.google.com/drive/u/1/folders/12qIf4xDM2DAOtzPKmLjoIQAoWXpEsvmL",
         previewImage: "./images/ipl-dashboard.png",
@@ -123,16 +124,39 @@ function loadAndRenderAll() {
         projectsUpdated = true;
     }
 
-    // Migration/Update check: Ensure IPL Analysis project is present and has the correct liveLink, previewImage, and season data
+    // Migration/Update check: Ensure IPL Analysis project is present and has the correct title, details, and season data
     let hasIPL = false;
     currentProjects.forEach(proj => {
         if (proj.title && proj.title.toLowerCase().includes('ipl')) {
             hasIPL = true;
-            if (proj.liveLink !== "https://drive.google.com/drive/u/1/folders/12qIf4xDM2DAOtzPKmLjoIQAoWXpEsvmL" || 
+            const expectedBullets = [
+                "Built an interactive IPL dashboard using Power BI, Excel, and DAX",
+                "Analyzed team performance and player statistics across IPL seasons (2008–2025)",
+                "Created custom KPIs including Season Winner, Runner-Up, Orange Cap, and Purple Cap",
+                "Developed insights for runs, wickets, boundaries, and season trends",
+                "Added interactive filters, team logos, and player visuals for better user experience",
+                "Performed data cleaning, data modeling, and dashboard design"
+            ];
+            const hasCorrectBullets = Array.isArray(proj.bulletPoints) && 
+                proj.bulletPoints.length === expectedBullets.length &&
+                proj.bulletPoints.every((b, i) => b === expectedBullets[i]);
+
+            if (proj.title !== "IPL Data Analysis Dashboard (2008–2025)" ||
+                !hasCorrectBullets ||
+                proj.liveLink !== "https://drive.google.com/drive/u/1/folders/12qIf4xDM2DAOtzPKmLjoIQAoWXpEsvmL" || 
                 proj.previewImage !== "./images/ipl-dashboard.png" ||
                 proj.seasonFolder !== "./images/ipl all season image" ||
                 proj.seasonStart !== 2008 ||
                 proj.seasonEnd !== 2025) {
+                
+                proj.title = "IPL Data Analysis Dashboard (2008–2025)";
+                proj.topTags = [
+                    { name: "Power BI", style: "bg-yellow-500/10 border-yellow-500/30 text-yellow-400" },
+                    { name: "Advance Excel", style: "bg-green-500/10 border-green-500/30 text-green-400" },
+                    { name: "DAX", style: "bg-blue-500/10 border-blue-500/30 text-blue-400" }
+                ];
+                proj.bulletPoints = expectedBullets;
+                proj.bottomTags = ["Power BI", "DAX", "Advance Excel", "Data Cleaning", "Data Modeling"];
                 proj.liveLink = "https://drive.google.com/drive/u/1/folders/12qIf4xDM2DAOtzPKmLjoIQAoWXpEsvmL";
                 proj.previewImage = "./images/ipl-dashboard.png";
                 proj.seasonFolder = "./images/ipl all season image";
@@ -830,11 +854,24 @@ function toggleMenu() {
 }
 
 // Anti-Copy
-document.addEventListener('contextmenu', (e) => e.preventDefault());
-document.addEventListener('copy', (e) => e.preventDefault());
-document.addEventListener('cut', (e) => e.preventDefault());
-document.addEventListener('paste', (e) => e.preventDefault());
+document.addEventListener('contextmenu', (e) => {
+    if (localStorage.getItem('isAdmin') === 'true') return;
+    e.preventDefault();
+});
+document.addEventListener('copy', (e) => {
+    if (localStorage.getItem('isAdmin') === 'true') return;
+    e.preventDefault();
+});
+document.addEventListener('cut', (e) => {
+    if (localStorage.getItem('isAdmin') === 'true') return;
+    e.preventDefault();
+});
+document.addEventListener('paste', (e) => {
+    if (localStorage.getItem('isAdmin') === 'true') return;
+    e.preventDefault();
+});
 document.addEventListener('keydown', (e) => {
+    if (localStorage.getItem('isAdmin') === 'true') return;
     if (e.key === 'F12') e.preventDefault();
     if (e.ctrlKey && e.shiftKey && ['I','J','C','i','j','c'].includes(e.key)) e.preventDefault();
     if (e.ctrlKey && ['U','u'].includes(e.key)) e.preventDefault();
@@ -845,8 +882,10 @@ document.addEventListener('keydown', (e) => {
 function checkAdminMode() {
     if (localStorage.getItem('isAdmin') === 'true') {
         document.body.classList.add('admin-mode');
+        document.body.classList.remove('no-copy');
     } else {
         document.body.classList.remove('admin-mode');
+        document.body.classList.add('no-copy');
     }
 }
 
@@ -951,93 +990,209 @@ function logoutAdmin() {
 // PORTFOLIO VISITOR TRACKING SYSTEM
 // =============================================
 (function () {
+    // Utility helpers
     function pvGet(k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch { return d; } }
     function pvSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
-    // 1. Record visit timestamp
-    const visits = pvGet('pv_visits', []);
-    const now = new Date().toISOString();
-    visits.push(now);
-    if (visits.length > 500) visits.splice(0, visits.length - 500); // keep last 500
-    pvSet('pv_visits', visits);
+    // Detect browser and OS
+    function getBrowserAndOS() {
+        const ua = navigator.userAgent;
+        let browser = 'Unknown';
+        let os = 'Unknown';
 
-    // 2. Daily count
-    const today = now.slice(0, 10);
-    const daily = pvGet('pv_daily', {});
-    daily[today] = (daily[today] || 0) + 1;
-    pvSet('pv_daily', daily);
+        // OS Detection
+        if (/Windows/i.test(ua)) os = 'Windows';
+        else if (/Macintosh|Mac OS X/i.test(ua)) os = 'macOS';
+        else if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
+        else if (/Android/i.test(ua)) os = 'Android';
+        else if (/Linux/i.test(ua)) os = 'Linux';
 
-    // 3. Device type
-    const devices = pvGet('pv_devices', {});
-    const ua = navigator.userAgent;
-    const dev = /Mobi|Android/i.test(ua) ? 'Mobile' : /Tablet|iPad/i.test(ua) ? 'Tablet' : 'Desktop';
-    devices[dev] = (devices[dev] || 0) + 1;
-    pvSet('pv_devices', devices);
+        // Browser Detection
+        if (/Edg/i.test(ua)) browser = 'Edge';
+        else if (/Chrome/i.test(ua) && !/Chromium/i.test(ua)) browser = 'Chrome';
+        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = 'Safari';
+        else if (/Firefox/i.test(ua)) browser = 'Firefox';
+        else if (/Trident/i.test(ua) || /MSIE/i.test(ua)) browser = 'IE';
+        
+        return { browser, os };
+    }
 
-    // 4. Traffic source
-    const sources = pvGet('pv_sources', {});
-    const ref = document.referrer;
-    let src = 'Direct';
-    if (ref.includes('github')) src = 'GitHub';
-    else if (ref.includes('linkedin')) src = 'LinkedIn';
-    else if (ref.includes('google')) src = 'Google';
-    else if (ref.includes('twitter') || ref.includes('x.com')) src = 'Twitter/X';
-    else if (ref) src = 'Other';
-    sources[src] = (sources[src] || 0) + 1;
-    pvSet('pv_sources', sources);
-
-    // 5. Session log
-    const sessions = pvGet('pv_sessions', []);
-    sessions.push({ time: now, device: dev, source: src });
-    if (sessions.length > 100) sessions.splice(0, sessions.length - 100);
-    pvSet('pv_sessions', sessions);
-
-    // 6. Time on page (record on unload)
-    const pageStart = Date.now();
-    window.addEventListener('beforeunload', () => {
-        const elapsed = Math.round((Date.now() - pageStart) / 1000);
-        if (elapsed > 2 && elapsed < 3600) {
-            const times = pvGet('pv_times', []);
-            times.push(elapsed);
-            if (times.length > 200) times.splice(0, times.length - 200);
-            pvSet('pv_times', times);
+    // Geolocation and Session setup
+    async function initSession() {
+        const ua = navigator.userAgent;
+        const dev = /Mobi|Android/i.test(ua) ? 'Mobile' : /Tablet|iPad/i.test(ua) ? 'Tablet' : 'Desktop';
+        const info = getBrowserAndOS();
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+        
+        // Referrer
+        const ref = document.referrer;
+        let src = 'Direct';
+        if (ref.includes('github')) src = 'GitHub';
+        else if (ref.includes('linkedin')) src = 'LinkedIn';
+        else if (ref.includes('google')) src = 'Google';
+        else if (ref.includes('twitter') || ref.includes('x.com')) src = 'Twitter/X';
+        else if (ref) {
+            try {
+                src = new URL(ref).hostname;
+            } catch {
+                src = 'Other';
+            }
         }
-    });
 
-    // 7. Section engagement via IntersectionObserver
-    window.addEventListener('DOMContentLoaded', () => {
+        let sessionId = sessionStorage.getItem('pv_session_id');
+        let sessions = pvGet('pv_sessions', []);
+
+        if (!sessionId) {
+            // New Session
+            sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            sessionStorage.setItem('pv_session_id', sessionId);
+
+            const newSession = {
+                id: sessionId,
+                time: new Date().toISOString(),
+                device: dev,
+                browser: info.browser,
+                os: info.os,
+                source: src,
+                location: {
+                    city: 'Retrieving...',
+                    country: 'Retrieving...',
+                    countryCode: '',
+                    timezone: tz,
+                    ip: ''
+                },
+                duration: 0,
+                pagesViewed: ['Home'],
+                contactsClicked: 0
+            };
+
+            // Add to localStorage logs
+            sessions.push(newSession);
+            if (sessions.length > 500) sessions.shift(); // keep last 500
+            pvSet('pv_sessions', sessions);
+
+            // Fetch IP location details asynchronously
+            try {
+                const geoRes = await fetch('https://ipapi.co/json/');
+                if (geoRes.ok) {
+                    const geoData = await geoRes.json();
+                    // Reload sessions to prevent race condition
+                    const currentSessions = pvGet('pv_sessions', []);
+                    const idx = currentSessions.findIndex(s => s.id === sessionId);
+                    if (idx !== -1) {
+                        currentSessions[idx].location = {
+                            city: geoData.city || 'Unknown City',
+                            country: geoData.country_name || 'Unknown Country',
+                            countryCode: geoData.country_code || '',
+                            timezone: geoData.timezone || tz,
+                            ip: geoData.ip || ''
+                        };
+                        pvSet('pv_sessions', currentSessions);
+                    }
+                }
+            } catch (err) {
+                // Try fallback geo api
+                try {
+                    const fallbackRes = await fetch('https://freeipapi.com/api/json');
+                    if (fallbackRes.ok) {
+                        const fallbackData = await fallbackRes.json();
+                        const currentSessions = pvGet('pv_sessions', []);
+                        const idx = currentSessions.findIndex(s => s.id === sessionId);
+                        if (idx !== -1) {
+                            currentSessions[idx].location = {
+                                city: fallbackData.cityName || 'Unknown City',
+                                country: fallbackData.countryName || 'Unknown Country',
+                                countryCode: fallbackData.countryCode || '',
+                                timezone: tz,
+                                ip: fallbackData.ipAddress || ''
+                            };
+                            pvSet('pv_sessions', currentSessions);
+                        }
+                    }
+                } catch (fallbackErr) {
+                    console.error('Fallback location service failed');
+                    // Update location status from "Retrieving..." to "Unknown"
+                    const currentSessions = pvGet('pv_sessions', []);
+                    const idx = currentSessions.findIndex(s => s.id === sessionId);
+                    if (idx !== -1) {
+                        currentSessions[idx].location.city = 'Unknown City';
+                        currentSessions[idx].location.country = 'Unknown Country';
+                        pvSet('pv_sessions', currentSessions);
+                    }
+                }
+            }
+        }
+
+        // Setup page engagement tracker (IntersectionObserver)
         const sectionMap = {
             'top': 'Home', 'About': 'About',
             'skills-section': 'Skills', 'experience': 'Experience',
             'project': 'Projects', 'Contact me': 'Contact'
         };
-        const observed = new Set();
+        
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && !observed.has(entry.target.id)) {
-                    observed.add(entry.target.id);
+                if (entry.isIntersecting) {
                     const label = sectionMap[entry.target.id];
                     if (label) {
-                        const secs = pvGet('pv_sections', {});
-                        secs[label] = (secs[label] || 0) + 1;
-                        pvSet('pv_sections', secs);
+                        const currentSessions = pvGet('pv_sessions', []);
+                        const idx = currentSessions.findIndex(s => s.id === sessionId);
+                        if (idx !== -1) {
+                            const views = currentSessions[idx].pagesViewed || [];
+                            if (!views.includes(label)) {
+                                views.push(label);
+                                currentSessions[idx].pagesViewed = views;
+                                pvSet('pv_sessions', currentSessions);
+                            }
+                        }
                     }
                 }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.2 });
 
         Object.keys(sectionMap).forEach(id => {
             const el = document.getElementById(id);
             if (el) observer.observe(el);
         });
 
-        // 8. Track contact form clicks
-        const contactLink = document.getElementById('contact-form');
-        if (contactLink) {
-            contactLink.addEventListener('submit', () => {
-                pvSet('pv_contacts', pvGet('pv_contacts', 0) + 1);
+        // Track Contact Form Submissions
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', () => {
+                const currentSessions = pvGet('pv_sessions', []);
+                const idx = currentSessions.findIndex(s => s.id === sessionId);
+                if (idx !== -1) {
+                    currentSessions[idx].contactsClicked = (currentSessions[idx].contactsClicked || 0) + 1;
+                    pvSet('pv_sessions', currentSessions);
+                }
             });
         }
-    });
+
+        // Heartbeat duration updater
+        const startTime = Date.now();
+        const updateDuration = () => {
+            const durationSec = Math.round((Date.now() - startTime) / 1000);
+            const currentSessions = pvGet('pv_sessions', []);
+            const idx = currentSessions.findIndex(s => s.id === sessionId);
+            if (idx !== -1) {
+                currentSessions[idx].duration = durationSec;
+                pvSet('pv_sessions', currentSessions);
+            }
+        };
+
+        // Update duration periodically and on page unload
+        const interval = setInterval(updateDuration, 10000);
+        window.addEventListener('beforeunload', () => {
+            clearInterval(interval);
+            updateDuration();
+        });
+    }
+
+    // Run session tracking when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSession);
+    } else {
+        initSession();
+    }
 })();
 

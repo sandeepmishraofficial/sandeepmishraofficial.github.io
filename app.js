@@ -87,7 +87,7 @@ const defaultProjectsData = [
         ],
         bottomTags: ["Power BI", "DAX", "SQL", "Data Cleaning", "Sports Analytics"],
         githubLink: "https://github.com/sandeepmishraofficial",
-        liveLink: "./images/IPL.pbix",
+        liveLink: "https://drive.google.com/file/d/130iMlLivHOFJgUW_lEFh2WSAczqfczJq/view?usp=sharing",
         previewImage: "./images/ipl-dashboard.png",
         seasonFolder: "./images/ipl all season image",
         seasonStart: 2008,
@@ -128,12 +128,12 @@ function loadAndRenderAll() {
     currentProjects.forEach(proj => {
         if (proj.title && proj.title.toLowerCase().includes('ipl')) {
             hasIPL = true;
-            if (proj.liveLink !== "./images/IPL.pbix" || 
+            if (proj.liveLink !== "https://drive.google.com/file/d/130iMlLivHOFJgUW_lEFh2WSAczqfczJq/view?usp=sharing" || 
                 proj.previewImage !== "./images/ipl-dashboard.png" ||
                 proj.seasonFolder !== "./images/ipl all season image" ||
                 proj.seasonStart !== 2008 ||
                 proj.seasonEnd !== 2025) {
-                proj.liveLink = "./images/IPL.pbix";
+                proj.liveLink = "https://drive.google.com/file/d/130iMlLivHOFJgUW_lEFh2WSAczqfczJq/view?usp=sharing";
                 proj.previewImage = "./images/ipl-dashboard.png";
                 proj.seasonFolder = "./images/ipl all season image";
                 proj.seasonStart = 2008;
@@ -311,10 +311,10 @@ function renderProjects() {
         let liveBtnIcon = "fas fa-chart-line";
         let liveBtnDownload = "";
 
-        if (proj.liveLink && proj.liveLink.toLowerCase().endsWith('.pbix')) {
+        if (proj.liveLink && (proj.liveLink.toLowerCase().endsWith('.pbix') || proj.liveLink.includes('drive.google.com'))) {
             liveBtnLabel = "Download Dashboard";
             liveBtnIcon = "fas fa-file-download";
-            liveBtnDownload = `download="${proj.liveLink.split('/').pop()}"`;
+            liveBtnDownload = proj.liveLink.toLowerCase().endsWith('.pbix') ? `download="${proj.liveLink.split('/').pop()}"` : "";
         }
 
         const liveBtn = proj.liveLink ? `

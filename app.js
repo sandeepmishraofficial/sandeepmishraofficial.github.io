@@ -357,7 +357,8 @@ function renderProjects() {
 }
 
 // --- Image Preview Modal ---
-function openImagePreview(idx) {
+// --- Image Preview Modal ---
+function openImagePreview(idx, selectedSeasonYear = null) {
     const proj = currentProjects[idx];
     if (!proj) return;
 
@@ -374,23 +375,34 @@ function openImagePreview(idx) {
 
     if (titleEl) titleEl.textContent = `${proj.title} — Dashboard Preview`;
 
+    const isIPL = proj.title && proj.title.toLowerCase().includes('ipl');
+
     if (proj.seasonFolder && proj.seasonStart && proj.seasonEnd) {
         if (seasonsContainer) {
             seasonsContainer.classList.remove('hidden');
             seasonsContainer.classList.add('flex');
 
+            const targetYear = (selectedSeasonYear && selectedSeasonYear >= proj.seasonStart && selectedSeasonYear <= proj.seasonEnd)
+                ? parseInt(selectedSeasonYear)
+                : proj.seasonEnd;
+
             let buttonsHtml = '';
             for (let year = proj.seasonEnd; year >= proj.seasonStart; year--) {
                 const imgPath = `${proj.seasonFolder}/Season_${year}.png`;
-                const isActive = (year === proj.seasonEnd);
+                const isActive = (year === targetYear);
                 const btnClass = isActive 
                     ? "px-3 py-1.5 rounded-lg border border-blue-500 bg-blue-600/20 text-blue-400 text-xs font-semibold transition duration-200 cursor-pointer shadow-[0_0_10px_rgba(59,130,246,0.3)] shrink-0"
                     : "px-3 py-1.5 rounded-lg border border-gray-700 bg-transparent text-gray-400 hover:text-white hover:border-gray-500 text-xs font-semibold transition duration-200 cursor-pointer shrink-0";
                 buttonsHtml += `<button onclick="selectSeason(this, '${imgPath}')" class="${btnClass}">${year}</button>`;
             }
             seasonsContainer.innerHTML = buttonsHtml;
+            img.src = `${proj.seasonFolder}/Season_${targetYear}.png`;
+
+            // Update URL hash dynamically without adding to history stack
+            if (isIPL) {
+                history.replaceState("", document.title, window.location.pathname + window.location.search + "#ipl-" + targetYear);
+            }
         }
-        img.src = `${proj.seasonFolder}/Season_${proj.seasonEnd}.png`;
     } else {
         if (seasonsContainer) {
             seasonsContainer.classList.add('hidden');
@@ -398,6 +410,12 @@ function openImagePreview(idx) {
             seasonsContainer.innerHTML = '';
         }
         img.src = proj.previewImage || '';
+
+        // Update URL hash for non-season project
+        if (proj.title) {
+            const slug = proj.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            history.replaceState("", document.title, window.location.pathname + window.location.search + "#" + slug + "-preview");
+        }
     }
 
     modal.classList.remove('hidden');
@@ -434,6 +452,12 @@ function selectSeason(btn, imgPath) {
         };
         img.src = imgPath;
     }, 200);
+
+    // Update URL hash dynamically if it's IPL
+    const year = btn.textContent.trim();
+    if (year && !isNaN(year)) {
+        history.replaceState("", document.title, window.location.pathname + window.location.search + "#ipl-" + year);
+    }
 }
 
 function closeImagePreview() {
@@ -452,6 +476,68 @@ function closeImagePreview() {
         const img = document.getElementById('image-preview-img');
         if (img) img.src = '';
     }, 300);
+
+    // Reset URL hash to #project without causing page jump
+    const hash = window.location.hash;
+    if (hash.startsWith('#ipl') || hash.endsWith('-preview')) {
+        history.replaceState("", document.title, window.location.pathname + window.location.search + "#project");
+    }
+}
+
+function handleDeepLinking() {
+    const hash = window.location.hash.toLowerCase();
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectParam = urlParams.get('project');
+    const seasonParam = urlParams.get('season');
+
+    let targetProjectIdx = -1;
+    let targetSeason = null;
+
+    if (projectParam) {
+        // Find project matching parameter case-insensitively
+        targetProjectIdx = currentProjects.findIndex(proj => 
+            proj.title && proj.title.toLowerCase().includes(projectParam.toLowerCase())
+        );
+        if (seasonParam) {
+            targetSeason = parseInt(seasonParam);
+        }
+    } else if (hash) {
+        // Check if it's IPL season specific, e.g. #ipl-2024
+        if (hash.startsWith('#ipl')) {
+            targetProjectIdx = currentProjects.findIndex(proj => 
+                proj.title && proj.title.toLowerCase().includes('ipl')
+            );
+            const yearMatch = hash.match(/\b(20\d{2}|19\d{2})\b/);
+            if (yearMatch) {
+                targetSeason = parseInt(yearMatch[0]);
+            }
+        } else {
+            // Check for general project previews, e.g. #netflix-data-analysis-preview or #netflix-preview
+            currentProjects.forEach((proj, idx) => {
+                if (proj.title) {
+                    const slug = proj.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                    if (hash === `#${slug}-preview` || hash === `#${slug}`) {
+                        targetProjectIdx = idx;
+                    } else if (hash.includes(slug.split('-')[0]) && hash.includes('preview')) {
+                        // fallback: e.g. #netflix-preview matches Netflix project
+                        targetProjectIdx = idx;
+                    }
+                }
+            });
+        }
+    }
+
+    if (targetProjectIdx !== -1) {
+        const projectSection = document.getElementById('project');
+        if (projectSection) {
+            projectSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Short delay to let the scroll complete before showing modal
+        setTimeout(() => {
+            openImagePreview(targetProjectIdx, targetSeason);
+        }, 600);
+    }
 }
 
 // --- Editor Functions ---
@@ -634,6 +720,10 @@ function saveProjects() {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAndRenderAll();
+
+    // Handle deep linking for direct URLs/sharing
+    handleDeepLinking();
+    window.addEventListener('hashchange', handleDeepLinking);
 
     // Navbar Scroll Effect
     const navBar = document.getElementById('main-nav');

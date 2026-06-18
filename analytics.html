@@ -20,6 +20,17 @@
     }
   </script>
   
+  <script>
+    // Theme detection & execution to prevent FOUC
+    if (localStorage.getItem('theme') === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    }
+  </script>
+
   <!-- Outfit Font & FontAwesome Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -72,6 +83,137 @@
       justify-content: center;
       background-image: 
         radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 60%);
+    }
+
+    /* ==========================================
+       Light Theme CSS Overrides
+       ========================================== */
+       
+    html.light body {
+      background-color: #f8fafc;
+      color: #1e293b;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.03) 0px, transparent 50%),
+        radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.02) 0px, transparent 50%);
+    }
+    
+    html.light .glass-card {
+      background: rgba(255, 255, 255, 0.8) !important;
+      border: 1px solid rgba(0, 0, 0, 0.06) !important;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
+    }
+    
+    html.light .kpi-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.95) 100%) !important;
+      border: 1px solid rgba(59, 130, 246, 0.15) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+    }
+    
+    html.light h1, html.light h2, html.light h3, html.light h4, html.light .text-white {
+      color: #0f172a !important;
+    }
+    
+    html.light .text-slate-300 {
+      color: #334155 !important;
+    }
+    
+    html.light .text-slate-400 {
+      color: #475569 !important;
+    }
+    
+    html.light .text-slate-500 {
+      color: #64748b !important;
+    }
+    
+    html.light .border-slate-800, 
+    html.light .border-slate-700,
+    html.light .border-white\/5 {
+      border-color: #cbd5e1 !important;
+    }
+    
+    html.light #login-overlay {
+      background: #f8fafc !important;
+      background-image: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 60%) !important;
+    }
+    
+    html.light #pwd-input {
+      background-color: #ffffff !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    
+    html.light ::-webkit-scrollbar-track {
+      background: #f8fafc !important;
+    }
+    
+    html.light ::-webkit-scrollbar-thumb {
+      background: #cbd5e1 !important;
+    }
+    
+    html.light #log-search,
+    html.light #filter-device,
+    html.light #filter-conversion {
+      background-color: #ffffff !important;
+      border-color: #cbd5e1 !important;
+      color: #334155 !important;
+    }
+    
+    html.light #log-search:focus,
+    html.light #filter-device:focus,
+    html.light #filter-conversion:focus {
+      border-color: #3b82f6 !important;
+      background-color: #ffffff !important;
+    }
+    
+    html.light table thead tr {
+      background-color: #f1f5f9 !important;
+      border-bottom-color: #cbd5e1 !important;
+    }
+    
+    html.light table tbody tr {
+      border-bottom-color: #e2e8f0 !important;
+    }
+    
+    html.light table tbody tr:hover {
+      background-color: rgba(59, 130, 246, 0.02) !important;
+    }
+    
+    html.light #session-table-body td {
+      color: #334155 !important;
+    }
+    
+    html.light #session-table-body td .text-white {
+      color: #0f172a !important;
+    }
+    
+    html.light #session-table-body td .text-slate-400 {
+      color: #475569 !important;
+    }
+    
+    html.light #session-table-body td .text-slate-500 {
+      color: #64748b !important;
+    }
+    
+    html.light .bg-slate-800 {
+      background-color: #ffffff !important;
+      border-color: #cbd5e1 !important;
+      color: #475569 !important;
+    }
+    
+    html.light .bg-slate-800:hover {
+      border-color: #94a3b8 !important;
+      color: #0f172a !important;
+    }
+    
+    html.light #paginated-start,
+    html.light #paginated-end,
+    html.light #paginated-total {
+      color: #0f172a !important;
+    }
+    
+    /* Smooth transitions for theme switching */
+    body, nav, div, section, a, button, h1, h2, h3, h4, p, span, li, ul, form, input, textarea, table, tr, th, td {
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
     }
   </style>
 </head>
@@ -132,6 +274,11 @@
 
     <!-- Right Controls -->
     <div class="flex items-center gap-3">
+      <!-- Dark/Light Theme Toggle -->
+      <button id="theme-toggle" class="w-9 h-9 rounded-xl border border-slate-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 hover:scale-105 transition-all duration-300 cursor-pointer shadow-sm" title="Toggle Theme" aria-label="Toggle Theme">
+        <i id="theme-toggle-icon" class="fas fa-moon text-sm"></i>
+      </button>
+
       <button onclick="loadMockData()" class="text-xs px-3.5 py-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 hover:bg-indigo-500/20 rounded-xl transition duration-150 flex items-center gap-1.5 font-medium shadow-sm">
         <i class="fas fa-database text-[10px]"></i> Load Demo Data
       </button>
@@ -708,6 +855,14 @@ function buildTrendChart() {
   gradient.addColorStop(0, 'rgba(59, 130, 246, 0.25)');
   gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
 
+  const isLight = document.documentElement.classList.contains('light');
+  const tooltipBg = isLight ? '#ffffff' : '#161b22';
+  const tooltipTitle = isLight ? '#0f172a' : '#ffffff';
+  const tooltipBody = isLight ? '#475569' : '#cbd5e1';
+  const tooltipBorder = isLight ? '#e2e8f0' : 'rgba(255, 255, 255, 0.08)';
+  const gridColor = isLight ? 'rgba(15, 23, 42, 0.06)' : 'rgba(255, 255, 255, 0.04)';
+  const ticksColor = isLight ? '#475569' : '#64748b';
+
   trendChartInst = new Chart(ctx, {
     type: 'line',
     data: {
@@ -733,10 +888,10 @@ function buildTrendChart() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#161b22',
-          titleColor: '#ffffff',
-          bodyColor: '#cbd5e1',
-          borderColor: 'rgba(255, 255, 255, 0.08)',
+          backgroundColor: tooltipBg,
+          titleColor: tooltipTitle,
+          bodyColor: tooltipBody,
+          borderColor: tooltipBorder,
           borderWidth: 1,
           padding: 10,
           cornerRadius: 8,
@@ -746,11 +901,11 @@ function buildTrendChart() {
       scales: {
         x: {
           grid: { display: false },
-          ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 } }
+          ticks: { color: ticksColor, font: { family: 'Outfit', size: 10 } }
         },
         y: {
-          grid: { color: 'rgba(255, 255, 255, 0.04)' },
-          ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 }, stepSize: 1 },
+          grid: { color: gridColor },
+          ticks: { color: ticksColor, font: { family: 'Outfit', size: 10 }, stepSize: 1 },
           beginAtZero: true
         }
       }
@@ -781,6 +936,13 @@ function buildSourceChart() {
 
   if (sourceChartInst) sourceChartInst.destroy();
 
+  const isLight = document.documentElement.classList.contains('light');
+  const tooltipBg = isLight ? '#ffffff' : '#161b22';
+  const tooltipTitle = isLight ? '#0f172a' : '#ffffff';
+  const tooltipBody = isLight ? '#475569' : '#cbd5e1';
+  const tooltipBorder = isLight ? '#e2e8f0' : 'rgba(255, 255, 255, 0.08)';
+  const legendColor = isLight ? '#475569' : '#94a3b8';
+
   sourceChartInst = new Chart(ctx, {
     type: 'doughnut',
     data: {
@@ -800,17 +962,19 @@ function buildSourceChart() {
         legend: {
           position: 'right',
           labels: {
-            color: '#94a3b8',
+            color: legendColor,
             font: { family: 'Outfit', size: 10 },
             boxWidth: 10,
             padding: 12
           }
         },
         tooltip: {
-          backgroundColor: '#161b22',
+          backgroundColor: tooltipBg,
           borderWidth: 1,
-          borderColor: 'rgba(255,255,255,0.08)',
-          font: { family: 'Outfit' }
+          borderColor: tooltipBorder,
+          font: { family: 'Outfit' },
+          titleColor: tooltipTitle,
+          bodyColor: tooltipBody
         }
       }
     }
@@ -837,6 +1001,12 @@ function buildOSChart() {
 
   if (osChartInst) osChartInst.destroy();
 
+  const isLight = document.documentElement.classList.contains('light');
+  const tooltipBg = isLight ? '#ffffff' : '#161b22';
+  const tooltipTitle = isLight ? '#0f172a' : '#ffffff';
+  const tooltipBody = isLight ? '#475569' : '#cbd5e1';
+  const tooltipBorder = isLight ? '#e2e8f0' : 'rgba(255, 255, 255, 0.08)';
+
   osChartInst = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -851,7 +1021,15 @@ function buildOSChart() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: tooltipBg,
+          borderWidth: 1,
+          borderColor: tooltipBorder,
+          font: { family: 'Outfit' },
+          titleColor: tooltipTitle,
+          bodyColor: tooltipBody
+        }
       }
     }
   });
@@ -888,6 +1066,12 @@ function buildBrowserChart() {
 
   if (browserChartInst) browserChartInst.destroy();
 
+  const isLight = document.documentElement.classList.contains('light');
+  const tooltipBg = isLight ? '#ffffff' : '#161b22';
+  const tooltipTitle = isLight ? '#0f172a' : '#ffffff';
+  const tooltipBody = isLight ? '#475569' : '#cbd5e1';
+  const tooltipBorder = isLight ? '#e2e8f0' : 'rgba(255, 255, 255, 0.08)';
+
   browserChartInst = new Chart(ctx, {
     type: 'doughnut',
     data: {
@@ -903,7 +1087,15 @@ function buildBrowserChart() {
       maintainAspectRatio: false,
       cutout: '70%',
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: tooltipBg,
+          borderWidth: 1,
+          borderColor: tooltipBorder,
+          font: { family: 'Outfit' },
+          titleColor: tooltipTitle,
+          bodyColor: tooltipBody
+        }
       }
     }
   });
@@ -1010,6 +1202,55 @@ function loadMockData() {
   alert('Demo data loaded successfully! Reloading...');
   location.reload();
 }
+
+// ===== Theme Toggle Logic =====
+function initTheme() {
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const themeToggleIcon = document.getElementById('theme-toggle-icon');
+  
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      if (themeToggleIcon) {
+        themeToggleIcon.classList.remove('fa-moon');
+        themeToggleIcon.classList.add('fa-sun');
+      }
+    } else {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      if (themeToggleIcon) {
+        themeToggleIcon.classList.remove('fa-sun');
+        themeToggleIcon.classList.add('fa-moon');
+      }
+    }
+    
+    // Rebuild charts if they are loaded and visible
+    if (typeof allSessions !== 'undefined' && allSessions.length > 0) {
+      if (typeof buildTrendChart === 'function') buildTrendChart();
+      if (typeof buildSourceChart === 'function') buildSourceChart();
+      if (typeof buildOSChart === 'function') buildOSChart();
+      if (typeof buildBrowserChart === 'function') buildBrowserChart();
+    }
+  }
+  
+  function toggleTheme() {
+    const currentTheme = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+    localStorage.setItem('theme', currentTheme);
+    applyTheme(currentTheme);
+  }
+  
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', toggleTheme);
+  }
+  
+  const savedTheme = localStorage.getItem('theme') || 
+                     (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  applyTheme(savedTheme);
+}
+
+// Initialize theme immediately
+initTheme();
 </script>
 </body>
 </html>

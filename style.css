@@ -110,4 +110,293 @@ body.admin-mode .admin-only {
 }
 #image-preview-seasons::-webkit-scrollbar-thumb:hover {
   background: rgba(59, 130, 246, 0.5);
-}
+}
+
+/* ==========================================
+   Light Theme CSS Overrides
+   ========================================== */
+
+html.light {
+  color-scheme: light;
+}
+
+/* Base Body Background & Grid pattern */
+html.light body.bg-grid {
+  background-color: #f8fafc;
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+}
+
+/* Background Color Overrides for Tailwind classes */
+html.light .bg-\[\#0d1117\] {
+  background-color: #f1f5f9 !important;
+}
+
+html.light .bg-\[\#161b22\] {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 8px -1px rgba(0, 0, 0, 0.02) !important;
+}
+
+html.light .bg-\[\#0a0f1c\] {
+  background-color: #f1f5f9 !important;
+}
+
+html.light .bg-\[\#1a1625\] {
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 8px -1px rgba(0, 0, 0, 0.02) !important;
+}
+
+html.light .bg-\[\#1a1f29\] {
+  background-color: #f8fafc !important;
+}
+
+html.light .bg-white {
+  /* Keep background white for logos in light mode too, but check text content */
+}
+
+/* Text Color Overrides for Tailwind classes */
+html.light .text-white {
+  color: #0f172a !important;
+}
+
+html.light .text-gray-200 {
+  color: #1e293b !important;
+}
+
+html.light .text-gray-300 {
+  color: #334155 !important;
+}
+
+html.light .text-gray-400 {
+  color: #475569 !important;
+}
+
+/* Border Color Overrides */
+html.light .border-gray-600 {
+  border-color: #cbd5e1 !important;
+}
+
+html.light .border-gray-700,
+html.light .border-gray-800,
+html.light .border-\[\#2d283e\] {
+  border-color: #e2e8f0 !important;
+}
+
+/* Hover & Group Hover States overrides */
+html.light .hover\:bg-gray-800\/85:hover {
+  background-color: #f1f5f9 !important;
+}
+
+html.light .hover\:border-gray-400:hover {
+  border-color: #94a3b8 !important;
+}
+
+html.light .hover\:border-gray-500:hover {
+  border-color: #94a3b8 !important;
+}
+
+html.light .hover\:text-white:hover {
+  color: #0f172a !important;
+}
+
+html.light .group:hover .group-hover\:text-white {
+  color: #0f172a !important;
+}
+
+html.light .hover\:bg-\[\#1a212c\]:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Nav & Mobile Menu Tweaks */
+html.light #main-nav {
+  border-color: rgba(15, 23, 42, 0.06) !important;
+}
+
+html.light #mobile-menu {
+  background-color: #ffffff !important;
+  border-left: 1px solid #e2e8f0 !important;
+}
+
+html.light #mobile-menu p.text-white {
+  color: #0f172a !important;
+}
+
+html.light #mobile-menu .text-gray-400 {
+  color: #64748b !important;
+}
+
+html.light #mobile-menu a {
+  color: #334155 !important;
+  border-bottom-color: #f1f5f9 !important;
+}
+
+html.light #mobile-menu a:hover {
+  color: #3b82f6 !important;
+}
+
+/* Social Icon Buttons Base State in Light Mode */
+html.light .social-icon-btn {
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+html.light .social-icon-btn:hover {
+  background-color: #f1f5f9 !important;
+}
+
+/* Editor buttons and modals */
+html.light .admin-only {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+html.light .admin-only:hover {
+  border-color: #3b82f6 !important;
+  color: #3b82f6 !important;
+}
+
+/* Project and Skill Tags overrides */
+html.light .bg-blue-900\/40 {
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border-color: #bfdbfe !important;
+}
+
+html.light .bg-yellow-500\/10 {
+  background-color: #fefbeb !important;
+  color: #b45309 !important;
+  border-color: #fde68a !important;
+}
+
+html.light .bg-green-500\/10 {
+  background-color: #f0fdf4 !important;
+  color: #15803d !important;
+  border-color: #bbf7d0 !important;
+}
+
+html.light .bg-blue-500\/10 {
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border-color: #bfdbfe !important;
+}
+
+html.light .bg-green-500\/20 {
+  background-color: #dcfce7 !important;
+}
+
+html.light .bg-purple-500\/10 {
+  background-color: #faf5ff !important;
+  color: #6b21a8 !important;
+  border-color: #e9d5ff !important;
+}
+
+/* Editor Modals styling adjustments */
+html.light #about-editor-modal,
+html.light #project-editor-modal,
+html.light #skill-editor-modal,
+html.light #skill-viewer-modal,
+html.light #image-preview-modal,
+html.light #admin-login-modal {
+  background-color: rgba(15, 23, 42, 0.4) !important;
+}
+
+html.light #about-editor-content,
+html.light #project-editor-content,
+html.light #skill-editor-content,
+html.light #skill-viewer-content,
+html.light #image-preview-modal .bg-\[\#161b22\],
+html.light #admin-login-content {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light #about-editor-modal textarea,
+html.light #project-editor-modal input,
+html.light #project-editor-modal textarea,
+html.light #skill-editor-modal input,
+html.light #admin-login-modal input {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light #about-editor-modal textarea:focus,
+html.light #project-editor-modal input:focus,
+html.light #project-editor-modal textarea:focus,
+html.light #skill-editor-modal input:focus,
+html.light #admin-login-modal input:focus {
+  border-color: #3b82f6 !important;
+  background-color: #ffffff !important;
+}
+
+html.light .border-t.border-gray-800 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Skill tags inside viewer popup */
+html.light #skill-viewer-list span {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+html.light #skill-viewer-list span:hover {
+  background-color: rgba(59, 130, 246, 0.05) !important;
+  border-color: #3b82f6 !important;
+  color: #3b82f6 !important;
+}
+
+/* Skills Editor tags */
+html.light #editor-categories .bg-\[\#0d1117\] {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+/* Contact form input styling */
+html.light #contact-form input,
+html.light #contact-form textarea {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light #contact-form input:focus,
+html.light #contact-form textarea:focus {
+  border-color: #3b82f6 !important;
+  background-color: #ffffff !important;
+}
+
+/* Smooth transitions for theme switching */
+body, nav, div, section, a, button, h1, h2, h3, h4, p, span, li, ul, form, input, textarea {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Scrolled Nav bar overrides */
+html.light .bg-\[\#0d1117\]\/50 {
+  background-color: rgba(248, 250, 252, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+html.light .border-white\/5 {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+
+/* Timeline visual components adjustments */
+html.light .border-\[\#0d1117\] {
+  border-color: #f8fafc !important;
+}
+
+html.light .bg-gray-800 {
+  background-color: #e2e8f0 !important;
+}
+
+/* Profile settings gear icon inversion in light mode */
+html.light .animate-spin_slow {
+  filter: invert(1) brightness(0.2) !important;
+}
+
+

@@ -48,6 +48,14 @@
     /* Smooth content appearance */
     body { opacity: 1; }
   </style>
+  <script>
+    // Theme detection & execution to prevent FOUC
+    if (localStorage.getItem('theme') === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+    }
+  </script>
 </head>
 
 <body class="overflow-x-hidden font-outfit bg-grid text-gray-200 selection:bg-blue-500/30 no-copy">
@@ -70,6 +78,11 @@
     </ul>
 
     <div class="flex items-center gap-3">
+      <!-- Dark/Light Theme Toggle -->
+      <button id="theme-toggle" class="w-10 h-10 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 hover:scale-105 transition-all duration-300 cursor-pointer" title="Toggle Theme" aria-label="Toggle Theme">
+        <i id="theme-toggle-icon" class="fas fa-moon text-base"></i>
+      </button>
+
       <a href="#Contact me"
         class="hidden lg:block px-5 py-2 bg-blue-600 text-white text-sm rounded-md font-medium hover:bg-blue-700 transition">
         Hire Me
@@ -103,6 +116,13 @@
           class="block py-3 text-gray-300 hover:text-blue-500 transition">Contact</a></li>
       <li class="admin-only"><a href="analytics.html" onclick="toggleMenu()"
           class="flex items-center gap-2 py-3 border-t border-gray-800 text-blue-400 hover:text-blue-300 transition"><i class="fas fa-chart-line text-xs"></i> Analytics Dashboard</a></li>
+      <li class="mt-6 border-t border-gray-800 pt-4 flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-400">Theme</span>
+        <button id="mobile-theme-toggle" class="px-4 py-2 border border-gray-700 rounded-lg text-sm text-gray-300 hover:text-white flex items-center gap-2 transition duration-200" aria-label="Toggle Mobile Theme">
+          <i id="mobile-theme-toggle-icon" class="fas fa-moon"></i>
+          <span id="mobile-theme-toggle-text">Dark Mode</span>
+        </button>
+      </li>
       <li class="mt-4">
         <a href="#Contact me" onclick="toggleMenu()"
           class="block w-full text-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition">Hire
@@ -338,8 +358,7 @@
   </section>
 
   <!-- Projects Section -->
-  <div id="project" class="py-10 bg-[#0d1117] relative scroll-mt-20">
-    <div class="absolute inset-0 bg-gradient-to-b from-[#0d1117] via-transparent to-[#0d1117] pointer-events-none"></div>
+  <div id="project" class="py-10 bg-transparent relative scroll-mt-20">
     <div class="max-w-6xl mx-auto px-5 relative z-10">
       
       <div class="flex flex-col items-center justify-center mb-6 text-center">

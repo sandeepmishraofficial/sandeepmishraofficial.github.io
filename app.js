@@ -740,9 +740,67 @@ function saveProjects() {
 }
 
 
+// --- Theme Toggle Logic ---
+function initTheme() {
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleIcon = document.getElementById('theme-toggle-icon');
+    const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+    const mobileThemeToggleIcon = document.getElementById('mobile-theme-toggle-icon');
+    const mobileThemeToggleText = document.getElementById('mobile-theme-toggle-text');
+    
+    function applyTheme(theme) {
+        if (theme === 'light') {
+            document.documentElement.classList.add('light');
+            if (themeToggleIcon) {
+                themeToggleIcon.classList.remove('fa-moon');
+                themeToggleIcon.classList.add('fa-sun');
+            }
+            if (mobileThemeToggleIcon) {
+                mobileThemeToggleIcon.classList.remove('fa-moon');
+                mobileThemeToggleIcon.classList.add('fa-sun');
+            }
+            if (mobileThemeToggleText) {
+                mobileThemeToggleText.textContent = 'Light Mode';
+            }
+        } else {
+            document.documentElement.classList.remove('light');
+            if (themeToggleIcon) {
+                themeToggleIcon.classList.remove('fa-sun');
+                themeToggleIcon.classList.add('fa-moon');
+            }
+            if (mobileThemeToggleIcon) {
+                mobileThemeToggleIcon.classList.remove('fa-sun');
+                mobileThemeToggleIcon.classList.add('fa-moon');
+            }
+            if (mobileThemeToggleText) {
+                mobileThemeToggleText.textContent = 'Dark Mode';
+            }
+        }
+    }
+    
+    function toggleTheme() {
+        const currentTheme = document.documentElement.classList.contains('light') ? 'dark' : 'light';
+        localStorage.setItem('theme', currentTheme);
+        applyTheme(currentTheme);
+    }
+    
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', toggleTheme);
+    }
+    if (mobileThemeToggleBtn) {
+        mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+    }
+    
+    // Set initial state based on localStorage or system preferences
+    const savedTheme = localStorage.getItem('theme') || 
+                       (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    applyTheme(savedTheme);
+}
+
 // --- Main App Logic ---
 
 document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     loadAndRenderAll();
 
     // Handle deep linking for direct URLs/sharing
